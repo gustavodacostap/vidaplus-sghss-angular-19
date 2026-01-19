@@ -9,6 +9,8 @@ import { login } from './store/auth.actions';
 import { Logo } from '../../../shared/components/logo/logo';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { selectLoading } from './store/auth.selectors';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +21,8 @@ import { selectLoading } from './store/auth.selectors';
     Logo,
     MatButtonModule,
     MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatIconModule,
   ],
   templateUrl: './login.html',
   styleUrl: './login.scss',

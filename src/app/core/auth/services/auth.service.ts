@@ -6,7 +6,6 @@ import * as CryptoJS from 'crypto-js';
 import { SessionService } from './session.service';
 import { Router } from '@angular/router';
 import { Paciente } from '../../../features/admin/pacientes/models/Paciente.model';
-import { Profissionais } from '../../../features/admin/profissionais/pages/list/profissionais';
 import { Profissional } from '../../../features/admin/profissionais/models/Profissional.model';
 import { Unidade } from '../../../features/admin/unidades/models/Unidade.model';
 
@@ -22,19 +21,17 @@ export class AuthService {
   private readonly UNIDADES_KEY = 'unidades';
 
   constructor() {
+    this.createMockProfissionais();
     this.createMockUsers();
-    // this.createMockProfissionais();
-
-    // this.createMockUnidades();
+    this.createMockUnidades();
+    this.createMockPacientes();
   }
 
   login(email: string, password: string): Observable<User> {
     const users = this.storage.get<User[]>(this.USERS_KEY) || [];
     const passwordHash = this.hashPassword(password);
 
-    const user = users.find(
-      (u) => u.email === email && u.passwordHash === passwordHash,
-    );
+    const user = users.find(u => u.email === email && u.passwordHash === passwordHash);
 
     if (!user) {
       return throwError(() => new Error('Credenciais inválidas'));
@@ -119,8 +116,7 @@ export class AuthService {
         id: 2,
         nome: 'Unidade Zona Norte',
         telefone: '1122223333',
-        endereço:
-          'Av. Engenheiro Caetano Álvares, 850 - Santana, São Paulo - SP',
+        endereço: 'Av. Engenheiro Caetano Álvares, 850 - Santana, São Paulo - SP',
         cep: '02546-000',
       },
       {
@@ -175,50 +171,52 @@ export class AuthService {
     this.storage.set(this.PROFISSIONAIS_KEY, mockProfissionais);
   }
 
-  // private createMockPatients(): Paciente[] {
-  //   return [
-  //     {
-  //       id: 1,
-  //       userId: 'u1',
-  //       nome: 'João da Silva',
-  //       dataNascimento: '1990-04-15',
-  //       idade: 34,
-  //       cpf: '12345678900',
-  //       email: 'joao@email.com',
-  //       celular: '11999999999',
-  //       tipoSanguineo: 'O+',
-  //       peso: 72.5,
-  //       altura: 1.78,
-  //       alergias: 'Dipirona',
-  //     },
-  //     {
-  //       id: 2,
-  //       userId: 'u2',
-  //       nome: 'Maria Oliveira',
-  //       dataNascimento: '1985-10-03',
-  //       idade: 39,
-  //       cpf: '98765432100',
-  //       email: 'maria@email.com',
-  //       celular: '11988888888',
-  //       tipoSanguineo: 'A-',
-  //       peso: 65.2,
-  //       altura: 1.65,
-  //       alergias: '',
-  //     },
-  //     {
-  //       id: 3,
-  //       userId: 'u3',
-  //       nome: 'Carlos Pereira',
-  //       dataNascimento: '2001-01-22',
-  //       idade: 24,
-  //       cpf: '45678912300',
-  //       email: 'carlos@email.com',
-  //       celular: '11977777777',
-  //       tipoSanguineo: 'B+',
-  //       peso: 80.0,
-  //       altura: 1.82,
-  //       alergias: 'Lactose, glúten',
-  //     },
-  //   ];
-  // }
+  private createMockPacientes() {
+    const mockPacientes: Paciente[] = [
+      {
+        id: 1,
+        userId: 'u1',
+        nome: 'João da Silva',
+        dataNascimento: '1990-04-15',
+        idade: 34,
+        cpf: '86074434026',
+        email: 'joao@email.com',
+        celular: '11999999999',
+        tipoSanguineo: 'O+',
+        peso: 72.5,
+        altura: 1.78,
+        alergias: 'Dipirona',
+      },
+      {
+        id: 2,
+        userId: 'u2',
+        nome: 'Maria Oliveira',
+        dataNascimento: '1985-10-03',
+        idade: 39,
+        cpf: '85094478028',
+        email: 'maria@email.com',
+        celular: '11988888888',
+        tipoSanguineo: 'A-',
+        peso: 65.2,
+        altura: 1.65,
+        alergias: '',
+      },
+      {
+        id: 3,
+        userId: 'u3',
+        nome: 'Carlos Pereira',
+        dataNascimento: '2001-01-22',
+        idade: 24,
+        cpf: '92776725019',
+        email: 'carlos@email.com',
+        celular: '11977777777',
+        tipoSanguineo: 'B+',
+        peso: 80.0,
+        altura: 1.82,
+        alergias: 'Lactose, glúten',
+      },
+    ];
+
+    this.storage.set(this.PACIENTES_KEY, mockPacientes);
+  }
 }

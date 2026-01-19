@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-@use "@angular/material" as mat;
-@use "./styles/theme-colors" as my-theme;
+@use '@angular/material' as mat;
+@use './styles/theme-colors' as my-theme;
 
 html {
   @include mat.theme(
@@ -21,7 +21,7 @@ body {
 }
 body {
   color-scheme: light;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
@@ -95,4 +95,11 @@ body {
       }
     }
   }
+}
+
+// Source - https://stackoverflow.com/a
+// Posted by Ryvel TS, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-01-19, License - CC BY-SA 4.0
+.mdc-notched-outline__notch {
+  border-right: none !important;
 }

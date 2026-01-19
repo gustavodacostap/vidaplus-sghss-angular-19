@@ -1,6 +1,6 @@
 <div class="px-6 sm:flex sm:flex-row sm:items-center sm:gap-2 hidden">
   <button
-    matIconButton
+    mat-icon-button
     aria-label="Botão voltar"
     (click)="backToPacientes()"
     class="flex items-center cursor-pointer"
@@ -23,52 +23,40 @@
         <mat-label>Nome completo</mat-label>
         <input matInput formControlName="nome" />
 
-        <mat-error>
-          {{ errorMessage(dadosPessoaisForm.get('nome')) }}
-        </mat-error>
+        <mat-error> {{ errorMessage(dadosPessoaisForm.get('nome')) }} </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Data de nascimento</mat-label>
         <input matInput type="date" formControlName="dataNascimento" />
 
-        <mat-error>
-          {{ errorMessage(dadosPessoaisForm.get('dataNascimento')) }}
-        </mat-error>
+        <mat-error> {{ errorMessage(dadosPessoaisForm.get('dataNascimento')) }} </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>CPF</mat-label>
         <input matInput mask="000.000.000-00" formControlName="cpf" />
 
-        <mat-error>
-          {{ errorMessage(dadosPessoaisForm.get('cpf')) }}
-        </mat-error>
+        <mat-error> {{ errorMessage(dadosPessoaisForm.get('cpf')) }} </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>E-mail</mat-label>
         <input matInput type="email" formControlName="email" />
 
-        <mat-error>
-          {{ errorMessage(dadosPessoaisForm.get('email')) }}
-        </mat-error>
+        <mat-error> {{ errorMessage(dadosPessoaisForm.get('email')) }} </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Celular</mat-label>
         <input matInput mask="(00) 00000-0000" formControlName="celular" />
 
-        <mat-error>
-          {{ errorMessage(dadosPessoaisForm.get('celular')) }}
-        </mat-error>
+        <mat-error> {{ errorMessage(dadosPessoaisForm.get('celular')) }} </mat-error>
       </mat-form-field>
     </form>
 
     <div class="flex justify-end mt-4">
-      <button matButton="filled" matStepperNext [disabled]="dadosPessoaisForm.invalid">
-        Próximo
-      </button>
+      <button mat-flat-button matStepperNext [disabled]="dadosPessoaisForm.invalid">Próximo</button>
     </div>
   </mat-step>
 
@@ -84,7 +72,7 @@
         <mat-label>Tipo sanguíneo</mat-label>
         <mat-select formControlName="tipoSanguineo">
           @for (tipo of tiposSanguineos; track tipo) {
-            <mat-option [value]="tipo">{{ tipo }}</mat-option>
+          <mat-option [value]="tipo">{{ tipo }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
@@ -106,10 +94,8 @@
     </form>
 
     <div class="flex gap-4 mt-4 justify-end">
-      <button matButton="outlined" matStepperPrevious>Voltar</button>
-      <button matButton="filled" matStepperNext [disabled]="dadosClinicosForm.invalid">
-        Próximo
-      </button>
+      <button mat-stroked-button matStepperPrevious>Voltar</button>
+      <button mat-flat-button matStepperNext [disabled]="dadosClinicosForm.invalid">Próximo</button>
     </div>
   </mat-step>
 
@@ -147,9 +133,7 @@
           </div>
           <div class="flex flex-col gap-1">
             <span class="font-semibold">Celular</span>
-            <p>
-              {{ dadosPessoaisForm.value.celular | celular }}
-            </p>
+            <p>{{ dadosPessoaisForm.value.celular | celular }}</p>
           </div>
         </section>
         <mat-divider></mat-divider>
@@ -176,11 +160,8 @@
           <div class="flex flex-col gap-1">
             <span class="font-semibold">Alergias</span>
             <p>
-              {{
-                dadosClinicosForm.value.alergias
-                  ? dadosClinicosForm.value.alergias
-                  : 'Nenhuma alergia'
-              }}
+              {{ dadosClinicosForm.value.alergias ? dadosClinicosForm.value.alergias : 'Nenhuma
+              alergia' }}
             </p>
           </div>
         </section>
@@ -188,8 +169,8 @@
     </mat-card>
 
     <div class="flex gap-4 justify-end">
-      <button matButton="outlined" matStepperPrevious>Voltar</button>
-      <button matButton="filled" (click)="confirm()">Confirmar</button>
+      <button mat-stroked-button matStepperPrevious>Voltar</button>
+      <button mat-flat-button (click)="confirm()">Confirmar</button>
     </div>
   </mat-step>
 </mat-stepper>

@@ -29,7 +29,7 @@
           />
           <mat-autocomplete #auto="matAutocomplete">
             @for (option of filteredUnidades | async; track option) {
-              <mat-option [value]="option">{{ option }}</mat-option>
+            <mat-option [value]="option">{{ option }}</mat-option>
             }
           </mat-autocomplete>
         </mat-form-field>
@@ -42,15 +42,11 @@
       <table mat-table [dataSource]="dataSource" aria-describedby="page-title" class="table">
         <!-- COLUNAS SIMPLES -->
         @for (column of displayedColumns; track column) {
-          <ng-container [matColumnDef]="column">
-            <th mat-header-cell *matHeaderCellDef scope="col">
-              {{ columnLabels[column] }}
-            </th>
+        <ng-container [matColumnDef]="column">
+          <th mat-header-cell *matHeaderCellDef scope="col">{{ columnLabels[column] }}</th>
 
-            <td mat-cell *matCellDef="let profissional">
-              {{ formatCell(column, profissional) }}
-            </td>
-          </ng-container>
+          <td mat-cell *matCellDef="let profissional">{{ formatCell(column, profissional) }}</td>
+        </ng-container>
         }
 
         <!-- COLUNA AÇÕES -->
@@ -60,7 +56,7 @@
           <td mat-cell *matCellDef="let profissional">
             <div class="actions" role="group" aria-label="Ações do profissional">
               <button
-                matIconButton
+                mat-icon-button
                 matTooltip="Visualizar"
                 aria-label="Visualizar profissional"
                 (click)="viewProfissional(profissional.id)"
@@ -70,7 +66,7 @@
               </button>
 
               <button
-                matIconButton
+                mat-icon-button
                 matTooltip="Editar"
                 aria-label="Editar profissional"
                 (click)="editProfissional(profissional.id)"
@@ -87,21 +83,19 @@
         <tr mat-row *matRowDef="let row; columns: allColumns"></tr>
 
         @if (error()) {
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="5">
-              Não é possível visualizar os dados dos profissionais
-            </td>
-          </tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="5">Não é possível visualizar os dados dos profissionais</td>
+        </tr>
         } @else if (loading()) {
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="5">
-              <mat-spinner diameter="40"></mat-spinner>
-            </td>
-          </tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="5">
+            <mat-spinner diameter="40"></mat-spinner>
+          </td>
+        </tr>
         } @else {
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="5">Nenhum profissional encontrado com esse filtro.</td>
-          </tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="5">Nenhum profissional encontrado com esse filtro.</td>
+        </tr>
         }
       </table>
     </div>

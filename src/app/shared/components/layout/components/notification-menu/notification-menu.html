@@ -1,6 +1,6 @@
 <!-- BOTÃO / ORIGEM DO OVERLAY -->
 <button
-  matIconButton
+  mat-icon-button
   cdkOverlayOrigin
   #trigger="cdkOverlayOrigin"
   aria-haspopup="dialog"
@@ -22,9 +22,11 @@
   [cdkConnectedOverlayOrigin]="trigger"
   [cdkConnectedOverlayOpen]="isOpen()"
   cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  [cdkConnectedOverlayHasBackdrop]="true"
   [cdkConnectedOverlayOffsetY]="4"
   [cdkConnectedOverlayOffsetX]="20"
   (keydown.escape)="close()"
+  (backdropClick)="close()"
 >
   <!-- PAINEL -->
   <section
@@ -36,40 +38,38 @@
     <!-- HEADER -->
     <header class="flex justify-between items-center px-4 py-3">
       <h2 id="notifications-title" class="font-semibold">Notificações</h2>
-      <button matButton (click)="clearNotifications()">Limpar</button>
+      <button mat-button (click)="clearNotifications()">Limpar</button>
     </header>
 
     <mat-divider></mat-divider>
 
     <!-- LISTA -->
     <ul class="flex-1 overflow-auto" aria-live="polite">
-      @if (notifications().length > 0) {
-        @for (item of notifications(); track item.id) {
-          <li role="menuitem">
-            <article class="flex flex-col px-4 py-3 gap-2.5">
-              <div class="flex justify-between items-center">
-                <h3 class="font-medium">{{ item.title }}</h3>
-                @if (!item.read) {
-                  <span
-                    aria-hidden="true"
-                    class="inline-flex h-2 w-2 rounded-full bg-(--mat-sys-primary)"
-                  ></span>
-                }
-              </div>
-              <p>{{ item.description }}</p>
-              <time class="text-(--mat-sys-outline) self-end" [attr.datetime]="item.timestamp">
-                {{ formatNotificationTime(item.timestamp) }}
-              </time>
-            </article>
-          </li>
-          <mat-divider></mat-divider>
-        }
-      } @else {
-        <li>
-          <div class="px-4 py-3 gap-2.5">
-            <p>Você não tem notificações.</p>
+      @if (notifications().length > 0) { @for (item of notifications(); track item.id) {
+      <li role="menuitem">
+        <article class="flex flex-col px-4 py-3 gap-2.5">
+          <div class="flex justify-between items-center">
+            <h3 class="font-medium">{{ item.title }}</h3>
+            @if (!item.read) {
+            <span
+              aria-hidden="true"
+              class="inline-flex h-2 w-2 rounded-full bg-(--mat-sys-primary)"
+            ></span>
+            }
           </div>
-        </li>
+          <p>{{ item.description }}</p>
+          <time class="text-(--mat-sys-outline) self-end" [attr.datetime]="item.timestamp">
+            {{ formatNotificationTime(item.timestamp) }}
+          </time>
+        </article>
+      </li>
+      <mat-divider></mat-divider>
+      } } @else {
+      <li>
+        <div class="px-4 py-3 gap-2.5">
+          <p>Você não tem notificações.</p>
+        </div>
+      </li>
       }
     </ul>
   </section>

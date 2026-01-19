@@ -26,7 +26,7 @@ export class PacientesService {
     return defer(() => {
       const pacientes = this.getStoredPacientes();
 
-      const listItems: PacienteListItem[] = pacientes.map((p) => ({
+      const listItems: PacienteListItem[] = pacientes.map(p => ({
         id: p.id,
         nome: p.nome,
         cpf: p.cpf,
@@ -43,15 +43,15 @@ export class PacientesService {
 
   getPacienteById(id: number): Observable<Paciente> {
     return defer(() => {
-      const pacientes = this.getStoredPacientes();
+      // const pacientes = this.getStoredPacientes();
 
-      const paciente = pacientes.find((p) => p.id === id);
+      // const paciente = pacientes.find((p) => p.id === id);
 
-      if (!paciente) {
-        return throwError(() => new Error(`Paciente com id ${id} não encontrado`));
-      }
+      // if (!paciente) {
+      return throwError(() => new Error(`Paciente com id ${id} não encontrado`));
+      // }
 
-      return of(paciente);
+      // return of(paciente);
     });
   }
 
@@ -59,7 +59,7 @@ export class PacientesService {
     return defer(() => {
       const pacientes = this.getStoredPacientes();
 
-      const pacienteAtual = pacientes.find((p) => p.id === id);
+      const pacienteAtual = pacientes.find(p => p.id === id);
 
       if (!pacienteAtual) {
         return throwError(() => new Error(`Paciente com id ${id} não encontrado`));

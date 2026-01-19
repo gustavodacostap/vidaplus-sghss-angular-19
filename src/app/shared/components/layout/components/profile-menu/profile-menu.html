@@ -1,5 +1,5 @@
 <button
-  matIconButton
+  mat-icon-button
   cdkOverlayOrigin
   #trigger="cdkOverlayOrigin"
   aria-haspopup="dialog"
@@ -15,9 +15,11 @@
   cdkConnectedOverlay
   [cdkConnectedOverlayOrigin]="trigger"
   [cdkConnectedOverlayOpen]="isOpen()"
+  [cdkConnectedOverlayHasBackdrop]="true"
   cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
   [cdkConnectedOverlayOffsetY]="4"
   (keydown.escape)="close()"
+  (backdropClick)="close()"
 >
   <section
     role="dialog"

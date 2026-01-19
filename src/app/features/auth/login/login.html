@@ -27,10 +27,7 @@
       >
         <h1 id="login-title" class="text-2xl font-semibold">Login</h1>
 
-        <p
-          id="login-description"
-          class="text-center text-[--mat-sys-on-surface-variant]"
-        >
+        <p id="login-description" class="text-center text-[--mat-sys-on-surface-variant]">
           Bem-vindo(a). Por favor, entre com e-mail e senha
         </p>
       </section>
@@ -42,7 +39,7 @@
         class="mt-12.5 w-full max-w-90 flex flex-col gap-4"
         aria-labelledby="login-title"
       >
-        <mat-form-field appearance="outline" class="w-full">
+        <mat-form-field class="w-full">
           <mat-label>E-mail</mat-label>
           <input
             matInput
@@ -64,7 +61,7 @@
           }
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="w-full">
+        <mat-form-field class="w-full">
           <mat-label>Senha</mat-label>
           <input
             matInput
@@ -81,20 +78,15 @@
             <ng-container> A senha é obrigatória. </ng-container>
             } @if (password.hasError('minlength')) {
             <ng-container>
-              A senha deve ter no mínimo {{
-              password.errors?.['minlength']?.requiredLength }} caracteres.
+              A senha deve ter no mínimo {{ password.errors?.['minlength']?.requiredLength }}
+              caracteres.
             </ng-container>
             }
           </mat-error>
           }
         </mat-form-field>
 
-        <button
-          mat-flat-button
-          type="submit"
-          aria-label="Entrar no sistema"
-          class="flex gap-3"
-        >
+        <button mat-flat-button type="submit" aria-label="Entrar no sistema" class="flex gap-3">
           Entrar
         </button>
         @if (loading()) {

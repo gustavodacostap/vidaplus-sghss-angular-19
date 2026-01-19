@@ -1,6 +1,6 @@
 <div class="px-6 sm:flex sm:flex-row sm:items-center sm:gap-2 hidden">
   <button
-    matIconButton
+    mat-icon-button
     aria-label="Botão voltar"
     (click)="backToProfissionais()"
     class="flex items-center cursor-pointer"
@@ -23,55 +23,43 @@
         <mat-label>Nome completo</mat-label>
         <input matInput formControlName="nome" />
 
-        <mat-error>
-          {{ errorMessage(dadosPessoaisForm.get('nome')) }}
-        </mat-error>
+        <mat-error> {{ errorMessage(dadosPessoaisForm.get('nome')) }} </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Número do CRM</mat-label>
         <input matInput formControlName="crm" />
 
-        <mat-error>
-          {{ errorMessage(dadosPessoaisForm.get('crm')) }}
-        </mat-error>
+        <mat-error> {{ errorMessage(dadosPessoaisForm.get('crm')) }} </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>UF do CRM</mat-label>
         <mat-select formControlName="UFcrm">
           @for (uf of UFs; track uf) {
-            <mat-option [value]="uf">{{ uf }}</mat-option>
+          <mat-option [value]="uf">{{ uf }}</mat-option>
           }
         </mat-select>
-        <mat-error>
-          {{ errorMessage(dadosPessoaisForm.get('UFcrm')) }}
-        </mat-error>
+        <mat-error> {{ errorMessage(dadosPessoaisForm.get('UFcrm')) }} </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>E-mail</mat-label>
         <input matInput type="email" formControlName="email" />
 
-        <mat-error>
-          {{ errorMessage(dadosPessoaisForm.get('email')) }}
-        </mat-error>
+        <mat-error> {{ errorMessage(dadosPessoaisForm.get('email')) }} </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Celular</mat-label>
         <input matInput mask="(00) 00000-0000" formControlName="celular" />
 
-        <mat-error>
-          {{ errorMessage(dadosPessoaisForm.get('celular')) }}
-        </mat-error>
+        <mat-error> {{ errorMessage(dadosPessoaisForm.get('celular')) }} </mat-error>
       </mat-form-field>
     </form>
 
     <div class="flex justify-end mt-4">
-      <button matButton="filled" matStepperNext [disabled]="dadosPessoaisForm.invalid">
-        Próximo
-      </button>
+      <button mat-flat-button matStepperNext [disabled]="dadosPessoaisForm.invalid">Próximo</button>
     </div>
   </mat-step>
 
@@ -86,9 +74,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Especialidade</mat-label>
         <input matInput formControlName="especialidade" />
-        <mat-error>
-          {{ errorMessage(dadosProfissionaisForm.get('especialidade')) }}
-        </mat-error>
+        <mat-error> {{ errorMessage(dadosProfissionaisForm.get('especialidade')) }} </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -96,18 +82,16 @@
         <input type="text" matInput formControlName="unidade" [matAutocomplete]="auto" />
         <mat-autocomplete #auto="matAutocomplete" requireSelection [displayWith]="displayUnidade">
           @for (option of filteredUnidades | async; track option) {
-            <mat-option [value]="option">{{ option.nome }}</mat-option>
+          <mat-option [value]="option">{{ option.nome }}</mat-option>
           }
         </mat-autocomplete>
-        <mat-error>
-          {{ errorMessage(dadosProfissionaisForm.get('unidade')) }}
-        </mat-error>
+        <mat-error> {{ errorMessage(dadosProfissionaisForm.get('unidade')) }} </mat-error>
       </mat-form-field>
     </form>
 
     <div class="flex gap-4 mt-4 justify-end">
-      <button matButton="outlined" matStepperPrevious>Voltar</button>
-      <button matButton="filled" matStepperNext [disabled]="dadosProfissionaisForm.invalid">
+      <button mat-stroked-button matStepperPrevious>Voltar</button>
+      <button mat-flat-button matStepperNext [disabled]="dadosProfissionaisForm.invalid">
         Próximo
       </button>
     </div>
@@ -143,9 +127,7 @@
           </div>
           <div class="flex flex-col gap-1">
             <span class="font-semibold">Celular</span>
-            <p>
-              {{ dadosPessoaisForm.value.celular | celular }}
-            </p>
+            <p>{{ dadosPessoaisForm.value.celular | celular }}</p>
           </div>
         </section>
         <mat-divider></mat-divider>
@@ -170,8 +152,8 @@
     </mat-card>
 
     <div class="flex gap-4 justify-end">
-      <button matButton="outlined" matStepperPrevious>Voltar</button>
-      <button matButton="filled" (click)="confirm()">Confirmar</button>
+      <button mat-stroked-button matStepperPrevious>Voltar</button>
+      <button mat-flat-button (click)="confirm()">Confirmar</button>
     </div>
   </mat-step>
 </mat-stepper>

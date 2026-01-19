@@ -1,88 +1,88 @@
 <div class="flex flex-row justify-between items-center pr-6">
   <h1 mat-dialog-title>Detalhes</h1>
   @if (paciente()) {
-    <button matButton="filled" (click)="navigateToEdit()">
-      <mat-icon>edit</mat-icon>
-      Editar
-    </button>
+  <button mat-flat-button (click)="navigateToEdit()">
+    <mat-icon>edit</mat-icon>
+    Editar
+  </button>
   }
 </div>
 
 <mat-dialog-content>
   @if (loading()) {
-    <!-- LOADING -->
-    <div class="flex items-center justify-center">
-      <mat-spinner diameter="40"></mat-spinner>
-    </div>
+  <!-- LOADING -->
+  <div class="flex items-center justify-center">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
   } @else if (error()) {
-    <!-- ERROR -->
-    <div class="flex flex-col items-center gap-3 text-center">
-      <mat-icon class="error-icon">error</mat-icon>
-      <p class="font-semibold">Erro ao carregar os dados do paciente.</p>
-    </div>
+  <!-- ERROR -->
+  <div class="flex flex-col items-center gap-3 text-center">
+    <mat-icon class="error-icon">error</mat-icon>
+    <p class="font-semibold">Erro ao carregar os dados do paciente.</p>
+  </div>
   } @else if (paciente()) {
-    <h2 id="dados-pessoais" class="text-lg mb-2">Dados Pessoais</h2>
+  <h2 id="dados-pessoais" class="text-lg mb-2">Dados Pessoais</h2>
 
-    <section aria-labelledby="dados-pessoais" class="grid grid-cols-1 sm:grid-cols-2 mb-4 gap-4">
-      <div class="flex flex-col gap-1">
-        <span class="font-semibold">Nome</span>
-        <p>{{ paciente()?.nome }}</p>
-      </div>
+  <section aria-labelledby="dados-pessoais" class="grid grid-cols-1 sm:grid-cols-2 mb-4 gap-4">
+    <div class="flex flex-col gap-1">
+      <span class="font-semibold">Nome</span>
+      <p>{{ paciente()?.nome }}</p>
+    </div>
 
-      <div class="flex flex-col gap-1">
-        <span class="font-semibold">CPF</span>
-        <p>{{ paciente()?.cpf | cpf }}</p>
-      </div>
+    <div class="flex flex-col gap-1">
+      <span class="font-semibold">CPF</span>
+      <p>{{ paciente()?.cpf | cpf }}</p>
+    </div>
 
-      <div class="flex flex-col gap-1">
-        <span class="font-semibold">Data de Nascimento</span>
-        <p>{{ paciente()?.dataNascimento }}</p>
-      </div>
+    <div class="flex flex-col gap-1">
+      <span class="font-semibold">Data de Nascimento</span>
+      <p>{{ paciente()?.dataNascimento }}</p>
+    </div>
 
-      <div class="flex flex-col gap-1">
-        <span class="font-semibold">Idade</span>
-        <p>{{ paciente()?.idade }} anos</p>
-      </div>
+    <div class="flex flex-col gap-1">
+      <span class="font-semibold">Idade</span>
+      <p>{{ paciente()?.idade }} anos</p>
+    </div>
 
-      <div class="flex flex-col gap-1">
-        <span class="font-semibold">Celular</span>
-        <p>{{ paciente()?.celular | celular }}</p>
-      </div>
+    <div class="flex flex-col gap-1">
+      <span class="font-semibold">Celular</span>
+      <p>{{ paciente()?.celular | celular }}</p>
+    </div>
 
-      <div class="flex flex-col gap-1">
-        <span class="font-semibold">E-mail</span>
-        <p>{{ paciente()?.email }}</p>
-      </div>
-    </section>
+    <div class="flex flex-col gap-1">
+      <span class="font-semibold">E-mail</span>
+      <p>{{ paciente()?.email }}</p>
+    </div>
+  </section>
 
-    <mat-divider></mat-divider>
+  <mat-divider></mat-divider>
 
-    <h2 id="dados-clinicos" class="text-lg mt-4 mb-2">Dados Clínicos</h2>
+  <h2 id="dados-clinicos" class="text-lg mt-4 mb-2">Dados Clínicos</h2>
 
-    <section aria-labelledby="dados-clinicos" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div class="flex flex-col gap-1">
-        <span class="font-semibold">Tipo Sanguíneo</span>
-        <p>{{ paciente()?.tipoSanguineo }}</p>
-      </div>
+  <section aria-labelledby="dados-clinicos" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="flex flex-col gap-1">
+      <span class="font-semibold">Tipo Sanguíneo</span>
+      <p>{{ paciente()?.tipoSanguineo }}</p>
+    </div>
 
-      <div class="flex flex-col gap-1">
-        <span class="font-semibold">Peso</span>
-        <p>{{ paciente()?.peso }}kg</p>
-      </div>
+    <div class="flex flex-col gap-1">
+      <span class="font-semibold">Peso</span>
+      <p>{{ paciente()?.peso }}kg</p>
+    </div>
 
-      <div class="flex flex-col gap-1 sm:col-span-2">
-        <span class="font-semibold">Alergias</span>
-        <p>{{ paciente()?.alergias ? paciente()?.alergias : 'Nenhuma alergia' }}</p>
-      </div>
+    <div class="flex flex-col gap-1 sm:col-span-2">
+      <span class="font-semibold">Alergias</span>
+      <p>{{ paciente()?.alergias ? paciente()?.alergias : 'Nenhuma alergia' }}</p>
+    </div>
 
-      <div class="flex flex-col gap-1">
-        <span class="font-semibold">Altura</span>
-        <p>{{ paciente()?.altura }}m</p>
-      </div>
-    </section>
+    <div class="flex flex-col gap-1">
+      <span class="font-semibold">Altura</span>
+      <p>{{ paciente()?.altura }}m</p>
+    </div>
+  </section>
   }
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button matButton (click)="close()">Fechar</button>
+  <button mat-button (click)="close()">Fechar</button>
 </mat-dialog-actions>
