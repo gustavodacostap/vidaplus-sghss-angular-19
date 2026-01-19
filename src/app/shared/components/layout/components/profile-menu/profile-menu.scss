@@ -1,0 +1,14 @@
+@use '@angular/material' as mat;
+
+.hover-item-color {
+  @include mat.list-overrides(
+    (
+      list-item-hover-leading-icon-color: var(--mat-sys-on-surface-variant),
+      list-item-leading-icon-color: var(--mat-sys-on-surface-variant),
+    )
+  );
+}
+
+::ng-deep .mdc-list-item__content {
+  flex: none;
+}

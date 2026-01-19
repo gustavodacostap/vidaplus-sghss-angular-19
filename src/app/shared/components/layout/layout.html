@@ -1,0 +1,44 @@
+<div class="flex flex-col h-screen w-screen overflow-hidden">
+  <!-- TOPBAR -->
+  <app-topbar (menuToggle)="toggleSidenav()" />
+
+  <!-- SIDENAV -->
+  <mat-sidenav-container class="h-full w-full sidenav">
+    <mat-sidenav
+      mode="over"
+      role="navigation"
+      aria-label="Navegação principal"
+      [opened]="isSidenavOpen()"
+      (closed)="topbarService.close('sidenav')"
+      class="sidenav-container"
+    >
+      <mat-nav-list class="nav-list">
+        @for (item of navItems(); track item.label) {
+          <a
+            mat-list-item
+            [routerLink]="item.route"
+            routerLinkActive
+            #rla="routerLinkActive"
+            [activated]="rla.isActive"
+            (click)="onNavItemClick()"
+          >
+            <mat-icon matListItemIcon aria-hidden="true">{{ item.icon }}</mat-icon>
+            <span matListItemTitle>{{ item.label }}</span>
+          </a>
+        }
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <main
+        tabindex="-1"
+        class="flex-1 overflow-auto bg-(--mat-sys-background) p-5"
+        [ngClass]="{
+          'p-5 sm:px-12 sm:py-5 xl:px-24': contentPadding() === 'default',
+          'py-5 sm:px-8 xl:px-20': contentPadding() === 'onlyY',
+        }"
+      >
+        <router-outlet />
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

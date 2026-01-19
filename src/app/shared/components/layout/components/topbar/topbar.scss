@@ -1,0 +1,15 @@
+@use '@angular/material' as mat;
+
+.toolbar {
+  @include mat.toolbar-overrides(
+    (
+      container-background-color: var(--mat-sys-surface-container),
+      container-text-color: var(--mat-sys-on-surface-variant),
+    )
+  );
+}
+
+::ng-deep .mat-toolbar-row,
+.mat-toolbar-single-row {
+  padding: 0 10px;
+}

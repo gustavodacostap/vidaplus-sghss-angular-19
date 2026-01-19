@@ -1,0 +1,49 @@
+<button
+  matIconButton
+  cdkOverlayOrigin
+  #trigger="cdkOverlayOrigin"
+  aria-haspopup="dialog"
+  aria-label="Menu meu perfil"
+  [attr.aria-expanded]="isOpen()"
+  (click)="toggle()"
+  class="flex items-center cursor-pointer"
+>
+  <mat-icon>account_circle</mat-icon>
+</button>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isOpen()"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  [cdkConnectedOverlayOffsetY]="4"
+  (keydown.escape)="close()"
+>
+  <section
+    role="dialog"
+    aria-modal="false"
+    aria-label="Meu perfil"
+    class="flex w-42 flex-col rounded-xl bg-(--mat-sys-surface-container-low) shadow-xl animate-[fadeIn_150ms_ease-out]"
+  >
+    <header class="flex flex-col gap-2.5 px-4 py-3">
+      <span class="font-semibold">{{ sessionData()?.name }}</span>
+      <span>{{ formatRole(sessionData()?.role) }}</span>
+    </header>
+
+    <mat-divider></mat-divider>
+
+    <mat-nav-list class="nav-list hover-item-color">
+      <!-- Link de navegação -->
+      <button mat-list-item (click)="goToProfile()">
+        <mat-icon matListItemIcon aria-hidden="true">person</mat-icon>
+        <span matListItemTitle>Meu perfil</span>
+      </button>
+
+      <!-- Ação (logout) -->
+      <button mat-list-item (click)="logout()">
+        <mat-icon matListItemIcon aria-hidden="true">logout</mat-icon>
+        <span matListItemTitle>Sair</span>
+      </button>
+    </mat-nav-list>
+  </section>
+</ng-template>

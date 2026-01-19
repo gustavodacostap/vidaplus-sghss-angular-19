@@ -1,0 +1,32 @@
+<mat-toolbar class="toolbar" role="banner">
+  <div class="flex items-center gap-3">
+    @if (showMenuLayout()) {
+      <button
+        matIconButton
+        aria-label="Botão menu"
+        (click)="menuToggle.emit()"
+        class="flex items-center cursor-pointer"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <app-logo></app-logo>
+    } @else {
+      <button
+        matIconButton
+        aria-label="Botão voltar"
+        (click)="navigateBack()"
+        class="flex items-center cursor-pointer"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span>{{ config()?.pageTitle }}</span>
+    }
+  </div>
+  <span class="flex-1" aria-hidden="true"></span>
+  <nav aria-label="Ações do usuário" class="flex gap-2 items-center">
+    @if (showNotifications()) {
+      <app-notification-menu></app-notification-menu>
+    }
+    <app-profile-menu></app-profile-menu>
+  </nav>
+</mat-toolbar>

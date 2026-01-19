@@ -1,0 +1,9 @@
+@use '@angular/material' as mat;
+
+.error-icon {
+  @include mat.icon-overrides(
+    (
+      color: var(--mat-sys-on-error-container),
+    )
+  );
+}

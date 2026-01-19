@@ -1,0 +1,9 @@
+@use '@angular/material' as mat;
+
+.spinner {
+  @include mat.progress-spinner-overrides(
+    (
+      active-indicator-color: var(--mat-sys-inverse-primary),
+    )
+  );
+}

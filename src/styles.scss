@@ -1,1 +1,98 @@
 /* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+@use "./styles/theme-colors" as my-theme;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: my-theme.$primary-palette,
+        tertiary: my-theme.$tertiary-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  color-scheme: light;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  margin: 0;
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    @include my-theme.high-contrast-overrides(light);
+  }
+}
+
+.mat-mdc-card-content {
+  display: flex !important;
+}
+
+:root {
+  @include mat.list-overrides(
+    (
+      active-indicator-shape: 0px,
+      list-item-label-text-color: var(--mat-sys-on-surface-variant),
+      list-item-hover-label-text-color: var(--mat-sys-on-surface-variant),
+    )
+  );
+
+  @include mat.dialog-overrides(
+    (
+      supporting-text-color: var(--mat-sys-on-background),
+    )
+  );
+
+  @include mat.table-overrides(
+    (
+      background-color: var(--mat-sys-surface-container),
+    )
+  );
+
+  .action-icons {
+    @include mat.icon-overrides(
+      (
+        color: var(--mat-sys-on-primary-container),
+      )
+    );
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .scrollbar-custom {
+    padding-bottom: 12px;
+
+    &::-webkit-scrollbar {
+      height: 10px; // altura
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--mat-sys-surface-container-highest);
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--mat-sys-primary);
+      border-radius: 10px;
+      background-clip: content-box;
+
+      &:hover {
+        background-color: var(--mat-sys-on-primary-container);
+      }
+    }
+  }
+}

@@ -1,0 +1,109 @@
+<section aria-labelledby="page-title">
+  <div class="flex flex-col sm:flex-row sm:justify-between">
+    <h1 class="text-2xl mb-2 sm:mb-0" id="page-title">Pacientes</h1>
+
+    <!-- FILTROS -->
+    <section aria-label="Filtros de pacientes" class="mb-2">
+      <form role="search" class="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Filtrar por nome</mat-label>
+          <input
+            matInput
+            type="search"
+            [formControl]="nomeCtrl"
+            placeholder="Digite o nome"
+            aria-label="Filtrar por nome"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Filtrar por CPF</mat-label>
+          <input
+            matInput
+            type="search"
+            mask="000.000.000-00"
+            [formControl]="cpfCtrl"
+            placeholder="Digite o CPF"
+            aria-label="Filtrar pelo CPF"
+          />
+        </mat-form-field>
+      </form>
+    </section>
+  </div>
+  <!-- TABELA -->
+  <section aria-label="Lista de pacientes">
+    <div class="overflow-x-auto scrollbar-custom" role="region" tabindex="0">
+      <table mat-table [dataSource]="dataSource" aria-describedby="page-title" class="table">
+        <!-- COLUNAS SIMPLES -->
+        @for (column of displayedColumns; track column) {
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef scope="col">
+              {{ columnLabels[column] }}
+            </th>
+
+            <td mat-cell *matCellDef="let paciente">
+              {{ formatCell(column, paciente) }}
+            </td>
+          </ng-container>
+        }
+
+        <!-- COLUNA AÇÕES -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef scope="col">Ações</th>
+
+          <td mat-cell *matCellDef="let paciente">
+            <div class="actions" role="group" aria-label="Ações do paciente">
+              <button
+                matIconButton
+                matTooltip="Visualizar"
+                aria-label="Visualizar paciente"
+                (click)="viewPaciente(paciente.id)"
+                class="icon"
+              >
+                <mat-icon class="action-icons">visibility</mat-icon>
+              </button>
+
+              <button
+                matIconButton
+                matTooltip="Editar"
+                aria-label="Editar paciente"
+                (click)="editPaciente(paciente.id)"
+                class="icon"
+              >
+                <mat-icon class="action-icons">edit</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- HEADER E ROWS -->
+        <tr mat-header-row *matHeaderRowDef="allColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: allColumns"></tr>
+
+        @if (error()) {
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="5">Não é possível visualizar os dados dos pacientes</td>
+          </tr>
+        } @else if (loading()) {
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="5">
+              <mat-spinner diameter="40"></mat-spinner>
+            </td>
+          </tr>
+        } @else {
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="5">Nenhum paciente encontrado com esse filtro.</td>
+          </tr>
+        }
+      </table>
+    </div>
+
+    <!-- PAGINAÇÃO -->
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      class="mt-2"
+      aria-label="Paginação da lista de pacientes"
+    />
+  </section>
+</section>

@@ -1,0 +1,106 @@
+<div class="min-h-screen flex flex-col lg:flex-row">
+  <aside class="hidden lg:block lg:w-6/10 relative" aria-hidden="true">
+    <!-- Imagem -->
+    <img
+      src="assets/images/login-bg.jpg"
+      class="absolute inset-0 w-full h-full object-cover object-right"
+    />
+
+    <!-- Overlay escuro -->
+    <div class="absolute inset-0 bg-black/40"></div>
+  </aside>
+
+  <!-- Lado direito: login -->
+  <div class="min-h-screen flex flex-col p-5 lg:w-4/10 lg:p-10">
+    <!-- Header com logo -->
+    <header class="flex justify-start">
+      <app-logo aria-label="VidaPlus - Página de login" />
+    </header>
+
+    <!-- Conteúdo principal -->
+    <main class="flex-1 flex flex-col justify-center items-center">
+      <!-- Seção de login -->
+      <section
+        class="flex flex-col items-center gap-3"
+        aria-labelledby="login-title"
+        aria-describedby="login-description"
+      >
+        <h1 id="login-title" class="text-2xl font-semibold">Login</h1>
+
+        <p
+          id="login-description"
+          class="text-center text-[--mat-sys-on-surface-variant]"
+        >
+          Bem-vindo(a). Por favor, entre com e-mail e senha
+        </p>
+      </section>
+
+      <!-- Formulário -->
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+        class="mt-12.5 w-full max-w-90 flex flex-col gap-4"
+        aria-labelledby="login-title"
+      >
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>E-mail</mat-label>
+          <input
+            matInput
+            type="email"
+            formControlName="email"
+            autocomplete="email"
+            required
+            aria-describedby="email-error"
+          />
+
+          @if (email.touched && email.invalid) {
+          <mat-error id="email-error">
+            @if (email.hasError('required')) {
+            <ng-container> O e-mail é obrigatório. </ng-container>
+            } @if (email.hasError('email')) {
+            <ng-container> Informe um e-mail válido. </ng-container>
+            }
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Senha</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="password"
+            autocomplete="current-password"
+            required
+            aria-describedby="password-error"
+          />
+
+          @if (password.touched && password.invalid) {
+          <mat-error id="password-error">
+            @if (password.hasError('required')) {
+            <ng-container> A senha é obrigatória. </ng-container>
+            } @if (password.hasError('minlength')) {
+            <ng-container>
+              A senha deve ter no mínimo {{
+              password.errors?.['minlength']?.requiredLength }} caracteres.
+            </ng-container>
+            }
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <button
+          mat-flat-button
+          type="submit"
+          aria-label="Entrar no sistema"
+          class="flex gap-3"
+        >
+          Entrar
+        </button>
+        @if (loading()) {
+        <mat-spinner [diameter]="50" class="spinner self-center"></mat-spinner>
+        }
+      </form>
+    </main>
+  </div>
+</div>

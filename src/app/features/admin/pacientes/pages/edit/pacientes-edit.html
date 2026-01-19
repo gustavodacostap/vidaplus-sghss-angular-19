@@ -1,0 +1,195 @@
+<div class="px-6 sm:flex sm:flex-row sm:items-center sm:gap-2 hidden">
+  <button
+    matIconButton
+    aria-label="Botão voltar"
+    (click)="backToPacientes()"
+    class="flex items-center cursor-pointer"
+  >
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h1 class="text-2xl mb-2 sm:mb-0" id="page-title">Editar Paciente</h1>
+</div>
+
+<mat-stepper [orientation]="(stepperOrientation | async)!" linear>
+  <!-- STEP 1 – DADOS PESSOAIS -->
+  <mat-step [stepControl]="dadosPessoaisForm">
+    <form
+      class="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+      [formGroup]="dadosPessoaisForm"
+    >
+      <ng-template matStepLabel>Dados Pessoais</ng-template>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nome completo</mat-label>
+        <input matInput formControlName="nome" />
+
+        <mat-error>
+          {{ errorMessage(dadosPessoaisForm.get('nome')) }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Data de nascimento</mat-label>
+        <input matInput type="date" formControlName="dataNascimento" />
+
+        <mat-error>
+          {{ errorMessage(dadosPessoaisForm.get('dataNascimento')) }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>CPF</mat-label>
+        <input matInput mask="000.000.000-00" formControlName="cpf" />
+
+        <mat-error>
+          {{ errorMessage(dadosPessoaisForm.get('cpf')) }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input matInput type="email" formControlName="email" />
+
+        <mat-error>
+          {{ errorMessage(dadosPessoaisForm.get('email')) }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Celular</mat-label>
+        <input matInput mask="(00) 00000-0000" formControlName="celular" />
+
+        <mat-error>
+          {{ errorMessage(dadosPessoaisForm.get('celular')) }}
+        </mat-error>
+      </mat-form-field>
+    </form>
+
+    <div class="flex justify-end mt-4">
+      <button matButton="filled" matStepperNext [disabled]="dadosPessoaisForm.invalid">
+        Próximo
+      </button>
+    </div>
+  </mat-step>
+
+  <!-- STEP 2 – DADOS CLÍNICOS -->
+  <mat-step [stepControl]="dadosClinicosForm">
+    <form
+      class="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+      [formGroup]="dadosClinicosForm"
+    >
+      <ng-template matStepLabel>Dados Clínicos</ng-template>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo sanguíneo</mat-label>
+        <mat-select formControlName="tipoSanguineo">
+          @for (tipo of tiposSanguineos; track tipo) {
+            <mat-option [value]="tipo">{{ tipo }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Peso (kg)</mat-label>
+        <input matInput type="number" formControlName="peso" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Altura (m)</mat-label>
+        <input matInput type="number" formControlName="altura" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Alergias</mat-label>
+        <input matInput formControlName="alergias" />
+      </mat-form-field>
+    </form>
+
+    <div class="flex gap-4 mt-4 justify-end">
+      <button matButton="outlined" matStepperPrevious>Voltar</button>
+      <button matButton="filled" matStepperNext [disabled]="dadosClinicosForm.invalid">
+        Próximo
+      </button>
+    </div>
+  </mat-step>
+
+  <!-- STEP 3 – CONFIRMAR -->
+  <mat-step>
+    <ng-template matStepLabel>Confirmar</ng-template>
+
+    <mat-card appearance="outlined" class="mt-3 mb-4">
+      <mat-card-header class="mb-4">
+        <mat-card-title>Confirmação de dados</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="flex flex-col gap-4">
+        <h2 class="text-lg" id="dados-pessoais">Dados pessoais</h2>
+
+        <section
+          aria-labelledby="dados-pessoais"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+        >
+          <div class="flex flex-col gap-1">
+            <span class="font-semibold">Nome</span>
+            <p>{{ dadosPessoaisForm.value.nome }}</p>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <span class="font-semibold">Data de nascimento</span>
+            <p>{{ dadosPessoaisForm.value.dataNascimento | USDateToBR }}</p>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="font-semibold">CPF</span>
+            <p>{{ dadosPessoaisForm.value.cpf | cpf }}</p>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="font-semibold">E-mail</span>
+            <p>{{ dadosPessoaisForm.value.email }}</p>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="font-semibold">Celular</span>
+            <p>
+              {{ dadosPessoaisForm.value.celular | celular }}
+            </p>
+          </div>
+        </section>
+        <mat-divider></mat-divider>
+
+        <h2 class="text-lg" id="dados-clinicos">Dados clínicos</h2>
+
+        <section
+          aria-labelledby="dados-clinicos"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+        >
+          <div class="flex flex-col gap-1">
+            <span class="font-semibold">Tipo sanguíneo</span>
+            <p>{{ dadosClinicosForm.value.tipoSanguineo }}</p>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <span class="font-semibold">Peso</span>
+            <p>{{ dadosClinicosForm.value.peso }} kg</p>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="font-semibold">Altura</span>
+            <p>{{ dadosClinicosForm.value.altura }} m</p>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="font-semibold">Alergias</span>
+            <p>
+              {{
+                dadosClinicosForm.value.alergias
+                  ? dadosClinicosForm.value.alergias
+                  : 'Nenhuma alergia'
+              }}
+            </p>
+          </div>
+        </section>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="flex gap-4 justify-end">
+      <button matButton="outlined" matStepperPrevious>Voltar</button>
+      <button matButton="filled" (click)="confirm()">Confirmar</button>
+    </div>
+  </mat-step>
+</mat-stepper>
