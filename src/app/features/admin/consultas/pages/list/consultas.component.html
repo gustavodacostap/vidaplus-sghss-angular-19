@@ -1,0 +1,93 @@
+<section aria-labelledby="page-title" class="lg:flex lg:flex-row-reverse">
+  <!-- FILTROS -->
+  <section aria-label="Filtros de pacientes" class="mb-2">
+    <h1 class="text-2xl mb-2" id="page-title">Filtro</h1>
+
+    <form role="search" class="flex flex-col gap-3">
+      <mat-form-field class="w-full">
+        <mat-label>Filtrar por profissional</mat-label>
+        <input
+          matInput
+          type="search"
+          [formControl]="profissionalCtrl"
+          placeholder="Digite o nome"
+        />
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Filtrar por paciente</mat-label>
+        <input
+          matInput
+          type="search"
+          [formControl]="pacienteCtrl"
+          placeholder="Digite o nome"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label>Unidade</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="unidadeCtrl"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayUnidade"
+        >
+          @for (option of filteredUnidades | async; track option) {
+            <mat-option [value]="option">{{ option.nome }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </section>
+  <div class="w-full">
+    <div class="flex flex-col lg:flex-row lg:justify-between">
+      <h1 class="text-2xl mb-2" id="page-title">Consultas</h1>
+
+      <div
+        class="fixed right-4 bottom-4 z-50 sm:max-lg:hidden lg:static lg:right-auto lg:bottom-auto lg:z-auto"
+      >
+        <button
+          mat-fab
+          aria-label="Agendar nova consulta"
+          (click)="goToCreatePage()"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <section
+      aria-label="Lista de consultas"
+      class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+    >
+      @for (consulta of consultas(); track consulta) {
+        <mat-card>
+          <mat-card-content class="flex-col gap-3">
+            <div class="flex items-center gap-2">
+              <mat-icon class="icon-primary">medical_services</mat-icon>
+              <p>
+                Dr(a). {{ consulta.nomeProfissional }} -
+                {{ consulta.especialidade }}
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <mat-icon class="icon-primary">person</mat-icon>
+              <p>Paciente {{ consulta.nomePaciente }}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <mat-icon class="icon-primary">schedule</mat-icon>
+              <p>{{ consulta.dataHoraConsulta | dataHora }}</p>
+            </div>
+          </mat-card-content>
+          <mat-card-actions align="end" class="gap-4">
+            <button mat-stroked-button class="w-full">Cancelar</button>
+            <button mat-flat-button class="w-full">Reagendar</button>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </section>
+  </div>
+</section>

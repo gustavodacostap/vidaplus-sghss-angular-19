@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-@use '@angular/material' as mat;
-@use './styles/theme-colors' as my-theme;
+@use "@angular/material" as mat;
+@use "./styles/theme-colors" as my-theme;
 
 html {
   @include mat.theme(
@@ -21,7 +21,7 @@ body {
 }
 body {
   color-scheme: light;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
@@ -37,6 +37,14 @@ body {
 
 .mat-mdc-card-content {
   display: flex !important;
+}
+
+.icon-primary {
+  @include mat.icon-overrides(
+    (
+      color: var(--mat-sys-primary),
+    )
+  );
 }
 
 :root {
@@ -57,6 +65,13 @@ body {
   @include mat.table-overrides(
     (
       background-color: var(--mat-sys-surface-container),
+    )
+  );
+
+  @include mat.card-overrides(
+    (
+      elevated-container-elevation: 0px,
+      elevated-container-color: var(--mat-sys-surface-container),
     )
   );
 

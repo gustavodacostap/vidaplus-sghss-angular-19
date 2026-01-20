@@ -37,8 +37,7 @@ import {
 import { enterProfissionaisPage } from '../../store/profissionais.actions';
 import { selectNomeUnidades } from '../../../unidades/store/unidades.selectors';
 import { ViewProfissionalDialog } from '../../dialogs/view-profissional-dialog/view-profissional-dialog';
-import { UnidadeOption } from '../edit/profissional-edit/profissional-edit';
-
+import { UnidadeOption } from '../../../unidades/models/UnidadeOption.model';
 type ProfissionalColumn = 'nome' | 'crm' | 'especialidade' | 'unidadeNome';
 
 @Component({

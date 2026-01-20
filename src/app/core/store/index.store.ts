@@ -14,6 +14,9 @@ import { ProfissionaisState } from '../../features/admin/profissionais/store/pro
 import { UnidadesEffects } from '../../features/admin/unidades/store/unidades.effects';
 import { UnidadesState } from '../../features/admin/unidades/store/unidades.state';
 import { unidadesReducer } from '../../features/admin/unidades/store/unidades.reducer';
+import { consultasReducer } from '../../features/admin/consultas/store/consultas.reducer';
+import { ConsultasState } from '../../features/admin/consultas/store/consultas.state';
+import { ConsultasEffects } from '../../features/admin/consultas/store/consultas.effects';
 
 export interface AppState {
   auth: AuthState;
@@ -21,6 +24,7 @@ export interface AppState {
   pacientes: PacientesState;
   profissionais: ProfissionaisState;
   unidades: UnidadesState;
+  consultas: ConsultasState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -29,6 +33,7 @@ export const reducers: ActionReducerMap<AppState> = {
   pacientes: pacientesReducer,
   profissionais: profissionaisReducer,
   unidades: unidadesReducer,
+  consultas: consultasReducer,
 };
 
 export const effects = [
@@ -37,4 +42,5 @@ export const effects = [
   UIEffects,
   ProfissionaisEffects,
   UnidadesEffects,
+  ConsultasEffects,
 ];

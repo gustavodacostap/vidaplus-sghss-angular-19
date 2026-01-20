@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Paciente } from '../../../features/admin/pacientes/models/Paciente.model';
 import { Profissional } from '../../../features/admin/profissionais/models/Profissional.model';
 import { Unidade } from '../../../features/admin/unidades/models/Unidade.model';
+import { Consulta } from '../../../features/admin/consultas/models/Consulta.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -19,19 +20,23 @@ export class AuthService {
   private readonly PACIENTES_KEY = 'pacientes';
   private readonly PROFISSIONAIS_KEY = 'profissionais';
   private readonly UNIDADES_KEY = 'unidades';
+  private readonly CONSULTAS_KEY = 'consultas';
 
   constructor() {
     this.createMockProfissionais();
     this.createMockUsers();
     this.createMockUnidades();
     this.createMockPacientes();
+    this.createMockConsultas();
   }
 
   login(email: string, password: string): Observable<User> {
     const users = this.storage.get<User[]>(this.USERS_KEY) || [];
     const passwordHash = this.hashPassword(password);
 
-    const user = users.find(u => u.email === email && u.passwordHash === passwordHash);
+    const user = users.find(
+      (u) => u.email === email && u.passwordHash === passwordHash,
+    );
 
     if (!user) {
       return throwError(() => new Error('Credenciais inválidas'));
@@ -116,7 +121,8 @@ export class AuthService {
         id: 2,
         nome: 'Unidade Zona Norte',
         telefone: '1122223333',
-        endereço: 'Av. Engenheiro Caetano Álvares, 850 - Santana, São Paulo - SP',
+        endereço:
+          'Av. Engenheiro Caetano Álvares, 850 - Santana, São Paulo - SP',
         cep: '02546-000',
       },
       {
@@ -218,5 +224,44 @@ export class AuthService {
     ];
 
     this.storage.set(this.PACIENTES_KEY, mockPacientes);
+  }
+
+  private createMockConsultas() {
+    const mockConsultas: Consulta[] = [
+      {
+        id: 1,
+        idPaciente: 1, // João da Silva
+        idProfissional: 1, // João Silva (Cardiologia)
+        especialidade: 'Cardiologia',
+        unidadeId: 1, // Unidade Central
+        dataHoraConsulta: '2026-03-20T09:00:00',
+      },
+      {
+        id: 2,
+        idPaciente: 2, // Maria Oliveira
+        idProfissional: 2, // Maria Oliveira (Pediatria)
+        especialidade: 'Pediatria',
+        unidadeId: 1,
+        dataHoraConsulta: '2026-03-21T14:30:00',
+      },
+      {
+        id: 3,
+        idPaciente: 3, // Carlos Pereira
+        idProfissional: 3, // Carlos Santos (Ortopedia)
+        especialidade: 'Ortopedia',
+        unidadeId: 2, // Unidade Zona Norte
+        dataHoraConsulta: '2026-03-22T16:00:00',
+      },
+      {
+        id: 4,
+        idPaciente: 1,
+        idProfissional: 3,
+        especialidade: 'Ortopedia',
+        unidadeId: 2,
+        dataHoraConsulta: '2026-03-25T10:15:00',
+      },
+    ];
+
+    this.storage.set(this.CONSULTAS_KEY, mockConsultas);
   }
 }

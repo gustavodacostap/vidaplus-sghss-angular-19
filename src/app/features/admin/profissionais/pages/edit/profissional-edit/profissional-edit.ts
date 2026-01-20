@@ -6,7 +6,6 @@ import { ProfissionalComUnidade } from '../../../models/ProfisisonalComUnidade.m
 import {
   selectProfissionalComUnidade,
   selectProfissionalError,
-  selectUnidadesForOptions,
 } from '../../../store/profissionais.selectors';
 import { celularValidator } from '../../../../../../shared/utils/validatorsFn.utils';
 import { combineLatest, map, Observable, startWith } from 'rxjs';
@@ -32,11 +31,8 @@ import { CommonModule } from '@angular/common';
 import { getUFs } from '../../../../../../shared/utils/select-options.utils';
 import { MatSelectModule } from '@angular/material/select';
 import { UF } from '../../../models/Profissional.model';
-
-export interface UnidadeOption {
-  id: number;
-  nome: string;
-}
+import { UnidadeOption } from '../../../../unidades/models/UnidadeOption.model';
+import { selectUnidadesForOptions } from '../../../../unidades/store/unidades.selectors';
 
 @Component({
   selector: 'app-profissional-edit',
