@@ -23,7 +23,7 @@ import { clearSnackbar } from '../../../core/ui/store/ui.actions';
   templateUrl: './snackbar.html',
   styleUrl: './snackbar.scss',
 })
-export class Snackbar {
+export class SnackbarComponent {
   snackBarRef = inject(MatSnackBarRef);
   data = inject(MAT_SNACK_BAR_DATA);
   store = inject(Store);

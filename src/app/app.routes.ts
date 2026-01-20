@@ -7,7 +7,7 @@ export const routes: Routes = [
   route({
     path: 'auth/login',
     loadComponent: () =>
-      import('./features/auth/login/login').then((m) => m.Login),
+      import('./features/auth/login/login').then((m) => m.LoginComponent),
   }),
 
   route({
@@ -15,7 +15,9 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     loadComponent: () =>
-      import('./shared/components/layout/layout').then((m) => m.Layout),
+      import('./shared/components/layout/layout').then(
+        (m) => m.LayoutComponent,
+      ),
     children: [
       route({
         path: 'admin',
@@ -29,7 +31,7 @@ export const routes: Routes = [
                 path: '',
                 loadComponent: () =>
                   import('./features/admin/pacientes/pages/list/pacientes').then(
-                    (m) => m.Pacientes,
+                    (m) => m.PacientesComponent,
                   ),
               }),
 
@@ -59,14 +61,14 @@ export const routes: Routes = [
                 path: '',
                 loadComponent: () =>
                   import('./features/admin/profissionais/pages/list/profissionais').then(
-                    (m) => m.Profissionais,
+                    (m) => m.ProfissionaisComponent,
                   ),
               }),
               route({
                 path: 'edit/:id',
                 loadComponent: () =>
                   import('./features/admin/profissionais/pages/edit/profissional-edit/profissional-edit').then(
-                    (m) => m.ProfissionalEdit,
+                    (m) => m.ProfissionalEditComponent,
                   ),
                 data: {
                   topbar: {

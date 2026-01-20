@@ -1,4 +1,11 @@
-import { Component, ViewChild, AfterViewInit, inject, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  AfterViewInit,
+  inject,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -25,7 +32,10 @@ import { USDateToBR } from '../../../../../shared/utils/date.utils';
 import { NgxMaskDirective } from 'ngx-mask';
 import { formatCpf } from '../../../../../shared/utils/field-formatters.util';
 
-type PacienteColumn = keyof Pick<PacienteListItem, 'nome' | 'cpf' | 'dataNascimento'>;
+type PacienteColumn = keyof Pick<
+  PacienteListItem,
+  'nome' | 'cpf' | 'dataNascimento'
+>;
 
 @Component({
   selector: 'app-pacientes',
@@ -45,7 +55,7 @@ type PacienteColumn = keyof Pick<PacienteListItem, 'nome' | 'cpf' | 'dataNascime
   templateUrl: './pacientes.html',
   styleUrl: './pacientes.scss',
 })
-export class Pacientes implements AfterViewInit, OnInit, OnDestroy {
+export class PacientesComponent implements AfterViewInit, OnInit, OnDestroy {
   private store = inject(Store);
   private destroyed$ = new Subject<void>();
   private dialog = inject(MatDialog);
@@ -66,7 +76,10 @@ export class Pacientes implements AfterViewInit, OnInit, OnDestroy {
   };
 
   columnFormatters: Partial<
-    Record<keyof PacienteListItem, (value: any, row: PacienteListItem) => string>
+    Record<
+      keyof PacienteListItem,
+      (value: any, row: PacienteListItem) => string
+    >
   > = {
     dataNascimento: (value: string) => USDateToBR(value),
     cpf: (value: string) => formatCpf(value),

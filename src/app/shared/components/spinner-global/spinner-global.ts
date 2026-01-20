@@ -9,7 +9,7 @@ import { selectGlobalLoading } from '../../../core/ui/store/ui.selectors';
   templateUrl: './spinner-global.html',
   styleUrl: './spinner-global.scss',
 })
-export class SpinnerGlobal {
+export class SpinnerGlobalComponent {
   private store = inject(Store);
 
   loading = this.store.selectSignal(selectGlobalLoading);

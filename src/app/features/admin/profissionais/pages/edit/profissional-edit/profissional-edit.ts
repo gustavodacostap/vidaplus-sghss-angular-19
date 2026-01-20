@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { ProfissionalComUnidade } from '../../../models/ProfisisonalComUnidade.model';
 import {
   selectProfissionalComUnidade,
+  selectProfissionalError,
   selectUnidadesForOptions,
 } from '../../../store/profissionais.selectors';
 import { celularValidator } from '../../../../../../shared/utils/validatorsFn.utils';
@@ -56,7 +57,7 @@ export interface UnidadeOption {
   templateUrl: './profissional-edit.html',
   styleUrl: './profissional-edit.scss',
 })
-export class ProfissionalEdit implements OnInit {
+export class ProfissionalEditComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private store = inject(Store);
@@ -90,6 +91,10 @@ export class ProfissionalEdit implements OnInit {
 
   errorMessage = getFormErrorMessage;
 
+  profissionalError: Signal<boolean | string | null> = this.store.selectSignal(
+    selectProfissionalError,
+  );
+
   get crm() {
     const value = this.dadosPessoaisForm.value;
     if (!value) return '';
@@ -106,10 +111,19 @@ export class ProfissionalEdit implements OnInit {
   constructor() {
     const breakpointObserver = inject(BreakpointObserver);
 
-    this.stepperOrientation = breakpointObserver.observe([Breakpoints.XSmall]).pipe(
-      takeUntilDestroyed(),
-      map(({ matches }) => (matches ? 'vertical' : 'horizontal')),
-    );
+    this.stepperOrientation = breakpointObserver
+      .observe([Breakpoints.XSmall])
+      .pipe(
+        takeUntilDestroyed(),
+        map(({ matches }) => (matches ? 'vertical' : 'horizontal')),
+      );
+
+    effect(() => {
+      const error = this.profissionalError();
+      if (error) {
+        this.router.navigate(['admin/profissionais']);
+      }
+    });
 
     effect(() => {
       const profissional = this.profissional();
@@ -133,17 +147,23 @@ export class ProfissionalEdit implements OnInit {
   ngOnInit() {
     this.profissionalId = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.store.dispatch(enterProfissionaisEditPage({ id: this.profissionalId }));
+    this.store.dispatch(
+      enterProfissionaisEditPage({ id: this.profissionalId }),
+    );
 
     this.filteredUnidades = combineLatest([
-      this.dadosProfissionaisForm.controls.unidade.valueChanges.pipe(startWith('')),
+      this.dadosProfissionaisForm.controls.unidade.valueChanges.pipe(
+        startWith(''),
+      ),
       this.unidades,
     ]).pipe(
       map(([value, unidades]) => {
         // if (!value) return unidades;
 
         const nome = typeof value === 'string' ? value : (value?.nome ?? '');
-        return unidades.filter((u) => u.nome.toLowerCase().includes(nome.toLowerCase()));
+        return unidades.filter((u) =>
+          u.nome.toLowerCase().includes(nome.toLowerCase()),
+        );
       }),
     );
   }
@@ -178,7 +198,9 @@ export class ProfissionalEdit implements OnInit {
       especialidade: dadosProfissionais.especialidade,
       unidadeId: unidade.id,
     };
-    this.store.dispatch(updateProfissional({ id: this.profissionalId, dto: dto }));
+    this.store.dispatch(
+      updateProfissional({ id: this.profissionalId, dto: dto }),
+    );
     this.backToProfissionais();
   }
 }

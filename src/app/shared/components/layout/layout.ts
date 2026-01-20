@@ -1,4 +1,11 @@
-import { Component, computed, inject, OnInit, OnDestroy, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  OnInit,
+  OnDestroy,
+  signal,
+} from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {
   ActivatedRoute,
@@ -8,7 +15,7 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
-import { Topbar } from './components/topbar/topbar';
+import { TopbarComponent } from './components/topbar/topbar';
 import { SessionService } from '../../../core/auth/services/session.service';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,7 +31,7 @@ import { CommonModule } from '@angular/common';
   imports: [
     MatSidenavModule,
     RouterOutlet,
-    Topbar,
+    TopbarComponent,
     MatSidenavModule,
     MatListModule,
     MatIconModule,
@@ -36,7 +43,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './layout.html',
   styleUrl: './layout.scss',
 })
-export class Layout implements OnInit, OnDestroy {
+export class LayoutComponent implements OnInit, OnDestroy {
   private session = inject(SessionService);
   topbarService = inject(TopbarService);
   private router = inject(Router);

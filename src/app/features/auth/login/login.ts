@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { login } from './store/auth.actions';
-import { Logo } from '../../../shared/components/logo/logo';
+import { LogoComponent } from '../../../shared/components/logo/logo';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { selectLoading } from './store/auth.selectors';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,7 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     CommonModule,
     ReactiveFormsModule,
     MatInputModule,
-    Logo,
+    LogoComponent,
     MatButtonModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
@@ -27,7 +27,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
-export class Login {
+export class LoginComponent {
   private store = inject(Store);
 
   loading = this.store.selectSignal(selectLoading);

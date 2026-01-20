@@ -12,11 +12,17 @@ import { TopbarService } from '../../../../../core/ui/services/topbar.service';
 
 @Component({
   selector: 'app-profile-menu',
-  imports: [MatIconModule, MatButtonModule, MatDividerModule, OverlayModule, MatListModule],
+  imports: [
+    MatIconModule,
+    MatButtonModule,
+    MatDividerModule,
+    OverlayModule,
+    MatListModule,
+  ],
   templateUrl: './profile-menu.html',
   styleUrl: './profile-menu.scss',
 })
-export class ProfileMenu {
+export class ProfileMenuComponent {
   private topbarService = inject(TopbarService);
   private session = inject(SessionService);
   private route = inject(Router);

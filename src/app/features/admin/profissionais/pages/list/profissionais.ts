@@ -1,11 +1,25 @@
-import { Component, ViewChild, AfterViewInit, inject, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  AfterViewInit,
+  inject,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
-import { combineLatest, map, Observable, startWith, Subject, takeUntil } from 'rxjs';
+import {
+  combineLatest,
+  map,
+  Observable,
+  startWith,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
@@ -45,7 +59,9 @@ type ProfissionalColumn = 'nome' | 'crm' | 'especialidade' | 'unidadeNome';
   templateUrl: './profissionais.html',
   styleUrl: './profissionais.scss',
 })
-export class Profissionais implements OnInit, AfterViewInit, OnDestroy {
+export class ProfissionaisComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private store = inject(Store);
   private destroyed$ = new Subject<void>();
   private dialog = inject(MatDialog);
@@ -54,7 +70,12 @@ export class Profissionais implements OnInit, AfterViewInit, OnDestroy {
   loading = this.store.selectSignal(selectProfissionaisLoading);
   error = this.store.selectSignal(selectProfissionaisError);
 
-  displayedColumns: ProfissionalColumn[] = ['nome', 'crm', 'especialidade', 'unidadeNome'];
+  displayedColumns: ProfissionalColumn[] = [
+    'nome',
+    'crm',
+    'especialidade',
+    'unidadeNome',
+  ];
 
   allColumns = [...this.displayedColumns, 'actions'];
 
@@ -66,7 +87,10 @@ export class Profissionais implements OnInit, AfterViewInit, OnDestroy {
   };
 
   columnFormatters: Partial<
-    Record<ProfissionalColumn, (value: any, row: ProfissionalListItem) => string>
+    Record<
+      ProfissionalColumn,
+      (value: any, row: ProfissionalListItem) => string
+    >
   > = {
     crm: (value: string, row) => `CRM/${row.UFcrm} ${value}`,
   };
@@ -105,7 +129,8 @@ export class Profissionais implements OnInit, AfterViewInit, OnDestroy {
 
       return (
         (!nome || data.nome.toLowerCase().includes(nome.toLowerCase())) &&
-        (!unidadeNome || data.unidadeNome.toLowerCase().includes(unidadeNome.toLowerCase()))
+        (!unidadeNome ||
+          data.unidadeNome.toLowerCase().includes(unidadeNome.toLowerCase()))
       );
     };
 

@@ -10,9 +10,9 @@ import {
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { NotificationMenu } from '../notification-menu/notification-menu';
-import { ProfileMenu } from '../profile-menu/profile-menu';
-import { Logo } from '../../../logo/logo';
+import { NotificationMenuComponent } from '../notification-menu/notification-menu';
+import { ProfileMenuComponent } from '../profile-menu/profile-menu';
+import { LogoComponent } from '../../../logo/logo';
 import { TopbarService } from '../../../../../core/ui/services/topbar.service';
 import { MatButtonModule } from '@angular/material/button';
 import { map, Subject, takeUntil } from 'rxjs';
@@ -21,11 +21,18 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-topbar',
-  imports: [MatToolbarModule, MatIconModule, NotificationMenu, ProfileMenu, Logo, MatButtonModule],
+  imports: [
+    MatToolbarModule,
+    MatIconModule,
+    NotificationMenuComponent,
+    ProfileMenuComponent,
+    LogoComponent,
+    MatButtonModule,
+  ],
   templateUrl: './topbar.html',
   styleUrl: './topbar.scss',
 })
-export class Topbar implements OnInit, OnDestroy {
+export class TopbarComponent implements OnInit, OnDestroy {
   config = inject(TopbarService).getConfig();
 
   private destroyed$ = new Subject<void>();

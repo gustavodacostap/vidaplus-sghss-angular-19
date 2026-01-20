@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { tap } from 'rxjs';
 import { showSnackbar } from './ui.actions';
-import { Snackbar } from '../../../shared/components/snackbar/snackbar';
+import { SnackbarComponent } from '../../../shared/components/snackbar/snackbar';
 
 @Injectable()
 export class UIEffects {
@@ -15,7 +15,7 @@ export class UIEffects {
       return this.actions$.pipe(
         ofType(showSnackbar),
         tap(({ message, logMessage }) => {
-          this.snackBar.openFromComponent(Snackbar, {
+          this.snackBar.openFromComponent(SnackbarComponent, {
             data: message,
           });
 
