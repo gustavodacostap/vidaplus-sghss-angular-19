@@ -4,8 +4,11 @@
 
     <!-- FILTROS -->
     <section aria-label="Filtros de pacientes" class="mb-2">
-      <form role="search" class="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4">
-        <mat-form-field appearance="outline" class="w-full">
+      <form
+        role="search"
+        class="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4"
+      >
+        <mat-form-field class="w-full">
           <mat-label>Filtrar por nome</mat-label>
           <input
             matInput
@@ -17,7 +20,7 @@
         </mat-form-field>
 
         <!-- Tem que colocar um autocomplete aqui -->
-        <mat-form-field appearance="outline" class="w-full">
+        <mat-form-field class="w-full">
           <mat-label>Filtrar por unidade</mat-label>
           <input
             type="text"
@@ -39,13 +42,22 @@
   <!-- TABELA -->
   <section aria-label="Lista de profissionais">
     <div class="overflow-x-auto scrollbar-custom" role="region" tabindex="0">
-      <table mat-table [dataSource]="dataSource" aria-describedby="page-title" class="table">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        aria-describedby="page-title"
+        class="table"
+      >
         <!-- COLUNAS SIMPLES -->
         @for (column of displayedColumns; track column) {
         <ng-container [matColumnDef]="column">
-          <th mat-header-cell *matHeaderCellDef scope="col">{{ columnLabels[column] }}</th>
+          <th mat-header-cell *matHeaderCellDef scope="col">
+            {{ columnLabels[column] }}
+          </th>
 
-          <td mat-cell *matCellDef="let profissional">{{ formatCell(column, profissional) }}</td>
+          <td mat-cell *matCellDef="let profissional">
+            {{ formatCell(column, profissional) }}
+          </td>
         </ng-container>
         }
 
@@ -54,7 +66,11 @@
           <th mat-header-cell *matHeaderCellDef scope="col">Ações</th>
 
           <td mat-cell *matCellDef="let profissional">
-            <div class="actions" role="group" aria-label="Ações do profissional">
+            <div
+              class="actions"
+              role="group"
+              aria-label="Ações do profissional"
+            >
               <button
                 mat-icon-button
                 matTooltip="Visualizar"
@@ -84,7 +100,9 @@
 
         @if (error()) {
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="5">Não é possível visualizar os dados dos profissionais</td>
+          <td class="mat-cell" colspan="5">
+            Não é possível visualizar os dados dos profissionais
+          </td>
         </tr>
         } @else if (loading()) {
         <tr class="mat-row" *matNoDataRow>
@@ -94,7 +112,9 @@
         </tr>
         } @else {
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="5">Nenhum profissional encontrado com esse filtro.</td>
+          <td class="mat-cell" colspan="5">
+            Nenhum profissional encontrado com esse filtro.
+          </td>
         </tr>
         }
       </table>

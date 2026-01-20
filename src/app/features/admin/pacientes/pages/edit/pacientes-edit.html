@@ -19,7 +19,7 @@
     >
       <ng-template matStepLabel>Dados Pessoais</ng-template>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Nome completo</mat-label>
         <input matInput formControlName="nome" />
 
@@ -28,7 +28,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Data de nascimento</mat-label>
         <input matInput type="date" formControlName="dataNascimento" />
 
@@ -37,7 +37,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>CPF</mat-label>
         <input matInput mask="000.000.000-00" formControlName="cpf" />
 
@@ -46,7 +46,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>E-mail</mat-label>
         <input matInput type="email" formControlName="email" />
 
@@ -55,7 +55,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Celular</mat-label>
         <input matInput mask="(00) 00000-0000" formControlName="celular" />
 
@@ -84,7 +84,7 @@
     >
       <ng-template matStepLabel>Dados Clínicos</ng-template>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Tipo sanguíneo</mat-label>
         <mat-select formControlName="tipoSanguineo">
           @for (tipo of tiposSanguineos; track tipo) {
@@ -93,17 +93,17 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Peso (kg)</mat-label>
         <input matInput type="number" formControlName="peso" />
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Altura (m)</mat-label>
         <input matInput type="number" formControlName="altura" />
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Alergias</mat-label>
         <input matInput formControlName="alergias" />
       </mat-form-field>
