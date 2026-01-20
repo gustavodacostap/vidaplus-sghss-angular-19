@@ -4,10 +4,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Paciente, TipoSanguineo } from '../../models/Paciente.model';
 import { Store } from '@ngrx/store';
-import { selectPaciente } from '../../store/pacientes.selectors';
-import { loadPacienteById, updatePaciente } from '../../store/pacientes.actions';
+import {
+  selectPaciente,
+  selectPacienteError,
+} from '../../store/pacientes.selectors';
+import {
+  loadPacienteById,
+  updatePaciente,
+} from '../../store/pacientes.actions';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MatStepperModule, StepperOrientation } from '@angular/material/stepper';
+import {
+  MatStepperModule,
+  StepperOrientation,
+} from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
@@ -17,7 +26,10 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { NgxMaskDirective } from 'ngx-mask';
-import { celularValidator, cpfValidator } from '../../../../../shared/utils/validatorsFn.utils';
+import {
+  celularValidator,
+  cpfValidator,
+} from '../../../../../shared/utils/validatorsFn.utils';
 import { getFormErrorMessage } from '../../../../../shared/helpers/form-errors.helper';
 import { UpdatePacienteDTO } from '../../dto/UpdatePaciente.dto';
 import { calcularIdade } from '../../../../../shared/utils/date.utils';
@@ -45,7 +57,7 @@ import { CelularPipe } from '../../../../../shared/pipes/celular.pipe';
   templateUrl: './pacientes-edit.html',
   styleUrl: './pacientes-edit.scss',
 })
-export class PacientesEdit implements OnInit {
+export class PacientesEditComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private store = inject(Store);
@@ -65,26 +77,50 @@ export class PacientesEdit implements OnInit {
 
   // STEP 2 – Dados clínicos
   dadosClinicosForm = this.fb.nonNullable.group({
-    tipoSanguineo: this.fb.nonNullable.control<TipoSanguineo>('A+', Validators.required),
+    tipoSanguineo: this.fb.nonNullable.control<TipoSanguineo>(
+      'A+',
+      Validators.required,
+    ),
     peso: [0, Validators.required],
     altura: [0, Validators.required],
     alergias: [''],
     status: [true, Validators.required],
   });
 
-  tiposSanguineos: readonly TipoSanguineo[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+  tiposSanguineos: readonly TipoSanguineo[] = [
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'AB+',
+    'AB-',
+    'O+',
+    'O-',
+  ];
 
   stepperOrientation: Observable<StepperOrientation>;
 
   errorMessage = getFormErrorMessage;
 
+  pacienteError: Signal<boolean | string | null> =
+    this.store.selectSignal(selectPacienteError);
+
   constructor() {
     const breakpointObserver = inject(BreakpointObserver);
 
-    this.stepperOrientation = breakpointObserver.observe([Breakpoints.XSmall]).pipe(
-      takeUntilDestroyed(),
-      map(({ matches }) => (matches ? 'vertical' : 'horizontal')),
-    );
+    this.stepperOrientation = breakpointObserver
+      .observe([Breakpoints.XSmall])
+      .pipe(
+        takeUntilDestroyed(),
+        map(({ matches }) => (matches ? 'vertical' : 'horizontal')),
+      );
+
+    effect(() => {
+      const error = this.pacienteError();
+      if (error) {
+        this.router.navigate(['admin/pacientes']);
+      }
+    });
 
     effect(() => {
       const paciente = this.paciente();

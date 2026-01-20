@@ -37,7 +37,7 @@ export const routes: Routes = [
                 path: 'edit/:id',
                 loadComponent: () =>
                   import('./features/admin/pacientes/pages/edit/pacientes-edit').then(
-                    (m) => m.PacientesEdit,
+                    (m) => m.PacientesEditComponent,
                   ),
                 data: {
                   topbar: {
