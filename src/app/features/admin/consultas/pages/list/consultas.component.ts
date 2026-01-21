@@ -4,7 +4,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngrx/store';
-import { UnidadeOption } from '../../../unidades/models/UnidadeOption.model';
 import { selectUnidadesForOptions } from '../../../unidades/store/unidades.selectors';
 import { combineLatest, map, Observable, startWith, take } from 'rxjs';
 import { enterConsultasPage } from '../../store/consultas.actions';
@@ -23,6 +22,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SelectOption } from '../../../../../shared/interfaces/SelectOption.model';
 
 @Component({
   selector: 'app-consultas',
@@ -50,7 +50,7 @@ export class ConsultasComponent implements OnInit {
 
   profissionalCtrl = new FormControl('');
   pacienteCtrl = new FormControl('');
-  unidadeCtrl = new FormControl<string | UnidadeOption>('');
+  unidadeCtrl = new FormControl<string | SelectOption>('');
   dataCtrl = new FormControl('');
 
   profissionalFilter = toSignal(
@@ -103,7 +103,7 @@ export class ConsultasComponent implements OnInit {
   });
 
   unidades = this.store.select(selectUnidadesForOptions);
-  filteredUnidades!: Observable<UnidadeOption[]>;
+  filteredUnidades!: Observable<SelectOption[]>;
 
   consultas = this.store.selectSignal(selectConsultas);
 
@@ -142,7 +142,7 @@ export class ConsultasComponent implements OnInit {
     );
   }
 
-  displayUnidade(unidade: UnidadeOption): string {
+  displayUnidade(unidade: SelectOption): string {
     return unidade && unidade.nome ? unidade.nome : '';
   }
 

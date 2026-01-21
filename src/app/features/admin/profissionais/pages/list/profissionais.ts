@@ -37,8 +37,17 @@ import {
 import { enterProfissionaisPage } from '../../store/profissionais.actions';
 import { selectNomeUnidades } from '../../../unidades/store/unidades.selectors';
 import { ViewProfissionalDialog } from '../../dialogs/view-profissional-dialog/view-profissional-dialog';
-import { UnidadeOption } from '../../../unidades/models/UnidadeOption.model';
+import { Especialidade } from '../../../especialidades/models/Especialidade.model';
+import {
+  selectEspecialidades,
+  selectEspecialidadesError,
+  selectEspecialidadesLoading,
+} from '../../../especialidades/store/especialidades.selectors';
+import { SelectOption } from '../../../../../shared/interfaces/SelectOption.model';
+import { EditEspecialidadeDialogComponent } from '../../dialogs/edit-especialidade-dialog/edit-especialidade-dialog.component';
+
 type ProfissionalColumn = 'nome' | 'crm' | 'especialidade' | 'unidadeNome';
+type EspecialidadeColumn = 'nome' | 'ativa';
 
 @Component({
   selector: 'app-profissionais',
@@ -85,13 +94,14 @@ export class ProfissionaisComponent
     unidadeNome: 'Unidade',
   };
 
-  columnFormatters: Partial<
+  profissionalFormatters: Partial<
     Record<
       ProfissionalColumn,
       (value: any, row: ProfissionalListItem) => string
     >
   > = {
     crm: (value: string, row) => `CRM/${row.UFcrm} ${value}`,
+    especialidade: (value: Especialidade) => value.nome,
   };
 
   nomeCtrl = new FormControl('');
@@ -103,6 +113,26 @@ export class ProfissionaisComponent
   dataSource = new MatTableDataSource<ProfissionalListItem>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  // Especialidade
+
+  especialidadesDataSource = new MatTableDataSource<Especialidade>();
+  especialidadeColumns: EspecialidadeColumn[] = ['nome', 'ativa'];
+  allColumnsEsp = [...this.especialidadeColumns, 'actions'];
+  columnLabelsEsp: Record<string, string> = {
+    nome: 'Nome',
+    ativa: 'Status',
+  };
+  especialidadeFormatters: Partial<
+    Record<EspecialidadeColumn, (value: any, row: Especialidade) => string>
+  > = {
+    ativa: (value: boolean) => (value ? 'Ativa' : 'Inativa'),
+  };
+
+  nomeEspCtrl = new FormControl('');
+
+  errorEsp = this.store.selectSignal(selectEspecialidadesError);
+  loadingEsp = this.store.selectSignal(selectEspecialidadesLoading);
 
   ngOnInit() {
     this.store.dispatch(enterProfissionaisPage());
@@ -146,6 +176,26 @@ export class ProfissionaisComponent
 
         this.dataSource.paginator?.firstPage();
       });
+
+    // Especialidades
+    this.store
+      .select(selectEspecialidades)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((especialidades) => {
+        this.especialidadesDataSource.data = especialidades;
+      });
+
+    this.especialidadesDataSource.filterPredicate = (
+      data: Especialidade,
+      filter: string,
+    ) => data.nome.toLowerCase().includes(filter.toLowerCase());
+
+    this.nomeEspCtrl.valueChanges
+      .pipe(startWith(''), takeUntil(this.destroyed$))
+      .subscribe((nome) => {
+        this.especialidadesDataSource.filter = nome ?? '';
+        this.especialidadesDataSource.paginator?.firstPage();
+      });
   }
 
   ngAfterViewInit() {
@@ -163,15 +213,28 @@ export class ProfissionaisComponent
     this.router.navigate([`admin/profissionais/edit/${profissionalId}`]);
   }
 
-  formatCell(column: ProfissionalColumn, row: ProfissionalListItem): string {
-    const formatter = this.columnFormatters[column];
-    const value = row[column as keyof ProfissionalListItem];
-
-    return formatter ? formatter(value, row) : String(value ?? '');
+  displayUnidade(unidade?: SelectOption): string {
+    return unidade ? unidade.nome : '';
   }
 
-  displayUnidade(unidade?: UnidadeOption): string {
-    return unidade ? unidade.nome : '';
+  // Especialidade
+
+  editEspecialidade(especialidade: Especialidade) {
+    this.dialog.open(EditEspecialidadeDialogComponent, {
+      width: '600px',
+      data: { especialidade },
+    });
+  }
+
+  formatCellGeneric<T extends Record<string, any>, C extends string>(
+    column: C,
+    row: T,
+    formatters: Partial<Record<C, (value: any, row: T) => string>>,
+  ): string {
+    const formatter = formatters[column];
+    const value = row[column];
+
+    return formatter ? formatter(value, row) : String(value ?? '');
   }
 
   ngOnDestroy() {

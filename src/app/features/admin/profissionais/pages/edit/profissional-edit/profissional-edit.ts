@@ -31,8 +31,10 @@ import { CommonModule } from '@angular/common';
 import { getUFs } from '../../../../../../shared/utils/select-options.utils';
 import { MatSelectModule } from '@angular/material/select';
 import { UF } from '../../../models/Profissional.model';
-import { UnidadeOption } from '../../../../unidades/models/UnidadeOption.model';
+import { SelectOption } from '../../../../../../shared/interfaces/SelectOption.model';
 import { selectUnidadesForOptions } from '../../../../unidades/store/unidades.selectors';
+import { Especialidade } from '../../../../especialidades/models/Especialidade.model';
+import { selectEspecialidades } from '../../../../especialidades/store/especialidades.selectors';
 
 @Component({
   selector: 'app-profissional-edit',
@@ -75,13 +77,18 @@ export class ProfissionalEditComponent implements OnInit {
 
   // STEP 2 – Dados clínicos
   dadosProfissionaisForm = this.fb.nonNullable.group({
-    especialidade: ['', Validators.required],
-    unidade: this.fb.control<string | UnidadeOption>('', Validators.required),
+    especialidade: this.fb.control<string | Especialidade>(
+      '',
+      Validators.required,
+    ),
+    unidade: this.fb.control<string | SelectOption>('', Validators.required),
   });
 
   UFs = getUFs();
   unidades = this.store.select(selectUnidadesForOptions);
-  filteredUnidades!: Observable<UnidadeOption[]>;
+  filteredUnidades!: Observable<SelectOption[]>;
+  especialidades = this.store.select(selectEspecialidades);
+  filteredEspecialidades!: Observable<Especialidade[]>;
 
   stepperOrientation: Observable<StepperOrientation>;
 
@@ -102,6 +109,15 @@ export class ProfissionalEditComponent implements OnInit {
     const unidade = this.dadosProfissionaisForm.controls.unidade.value;
 
     return typeof unidade === 'string' || !unidade ? '—' : unidade.nome;
+  }
+
+  get especialidadeNome(): string {
+    const especialidade =
+      this.dadosProfissionaisForm.controls.especialidade.value;
+
+    return typeof especialidade === 'string' || !especialidade
+      ? '—'
+      : especialidade.nome;
   }
 
   constructor() {
@@ -134,7 +150,11 @@ export class ProfissionalEditComponent implements OnInit {
       });
 
       this.dadosProfissionaisForm.patchValue({
-        especialidade: profissional.especialidade,
+        especialidade: {
+          id: profissional.especialidade.id,
+          nome: profissional.especialidade.nome,
+          ativa: profissional.especialidade.ativa,
+        },
         unidade: { id: profissional.unidadeId, nome: profissional.unidadeNome },
       });
     });
@@ -162,10 +182,24 @@ export class ProfissionalEditComponent implements OnInit {
         );
       }),
     );
+
+    this.filteredEspecialidades = combineLatest([
+      this.dadosProfissionaisForm.controls.especialidade.valueChanges.pipe(
+        startWith(''),
+      ),
+      this.especialidades,
+    ]).pipe(
+      map(([value, esp]) => {
+        const nome = typeof value === 'string' ? value : (value?.nome ?? '');
+        return esp.filter((u) =>
+          u.nome.toLowerCase().includes(nome.toLowerCase()),
+        );
+      }),
+    );
   }
 
-  displayUnidade(unidade: UnidadeOption): string {
-    return unidade && unidade.nome ? unidade.nome : '';
+  displayOption(option: SelectOption): string {
+    return option && option.nome ? option.nome : '';
   }
 
   backToProfissionais() {
@@ -180,18 +214,25 @@ export class ProfissionalEditComponent implements OnInit {
     const dadosPessoais = this.dadosPessoaisForm.getRawValue();
     const dadosProfissionais = this.dadosProfissionaisForm.getRawValue();
 
+    const especialidade = dadosProfissionais.especialidade;
     const unidade = dadosProfissionais.unidade;
 
     const UFcrm = this.dadosPessoaisForm.controls.UFcrm.value;
 
-    if (typeof unidade !== 'object' || unidade === null || UFcrm === null) {
+    if (
+      typeof unidade !== 'object' ||
+      unidade === null ||
+      UFcrm === null ||
+      typeof especialidade !== 'object' ||
+      especialidade === null
+    ) {
       return;
     }
 
     const dto: UpdateProfissionalDTO = {
       ...dadosPessoais,
       UFcrm,
-      especialidade: dadosProfissionais.especialidade,
+      especialidade: especialidade,
       unidadeId: unidade.id,
     };
     this.store.dispatch(

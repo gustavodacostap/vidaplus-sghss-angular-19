@@ -17,6 +17,7 @@ import {
 } from './profissionais.actions';
 import { showSnackbar } from '../../../../core/ui/store/ui.actions';
 import { loadUnidades } from '../../unidades/store/unidades.actions';
+import { loadEspecialidades } from '../../especialidades/store/especialidades.actions';
 
 @Injectable()
 export class ProfissionaisEffects {
@@ -26,7 +27,11 @@ export class ProfissionaisEffects {
   enterPage$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(enterProfissionaisPage),
-      switchMap(() => [loadProfissionais(), loadUnidades()]),
+      switchMap(() => [
+        loadProfissionais(),
+        loadUnidades(),
+        loadEspecialidades(),
+      ]),
     );
   });
 

@@ -1,3 +1,4 @@
+import { Especialidade } from '../../especialidades/models/Especialidade.model';
 import { UF } from './Profissional.model';
 
 export interface ProfissionalListItem {
@@ -5,7 +6,7 @@ export interface ProfissionalListItem {
   nome: string;
   crm: string;
   UFcrm: UF;
-  especialidade: string;
+  especialidade: Especialidade;
   unidadeId: number;
   unidadeNome: string;
 }

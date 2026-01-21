@@ -1,4 +1,4 @@
-<section aria-labelledby="page-title">
+<section aria-labelledby="page-title" class="mb-5">
   <div class="flex flex-col sm:flex-row sm:justify-between">
     <h1 class="text-2xl mb-2 sm:mb-0" id="page-title">Profissionais</h1>
 
@@ -56,7 +56,8 @@
           </th>
 
           <td mat-cell *matCellDef="let profissional">
-            {{ formatCell(column, profissional) }}
+            {{ formatCellGeneric(column, profissional, profissionalFormatters)
+            }}
           </td>
         </ng-container>
         }
@@ -127,5 +128,102 @@
       class="mt-2"
       aria-label="Paginação da lista de profissionais"
     />
+  </section>
+</section>
+
+<section aria-labelledby="especialidade-title">
+  <div class="flex flex-col sm:flex-row sm:justify-between">
+    <h1 class="text-2xl mb-2 sm:mb-0" id="especialidade-title">
+      Especialidades
+    </h1>
+    <section aria-label="Filtro de especialidade" class="mb-2">
+      <form
+        role="search"
+        class="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4"
+      >
+        <mat-form-field class="w-full">
+          <mat-label>Filtrar por nome</mat-label>
+          <input
+            matInput
+            type="search"
+            [formControl]="nomeEspCtrl"
+            placeholder="Digite o nome"
+            aria-label="Filtrar por nome"
+          />
+        </mat-form-field>
+      </form>
+    </section>
+  </div>
+
+  <section aria-label="Lista de especialidades">
+    <div class="overflow-x-auto scrollbar-custom" role="region" tabindex="0">
+      <table
+        mat-table
+        [dataSource]="especialidadesDataSource"
+        aria-describedby="especialidade-title"
+        class="table"
+      >
+        <!-- COLUNAS SIMPLES -->
+        @for (column of especialidadeColumns; track column) {
+        <ng-container [matColumnDef]="column">
+          <th mat-header-cell *matHeaderCellDef scope="col">
+            {{ columnLabelsEsp[column] }}
+          </th>
+
+          <td mat-cell *matCellDef="let especialidade">
+            {{ formatCellGeneric( column, especialidade, especialidadeFormatters
+            ) }}
+          </td>
+        </ng-container>
+        }
+
+        <!-- COLUNA AÇÕES -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef scope="col">Ações</th>
+
+          <td mat-cell *matCellDef="let especialidade">
+            <div
+              class="actions"
+              role="group"
+              aria-label="Ações das especialidades"
+            >
+              <button
+                mat-icon-button
+                matTooltip="Editar"
+                aria-label="Editar especialidade"
+                (click)="editEspecialidade(especialidade)"
+                class="icon"
+              >
+                <mat-icon class="action-icons">edit</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- HEADER E ROWS -->
+        <tr mat-header-row *matHeaderRowDef="allColumnsEsp"></tr>
+        <tr mat-row *matRowDef="let row; columns: allColumnsEsp"></tr>
+
+        @if (errorEsp()) {
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="5">
+            Não é possível visualizar as especialidades
+          </td>
+        </tr>
+        } @else if (loadingEsp()) {
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="5">
+            <mat-spinner diameter="40"></mat-spinner>
+          </td>
+        </tr>
+        } @else {
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="5">
+            Nenhuma especialidade encontrado com esse filtro.
+          </td>
+        </tr>
+        }
+      </table>
+    </div>
   </section>
 </section>

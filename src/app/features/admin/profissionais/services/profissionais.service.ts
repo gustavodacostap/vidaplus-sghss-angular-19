@@ -37,7 +37,9 @@ export class ProfissionaisService {
       }));
 
       if (!listItems) {
-        return throwError(() => new Error(`Erro ao buscar dados dos profissionais`));
+        return throwError(
+          () => new Error(`Erro ao buscar dados dos profissionais`),
+        );
       }
 
       return of(listItems);
@@ -51,7 +53,9 @@ export class ProfissionaisService {
       const paciente = profissionais.find((p) => p.id === id);
 
       if (!paciente) {
-        return throwError(() => new Error(`Profissional com id ${id} não encontrado`));
+        return throwError(
+          () => new Error(`Profissional com id ${id} não encontrado`),
+        );
       }
 
       return of(paciente);
@@ -65,7 +69,9 @@ export class ProfissionaisService {
       const pacienteAtual = profissionais.find((p) => p.id === id);
 
       if (!pacienteAtual) {
-        return throwError(() => new Error(`Profissional com id ${id} não encontrado`));
+        return throwError(
+          () => new Error(`Profissional com id ${id} não encontrado`),
+        );
       }
 
       const pacienteAtualizado: Profissional = {

@@ -122,9 +122,6 @@ export const routes: Routes = [
                     pageTitle: 'Nova Consulta',
                     returnLink: 'admin/consultas',
                   },
-                  layout: {
-                    contentPadding: 'onlyY',
-                  },
                 },
               }),
             ],

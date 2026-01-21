@@ -9,6 +9,7 @@ import { Paciente } from '../../../features/admin/pacientes/models/Paciente.mode
 import { Profissional } from '../../../features/admin/profissionais/models/Profissional.model';
 import { Unidade } from '../../../features/admin/unidades/models/Unidade.model';
 import { Consulta } from '../../../features/admin/consultas/models/Consulta.model';
+import { Especialidade } from '../../../features/admin/especialidades/models/Especialidade.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -21,6 +22,7 @@ export class AuthService {
   private readonly PROFISSIONAIS_KEY = 'profissionais';
   private readonly UNIDADES_KEY = 'unidades';
   private readonly CONSULTAS_KEY = 'consultas';
+  private readonly ESPECIALIDADES_KEY = 'especialidades';
 
   constructor() {
     this.createMockProfissionais();
@@ -28,6 +30,7 @@ export class AuthService {
     this.createMockUnidades();
     this.createMockPacientes();
     this.createMockConsultas();
+    this.createMockEspecialidades();
   }
 
   login(email: string, password: string): Observable<User> {
@@ -148,7 +151,11 @@ export class AuthService {
         celular: '11999999999',
         email: 'joao.silva@email.com',
         unidadeId: 1,
-        especialidade: 'Cardiologia',
+        especialidade: {
+          id: 1,
+          nome: 'Cardiologia',
+          ativa: true,
+        },
       },
       {
         id: 2,
@@ -159,7 +166,11 @@ export class AuthService {
         celular: '21988887777',
         email: 'maria.oliveira@email.com',
         unidadeId: 1,
-        especialidade: 'Pediatria',
+        especialidade: {
+          id: 2,
+          nome: 'Pediatria',
+          ativa: true,
+        },
       },
       {
         id: 3,
@@ -170,7 +181,11 @@ export class AuthService {
         celular: '31977776666',
         email: 'carlos.santos@email.com',
         unidadeId: 2,
-        especialidade: 'Ortopedia',
+        especialidade: {
+          id: 3,
+          nome: 'Ortopedia',
+          ativa: true,
+        },
       },
     ];
 
@@ -263,5 +278,27 @@ export class AuthService {
     ];
 
     this.storage.set(this.CONSULTAS_KEY, mockConsultas);
+  }
+
+  private createMockEspecialidades() {
+    const mockEspecialidades: Especialidade[] = [
+      {
+        id: 1,
+        nome: 'Cardiologia',
+        ativa: true,
+      },
+      {
+        id: 2,
+        nome: 'Pediatria',
+        ativa: true,
+      },
+      {
+        id: 3,
+        nome: 'Ortopedia',
+        ativa: true,
+      },
+    ];
+
+    this.storage.set(this.ESPECIALIDADES_KEY, mockEspecialidades);
   }
 }

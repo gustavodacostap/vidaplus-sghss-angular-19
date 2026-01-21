@@ -89,7 +89,21 @@
 
       <mat-form-field>
         <mat-label>Especialidade</mat-label>
-        <input matInput formControlName="especialidade" />
+        <input
+          type="search"
+          matInput
+          formControlName="especialidade"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          requireSelection
+          [displayWith]="displayOption"
+        >
+          @for (option of filteredEspecialidades | async; track option) {
+          <mat-option [value]="option">{{ option.nome }}</mat-option>
+          }
+        </mat-autocomplete>
         <mat-error>
           {{ errorMessage(dadosProfissionaisForm.get('especialidade')) }}
         </mat-error>
@@ -106,7 +120,7 @@
         <mat-autocomplete
           #auto="matAutocomplete"
           requireSelection
-          [displayWith]="displayUnidade"
+          [displayWith]="displayOption"
         >
           @for (option of filteredUnidades | async; track option) {
           <mat-option [value]="option">{{ option.nome }}</mat-option>
@@ -173,7 +187,7 @@
         >
           <div class="flex flex-col gap-1">
             <span class="font-semibold">Especialidade</span>
-            <p>{{ dadosProfissionaisForm.value.especialidade }}</p>
+            <p>{{ especialidadeNome }}</p>
           </div>
 
           <div class="flex flex-col gap-1">

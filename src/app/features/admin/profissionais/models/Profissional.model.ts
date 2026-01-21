@@ -1,3 +1,5 @@
+import { Especialidade } from '../../especialidades/models/Especialidade.model';
+
 export type UF =
   | 'AC'
   | 'AL'
@@ -36,5 +38,5 @@ export interface Profissional {
   celular: string;
   email: string;
   unidadeId: number;
-  especialidade: string;
+  especialidade: Especialidade;
 }
