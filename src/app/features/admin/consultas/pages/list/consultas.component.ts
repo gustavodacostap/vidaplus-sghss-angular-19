@@ -107,8 +107,8 @@ export class ConsultasComponent implements OnInit {
 
   consultas = this.store.selectSignal(selectConsultas);
 
-  loading = this.store.selectSignal(selectConsultasError);
-  error = this.store.selectSignal(selectConsultasLoading);
+  loading = this.store.selectSignal(selectConsultasLoading);
+  error = this.store.selectSignal(selectConsultasError);
 
   constructor() {
     const breakpointObserver = inject(BreakpointObserver);

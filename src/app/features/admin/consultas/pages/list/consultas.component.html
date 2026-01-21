@@ -114,8 +114,8 @@
           Não é possível visualizar as consultas.
         </p>
       } @else if (loading()) {
-        <div class="col-span-full text-center">
-          <mat-spinner diameter="40"></mat-spinner>
+        <div class="col-span-full flex justify-center">
+          <mat-spinner diameter="70"></mat-spinner>
         </div>
       } @else if (consultasFiltradas().length === 0) {
         <p class="col-span-full text-center">
