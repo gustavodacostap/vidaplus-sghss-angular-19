@@ -118,3 +118,11 @@ body {
 .mdc-notched-outline__notch {
   border-right: none !important;
 }
+
+.mat-cell {
+  padding: 0 16px;
+}
+
+.mat-row {
+  height: 52px;
+}

@@ -45,17 +45,17 @@ export class PacientesService {
 
   getPacienteById(id: number): Observable<Paciente> {
     return defer(() => {
-      const pacientes = this.getStoredPacientes();
+      // const pacientes = this.getStoredPacientes();
 
-      const paciente = pacientes.find((p) => p.id === id);
+      // const paciente = pacientes.find((p) => p.id === id);
 
-      if (!paciente) {
-        return throwError(
-          () => new Error(`Paciente com id ${id} não encontrado`),
-        );
-      }
+      // if (!paciente) {
+      return throwError(
+        () => new Error(`Paciente com id ${id} não encontrado`),
+      );
+      // }
 
-      return of(paciente);
+      // return of(paciente);
     });
   }
 

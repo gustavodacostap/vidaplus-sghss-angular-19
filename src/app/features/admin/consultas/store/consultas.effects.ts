@@ -28,14 +28,7 @@ export class ConsultasEffects {
       ofType(loadConsultas),
       switchMap(() =>
         this.service.getConsultas().pipe(
-          map((consultas) => {
-            if (!consultas) {
-              console.log('Nenhuma consulta');
-            } else {
-              console.table(consultas);
-            }
-            return loadConsultasSuccess({ consultas });
-          }),
+          map((consultas) => loadConsultasSuccess({ consultas })),
           catchError((err) =>
             of(
               loadConsultasFailure(),

@@ -5,6 +5,7 @@ import { Consulta } from '../models/Consulta.model';
 import { ConsultaCardItem } from '../models/ConsultaCardItem.model';
 import { PacientesService } from '../../pacientes/services/pacientes.service';
 import { ProfissionaisService } from '../../profissionais/services/profissionais.service';
+import { UnidadesService } from '../../unidades/services/unidades.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class ConsultasService {
 
   private pacientesService = inject(PacientesService);
   private profissionaisService = inject(ProfissionaisService);
+  private unidadesService = inject(UnidadesService);
 
   private getStoredConsultas(): Consulta[] {
     return this.storage.get<Consulta[]>(this.STORAGE_KEY) ?? [];
@@ -37,9 +39,12 @@ export class ConsultasService {
             profissional: this.profissionaisService.getProfissionalById(
               consulta.idProfissional,
             ),
+            unidade: this.unidadesService.getUnidadeById(consulta.unidadeId),
           }).pipe(
-            map(({ paciente, profissional }) => ({
+            map(({ paciente, profissional, unidade }) => ({
               consultaId: consulta.id,
+              unidadeId: consulta.unidadeId,
+              unidadeNome: unidade.nome,
               nomePaciente: paciente.nome,
               nomeProfissional: profissional.nome,
               especialidade: consulta.especialidade,

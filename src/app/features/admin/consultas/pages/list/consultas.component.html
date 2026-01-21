@@ -1,11 +1,14 @@
-<section aria-labelledby="page-title" class="lg:flex lg:flex-row-reverse">
+<section class="lg:flex lg:flex-row-reverse lg:gap-6">
   <!-- FILTROS -->
-  <section aria-label="Filtros de pacientes" class="mb-2">
-    <h1 class="text-2xl mb-2" id="page-title">Filtro</h1>
+  <aside class="mb-4 lg:mb-0 lg:w-70">
+    <h2 class="text-2xl mb-3">Filtros</h2>
 
-    <form role="search" class="flex flex-col gap-3">
-      <mat-form-field class="w-full">
-        <mat-label>Filtrar por profissional</mat-label>
+    <form
+      role="search"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-1 gap-3"
+    >
+      <mat-form-field>
+        <mat-label>Nome do profissional</mat-label>
         <input
           matInput
           type="search"
@@ -13,8 +16,9 @@
           placeholder="Digite o nome"
         />
       </mat-form-field>
-      <mat-form-field class="w-full">
-        <mat-label>Filtrar por paciente</mat-label>
+
+      <mat-form-field>
+        <mat-label>Nome do paciente</mat-label>
         <input
           matInput
           type="search"
@@ -23,14 +27,9 @@
         />
       </mat-form-field>
 
-      <mat-form-field class="w-full">
+      <mat-form-field>
         <mat-label>Unidade</mat-label>
-        <input
-          type="text"
-          matInput
-          [formControl]="unidadeCtrl"
-          [matAutocomplete]="auto"
-        />
+        <input matInput [formControl]="unidadeCtrl" [matAutocomplete]="auto" />
         <mat-autocomplete
           #auto="matAutocomplete"
           [displayWith]="displayUnidade"
@@ -40,14 +39,24 @@
           }
         </mat-autocomplete>
       </mat-form-field>
-    </form>
-  </section>
-  <div class="w-full">
-    <div class="flex flex-col lg:flex-row lg:justify-between">
-      <h1 class="text-2xl mb-2" id="page-title">Consultas</h1>
 
+      <mat-form-field>
+        <mat-label>Data</mat-label>
+        <input matInput [matDatepicker]="picker" [formControl]="dataCtrl" />
+        <mat-datepicker-toggle matIconSuffix [for]="picker" />
+        <mat-datepicker #picker [touchUi]="isMobile | async"></mat-datepicker>
+      </mat-form-field>
+    </form>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <section class="flex flex-col gap-4 w-full">
+    <header class="flex justify-between">
+      <h1 class="text-2xl">Consultas</h1>
+
+      <!-- FAB -->
       <div
-        class="fixed right-4 bottom-4 z-50 sm:max-lg:hidden lg:static lg:right-auto lg:bottom-auto lg:z-auto"
+        class="fixed right-4 bottom-4 z-3 sm:static sm:right-auto sm:bottom-auto sm:z-auto"
       >
         <button
           mat-fab
@@ -57,37 +66,62 @@
           <mat-icon>add</mat-icon>
         </button>
       </div>
-    </div>
+    </header>
 
+    <!-- LISTA -->
     <section
       aria-label="Lista de consultas"
-      class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+      class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4"
     >
-      @for (consulta of consultas(); track consulta) {
-        <mat-card>
-          <mat-card-content class="flex-col gap-3">
-            <div class="flex items-center gap-2">
-              <mat-icon class="icon-primary">medical_services</mat-icon>
-              <p>
-                Dr(a). {{ consulta.nomeProfissional }} -
-                {{ consulta.especialidade }}
-              </p>
-            </div>
-            <div class="flex items-center gap-2">
-              <mat-icon class="icon-primary">person</mat-icon>
-              <p>Paciente {{ consulta.nomePaciente }}</p>
-            </div>
-            <div class="flex items-center gap-2">
-              <mat-icon class="icon-primary">schedule</mat-icon>
-              <p>{{ consulta.dataHoraConsulta | dataHora }}</p>
-            </div>
-          </mat-card-content>
-          <mat-card-actions align="end" class="gap-4">
-            <button mat-stroked-button class="w-full">Cancelar</button>
-            <button mat-flat-button class="w-full">Reagendar</button>
-          </mat-card-actions>
-        </mat-card>
+      @for (consulta of consultasFiltradas(); track consulta) {
+        <article>
+          <mat-card>
+            <mat-card-content class="flex flex-col gap-3">
+              <div class="flex items-center gap-2">
+                <mat-icon class="icon-primary">medical_services</mat-icon>
+                <p>
+                  Dr(a). {{ consulta.nomeProfissional }} –
+                  {{ consulta.especialidade }}
+                </p>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <mat-icon class="icon-primary">person</mat-icon>
+                <p>Paciente {{ consulta.nomePaciente }}</p>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <mat-icon class="icon-primary">schedule</mat-icon>
+                <p>{{ consulta.dataHoraConsulta | dataHora }}</p>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <mat-icon class="icon-primary">location_on</mat-icon>
+                <p>{{ consulta.unidadeNome }}</p>
+              </div>
+            </mat-card-content>
+
+            <mat-card-actions align="end" class="gap-4">
+              <button mat-stroked-button class="w-full">Cancelar</button>
+              <button mat-flat-button class="w-full">Reagendar</button>
+            </mat-card-actions>
+          </mat-card>
+        </article>
+      }
+
+      @if (error()) {
+        <p class="col-span-full text-center">
+          Não é possível visualizar as consultas.
+        </p>
+      } @else if (loading()) {
+        <div class="col-span-full text-center">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
+      } @else if (consultasFiltradas().length === 0) {
+        <p class="col-span-full text-center">
+          Nenhuma consulta encontrada com esse filtro.
+        </p>
       }
     </section>
-  </div>
+  </section>
 </section>

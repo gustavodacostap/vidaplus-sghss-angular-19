@@ -31,4 +31,20 @@ export class UnidadesService {
       return of(unidades);
     });
   }
+
+  getUnidadeById(id: number): Observable<Unidade> {
+    return defer(() => {
+      const unidades = this.getStoredUnidades();
+
+      const unidade = unidades.find((p) => p.id == id);
+
+      if (!unidade) {
+        return throwError(
+          () => new Error(`Unidade com id ${id} não encontrado`),
+        );
+      }
+
+      return of(unidade);
+    });
+  }
 }
