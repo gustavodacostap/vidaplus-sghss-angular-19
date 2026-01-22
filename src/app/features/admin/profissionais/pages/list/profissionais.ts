@@ -46,6 +46,7 @@ import {
 import { SelectOption } from '../../../../../shared/interfaces/SelectOption.model';
 import { EditEspecialidadeDialogComponent } from '../../dialogs/edit-especialidade-dialog/edit-especialidade-dialog.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { NewEspecialidadeDialogComponent } from '../../dialogs/new-especialidade-dialog/new-especialidade-dialog.component';
 
 type ProfissionalColumn = 'nome' | 'crm' | 'especialidade' | 'unidadeNome';
 type EspecialidadeColumn = 'nome' | 'ativa';
@@ -225,6 +226,12 @@ export class ProfissionaisComponent
     this.dialog.open(EditEspecialidadeDialogComponent, {
       width: '600px',
       data: especialidade,
+    });
+  }
+
+  newEspecialidade() {
+    this.dialog.open(NewEspecialidadeDialogComponent, {
+      width: '600px',
     });
   }
 

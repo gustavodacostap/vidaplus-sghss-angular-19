@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Especialidade } from '../models/Especialidade.model';
 import { UpdateEspecialidadeDTO } from '../dto/UpdateEspecialidade.dto';
+import { CreateEspecialidadeDTO } from '../dto/CreateEspecialidade.dto';
 
 export const loadEspecialidades = createAction('[Especialidades] Load');
 
@@ -24,4 +25,17 @@ export const updateEspecialidadeSuccess = createAction(
 
 export const updateEspecialidadeFailure = createAction(
   '[Especialidade Edit] Update Especialidade Failure',
+);
+
+export const createEspecialidade = createAction(
+  '[Especialidade] Create',
+  props<{ dto: CreateEspecialidadeDTO }>(),
+);
+
+export const createEspecialidadeSuccess = createAction(
+  '[Especialidade] Create Success',
+);
+
+export const createEspecialidadeFailure = createAction(
+  '[Especialidade] Create Failure',
 );

@@ -3,6 +3,7 @@ import { StorageService } from '../../../../core/storage/services/storage.servic
 import { Especialidade } from '../models/Especialidade.model';
 import { defer, Observable, of, throwError } from 'rxjs';
 import { UpdateEspecialidadeDTO } from '../dto/UpdateEspecialidade.dto';
+import { CreateEspecialidadeDTO } from '../dto/CreateEspecialidade.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -69,6 +70,16 @@ export class EspecialidadesService {
         this.STORAGE_KEY,
         updatedEspecialidade,
       );
+
+      return of(void 0);
+    });
+  }
+
+  addEspecialidade(dto: CreateEspecialidadeDTO): Observable<void> {
+    return defer(() => {
+      this.storage.add<CreateEspecialidadeDTO>(this.STORAGE_KEY, {
+        ...dto,
+      });
 
       return of(void 0);
     });

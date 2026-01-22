@@ -2,6 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 import {
+  createEspecialidade,
+  createEspecialidadeFailure,
+  createEspecialidadeSuccess,
   loadEspecialidades,
   loadEspecialidadesFailure,
   loadEspecialidadesSuccess,
@@ -58,6 +61,26 @@ export class EspecialidadesEffects {
               updateEspecialidadeFailure(),
               showSnackbar({
                 message: 'Erro ao atualizar especialidade. Tente novamente.',
+                logMessage: err.toString(),
+              }),
+            ),
+          ),
+        ),
+      ),
+    );
+  });
+
+  createEspecialidade$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(createEspecialidade),
+      switchMap(() =>
+        this.service.addEspecialidade().pipe(
+          map(() => createEspecialidadeSuccess()),
+          catchError((err) =>
+            of(
+              createEspecialidadeFailure(),
+              showSnackbar({
+                message: 'Erro ao criar especialidade',
                 logMessage: err.toString(),
               }),
             ),
