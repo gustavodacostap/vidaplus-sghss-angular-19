@@ -10,8 +10,7 @@ export interface EspecialidadesState {
   criar: {
     status: AsyncStatus;
   };
-  edit: {
-    especialidade: Especialidade | null;
+  update: {
     status: AsyncStatus;
   };
 }
@@ -24,8 +23,7 @@ export const initialEspecialidadesState: EspecialidadesState = {
   criar: {
     status: successStatus(),
   },
-  edit: {
-    especialidade: null,
+  update: {
     status: successStatus(),
   },
 };

@@ -45,4 +45,34 @@ export const especialidadesReducer = createReducer(
       },
     }),
   ),
+
+  on(
+    actions.updateEspecialidade,
+    (state): EspecialidadesState => ({
+      ...state,
+      update: {
+        status: loadingStatus(),
+      },
+    }),
+  ),
+
+  on(
+    actions.updateEspecialidadeSuccess,
+    (state): EspecialidadesState => ({
+      ...state,
+      update: {
+        status: successStatus(),
+      },
+    }),
+  ),
+
+  on(
+    actions.updateEspecialidadeFailure,
+    (state): EspecialidadesState => ({
+      ...state,
+      update: {
+        status: errorStatus(),
+      },
+    }),
+  ),
 );

@@ -2,9 +2,8 @@ import { Component, effect, inject, Signal, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { ProfissionalComUnidade } from '../../../models/ProfisisonalComUnidade.model';
 import {
-  selectProfissionalComUnidade,
+  selectProfissionalComNomes,
   selectProfissionalError,
 } from '../../../store/profissionais.selectors';
 import { celularValidator } from '../../../../../../shared/utils/validatorsFn.utils';
@@ -35,6 +34,7 @@ import { SelectOption } from '../../../../../../shared/interfaces/SelectOption.m
 import { selectUnidadesForOptions } from '../../../../unidades/store/unidades.selectors';
 import { Especialidade } from '../../../../especialidades/models/Especialidade.model';
 import { selectEspecialidades } from '../../../../especialidades/store/especialidades.selectors';
+import { ProfissionalComNomes } from '../../../models/ProfissionalComNomes.model';
 
 @Component({
   selector: 'app-profissional-edit',
@@ -61,8 +61,8 @@ export class ProfissionalEditComponent implements OnInit {
   private store = inject(Store);
   private fb = inject(FormBuilder);
 
-  profissional: Signal<ProfissionalComUnidade | null> = this.store.selectSignal(
-    selectProfissionalComUnidade,
+  profissional: Signal<ProfissionalComNomes | null> = this.store.selectSignal(
+    selectProfissionalComNomes,
   );
 
   profissionalId!: number;
@@ -77,7 +77,7 @@ export class ProfissionalEditComponent implements OnInit {
 
   // STEP 2 – Dados clínicos
   dadosProfissionaisForm = this.fb.nonNullable.group({
-    especialidade: this.fb.control<string | Especialidade>(
+    especialidade: this.fb.control<string | SelectOption>(
       '',
       Validators.required,
     ),
@@ -151,9 +151,8 @@ export class ProfissionalEditComponent implements OnInit {
 
       this.dadosProfissionaisForm.patchValue({
         especialidade: {
-          id: profissional.especialidade.id,
-          nome: profissional.especialidade.nome,
-          ativa: profissional.especialidade.ativa,
+          id: profissional.especialidadeId,
+          nome: profissional.especialidadeNome,
         },
         unidade: { id: profissional.unidadeId, nome: profissional.unidadeNome },
       });
@@ -232,7 +231,7 @@ export class ProfissionalEditComponent implements OnInit {
     const dto: UpdateProfissionalDTO = {
       ...dadosPessoais,
       UFcrm,
-      especialidade: especialidade,
+      especialidadeId: especialidade.id,
       unidadeId: unidade.id,
     };
     this.store.dispatch(

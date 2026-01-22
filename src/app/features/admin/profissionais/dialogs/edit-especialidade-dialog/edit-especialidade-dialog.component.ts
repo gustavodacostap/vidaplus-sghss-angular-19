@@ -13,6 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
+import { Store } from '@ngrx/store';
+import { updateEspecialidade } from '../../../especialidades/store/especialidades.actions';
 
 @Component({
   selector: 'app-edit-especialidade-dialog',
@@ -32,8 +34,9 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class EditEspecialidadeDialogComponent implements OnInit {
   private dialogRef = inject(MatDialogRef<EditEspecialidadeDialogComponent>);
-  readonly data = inject<Especialidade>(MAT_DIALOG_DATA);
+  private store = inject(Store);
   private fb = inject(FormBuilder);
+  readonly data = inject<Especialidade>(MAT_DIALOG_DATA);
 
   form = this.fb.nonNullable.group({
     nome: ['', Validators.required],
@@ -41,7 +44,7 @@ export class EditEspecialidadeDialogComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.form.patchValue({
+    this.form.setValue({
       nome: this.data.nome,
       ativa: this.data.ativa,
     });
@@ -49,5 +52,13 @@ export class EditEspecialidadeDialogComponent implements OnInit {
 
   close(): void {
     this.dialogRef.close();
+  }
+  updateEspecialidade() {
+    const formValue = this.form.getRawValue();
+
+    this.store.dispatch(
+      updateEspecialidade({ id: this.data.id, dto: formValue }),
+    );
+    this.close();
   }
 }

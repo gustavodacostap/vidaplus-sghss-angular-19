@@ -1,7 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ProfissionaisState } from './profissionais.state';
 import { selectUnidadesEntities } from '../../unidades/store/unidades.selectors';
-import { ProfissionalComUnidade } from '../models/ProfisisonalComUnidade.model';
+import { selectEspecialidadesEntities } from '../../especialidades/store/especialidades.selectors';
+import { ProfissionalComNomes } from '../models/ProfissionalComNomes.model';
 
 export const selectProfissionaisState =
   createFeatureSelector<ProfissionaisState>('profissionais');
@@ -59,15 +60,20 @@ export const selectProfissionaisComUnidade = createSelector(
     })),
 );
 
-export const selectProfissionalComUnidade = createSelector(
+export const selectProfissionalComNomes = createSelector(
   selectProfissional,
+  selectEspecialidadesEntities,
   selectUnidadesEntities,
-  (profissional, unidades): ProfissionalComUnidade | null => {
+  (profissional, especialidades, unidades): ProfissionalComNomes | null => {
     if (!profissional) return null;
+
+    const especialidade = especialidades[profissional.especialidadeId];
+    const unidade = unidades[profissional.unidadeId];
 
     return {
       ...profissional,
-      unidadeNome: unidades[profissional.unidadeId]?.nome ?? '—',
+      especialidadeNome: especialidade?.nome ?? '',
+      unidadeNome: unidade?.nome ?? '',
     };
   },
 );

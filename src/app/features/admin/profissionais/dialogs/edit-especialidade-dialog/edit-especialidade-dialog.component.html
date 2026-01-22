@@ -13,5 +13,11 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="close()">Cancelar</button>
-  <button mat-flat-button [disabled]="form.invalid">Salvar</button>
+  <button
+    mat-flat-button
+    [disabled]="form.invalid"
+    (click)="updateEspecialidade()"
+  >
+    Salvar
+  </button>
 </mat-dialog-actions>

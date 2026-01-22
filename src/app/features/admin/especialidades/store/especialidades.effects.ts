@@ -5,9 +5,13 @@ import {
   loadEspecialidades,
   loadEspecialidadesFailure,
   loadEspecialidadesSuccess,
+  updateEspecialidade,
+  updateEspecialidadeFailure,
+  updateEspecialidadeSuccess,
 } from './especialidades.actions';
 import { EspecialidadesService } from '../services/especialidades.service';
 import { showSnackbar } from '../../../../core/ui/store/ui.actions';
+import { loadProfissionais } from '../../profissionais/store/profissionais.actions';
 
 @Injectable()
 export class EspecialidadesEffects {
@@ -27,6 +31,33 @@ export class EspecialidadesEffects {
               loadEspecialidadesFailure(),
               showSnackbar({
                 message: 'Erro ao carregar dados das especialidades',
+                logMessage: err.toString(),
+              }),
+            ),
+          ),
+        ),
+      ),
+    );
+  });
+
+  updateEspecialidade$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(updateEspecialidade),
+      switchMap(({ id, dto }) =>
+        this.service.updateEspecialidade(id, dto).pipe(
+          switchMap(() => [
+            updateEspecialidadeSuccess(),
+            loadEspecialidades(),
+            loadProfissionais(),
+            showSnackbar({
+              message: 'Especialidade atualizada com sucesso',
+            }),
+          ]),
+          catchError((err) =>
+            of(
+              updateEspecialidadeFailure(),
+              showSnackbar({
+                message: 'Erro ao atualizar especialidade. Tente novamente.',
                 logMessage: err.toString(),
               }),
             ),

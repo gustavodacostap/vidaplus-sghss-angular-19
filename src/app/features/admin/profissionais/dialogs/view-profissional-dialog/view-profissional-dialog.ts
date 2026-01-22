@@ -9,7 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import {
-  selectProfissionalComUnidade,
+  selectProfissionalComNomes,
   selectProfissionalError,
   selectProfissionalLoading,
 } from '../../store/profissionais.selectors';
@@ -18,8 +18,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
-import { ProfissionalComUnidade } from '../../models/ProfisisonalComUnidade.model';
 import { CelularPipe } from '../../../../../shared/pipes/celular.pipe';
+import { ProfissionalComNomes } from '../../models/ProfissionalComNomes.model';
 
 export interface ViewProfissionalDialogData {
   profissionalId: number;
@@ -46,8 +46,8 @@ export class ViewProfissionalDialog implements OnInit {
   private router = inject(Router);
   readonly data = inject<ViewProfissionalDialogData>(MAT_DIALOG_DATA);
 
-  profissional: Signal<ProfissionalComUnidade | null> = this.store.selectSignal(
-    selectProfissionalComUnidade,
+  profissional: Signal<ProfissionalComNomes | null> = this.store.selectSignal(
+    selectProfissionalComNomes,
   );
   loading: Signal<boolean> = this.store.selectSignal(selectProfissionalLoading);
   error: Signal<boolean> = this.store.selectSignal(selectProfissionalError);
@@ -68,7 +68,9 @@ export class ViewProfissionalDialog implements OnInit {
   }
 
   navigateToEdit() {
-    this.router.navigate([`admin/profissionais/edit/${this.data.profissionalId}`]);
+    this.router.navigate([
+      `admin/profissionais/edit/${this.data.profissionalId}`,
+    ]);
     this.close();
   }
 }

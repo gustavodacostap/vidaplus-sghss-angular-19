@@ -25,12 +25,12 @@ export class AuthService {
   private readonly ESPECIALIDADES_KEY = 'especialidades';
 
   constructor() {
-    this.createMockProfissionais();
-    this.createMockUsers();
-    this.createMockUnidades();
-    this.createMockPacientes();
-    this.createMockConsultas();
-    this.createMockEspecialidades();
+    // this.createMockProfissionais();
+    // this.createMockUsers();
+    // this.createMockUnidades();
+    // this.createMockPacientes();
+    // this.createMockConsultas();
+    // this.createMockEspecialidades();
   }
 
   login(email: string, password: string): Observable<User> {
@@ -151,11 +151,7 @@ export class AuthService {
         celular: '11999999999',
         email: 'joao.silva@email.com',
         unidadeId: 1,
-        especialidade: {
-          id: 1,
-          nome: 'Cardiologia',
-          ativa: true,
-        },
+        especialidadeId: 1,
       },
       {
         id: 2,
@@ -166,11 +162,7 @@ export class AuthService {
         celular: '21988887777',
         email: 'maria.oliveira@email.com',
         unidadeId: 1,
-        especialidade: {
-          id: 2,
-          nome: 'Pediatria',
-          ativa: true,
-        },
+        especialidadeId: 2,
       },
       {
         id: 3,
@@ -181,11 +173,7 @@ export class AuthService {
         celular: '31977776666',
         email: 'carlos.santos@email.com',
         unidadeId: 2,
-        especialidade: {
-          id: 3,
-          nome: 'Ortopedia',
-          ativa: true,
-        },
+        especialidadeId: 3,
       },
     ];
 

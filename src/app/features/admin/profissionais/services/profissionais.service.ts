@@ -2,8 +2,10 @@ import { inject, Injectable } from '@angular/core';
 import { StorageService } from '../../../../core/storage/services/storage.service';
 import { Profissional } from '../models/Profissional.model';
 import { ProfissionalListItem } from '../models/ProfissionalListItem.model';
-import { defer, Observable, of, throwError } from 'rxjs';
+import { defer, forkJoin, map, Observable, of, throwError } from 'rxjs';
 import { UpdateProfissionalDTO } from '../dto/UpdateProfissional.dto';
+import { EspecialidadesService } from '../../especialidades/services/especialidades.service';
+import { UnidadesService } from '../../unidades/services/unidades.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +13,8 @@ import { UpdateProfissionalDTO } from '../dto/UpdateProfissional.dto';
 export class ProfissionaisService {
   private readonly STORAGE_KEY = 'profissionais';
   private storage = inject(StorageService);
+  private especialidadesService = inject(EspecialidadesService);
+  private unidadesService = inject(UnidadesService);
 
   private getStoredProfissionais(): Profissional[] {
     const data = this.storage.get<Profissional[]>(this.STORAGE_KEY);
@@ -23,27 +27,32 @@ export class ProfissionaisService {
   }
 
   getProfissionaisTable(): Observable<ProfissionalListItem[]> {
-    return defer(() => {
-      const profissionais = this.getStoredProfissionais();
+    const profissionais = this.getStoredProfissionais();
 
-      const listItems: ProfissionalListItem[] = profissionais.map((p) => ({
-        id: p.id,
-        nome: p.nome,
-        unidadeId: p.unidadeId,
-        unidadeNome: '',
-        crm: p.crm,
-        UFcrm: p.UFcrm,
-        especialidade: p.especialidade,
-      }));
+    if (!profissionais.length) {
+      return of([]);
+    }
 
-      if (!listItems) {
-        return throwError(
-          () => new Error(`Erro ao buscar dados dos profissionais`),
-        );
-      }
-
-      return of(listItems);
-    });
+    return forkJoin(
+      profissionais.map((p) =>
+        forkJoin({
+          especialidade: this.especialidadesService.getEspecialidadeById(
+            p.especialidadeId,
+          ),
+          unidade: this.unidadesService.getUnidadeById(p.unidadeId),
+        }).pipe(
+          map(({ especialidade, unidade }) => ({
+            id: p.id,
+            nome: p.nome,
+            unidadeId: p.unidadeId,
+            unidadeNome: unidade.nome,
+            crm: p.crm,
+            UFcrm: p.UFcrm,
+            especialidade,
+          })),
+        ),
+      ),
+    );
   }
 
   getProfissionalById(id: number): Observable<Profissional> {
