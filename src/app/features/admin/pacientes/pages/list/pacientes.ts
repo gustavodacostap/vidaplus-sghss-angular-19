@@ -4,7 +4,7 @@ import {
   AfterViewInit,
   inject,
   OnInit,
-  OnDestroy,
+  DestroyRef,
 } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,7 +18,7 @@ import {
   selectPacientesError,
   selectPacientesLoading,
 } from '../../store/pacientes.selectors';
-import { combineLatest, startWith, Subject, takeUntil } from 'rxjs';
+import { combineLatest, startWith } from 'rxjs';
 import { PacienteListItem } from '../../models/PacienteListItem.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -31,6 +31,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { USDateToBR } from '../../../../../shared/utils/date.utils';
 import { NgxMaskDirective } from 'ngx-mask';
 import { formatCpf } from '../../../../../shared/utils/field-formatters.util';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 type PacienteColumn = keyof Pick<
   PacienteListItem,
@@ -55,9 +56,9 @@ type PacienteColumn = keyof Pick<
   templateUrl: './pacientes.html',
   styleUrl: './pacientes.scss',
 })
-export class PacientesComponent implements AfterViewInit, OnInit, OnDestroy {
+export class PacientesComponent implements AfterViewInit, OnInit {
   private store = inject(Store);
-  private destroyed$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
   private dialog = inject(MatDialog);
   private router = inject(Router);
 
@@ -97,7 +98,7 @@ export class PacientesComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.store
       .select(selectPacientes)
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((pacientes) => {
         this.dataSource.data = pacientes;
       });
@@ -115,7 +116,7 @@ export class PacientesComponent implements AfterViewInit, OnInit, OnDestroy {
       this.nomeCtrl.valueChanges.pipe(startWith('')),
       this.cpfCtrl.valueChanges.pipe(startWith('')),
     ])
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(([nome, cpf]) => {
         this.dataSource.filter = JSON.stringify({
           nome: nome ?? '',
@@ -146,10 +147,5 @@ export class PacientesComponent implements AfterViewInit, OnInit, OnDestroy {
     const value = row[column];
 
     return formatter ? formatter(value, row) : String(value ?? '');
-  }
-
-  ngOnDestroy() {
-    this.destroyed$.next();
-    this.destroyed$.complete();
   }
 }

@@ -19,3 +19,13 @@ export const selectConsultasError = createSelector(
   selectConsultasState,
   (s) => s.list.status.error,
 );
+
+export const selectCreateConsultaLoading = createSelector(
+  selectConsultasState,
+  (s) => s.create.status.loading,
+);
+
+export const selectCreateConsultaError = createSelector(
+  selectConsultasState,
+  (s) => s.create.status.error,
+);

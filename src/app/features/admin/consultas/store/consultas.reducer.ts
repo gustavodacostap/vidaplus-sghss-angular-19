@@ -1,10 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { ConsultasState, initialConsultasState } from './consultas.state';
-import {
-  loadConsultas,
-  loadConsultasFailure,
-  loadConsultasSuccess,
-} from './consultas.actions';
+import * as actions from './consultas.actions';
 import {
   errorStatus,
   loadingStatus,
@@ -15,7 +11,7 @@ export const consultasReducer = createReducer(
   initialConsultasState,
 
   on(
-    loadConsultas,
+    actions.loadConsultas,
     (state): ConsultasState => ({
       ...state,
       list: {
@@ -26,7 +22,7 @@ export const consultasReducer = createReducer(
   ),
 
   on(
-    loadConsultasSuccess,
+    actions.loadConsultasSuccess,
     (state, { consultas }): ConsultasState => ({
       ...state,
       list: {
@@ -37,11 +33,41 @@ export const consultasReducer = createReducer(
   ),
 
   on(
-    loadConsultasFailure,
+    actions.loadConsultasFailure,
     (state): ConsultasState => ({
       ...state,
       list: {
         ...state.list,
+        status: errorStatus(),
+      },
+    }),
+  ),
+
+  on(
+    actions.createConsulta,
+    (state): ConsultasState => ({
+      ...state,
+      create: {
+        status: loadingStatus(),
+      },
+    }),
+  ),
+
+  on(
+    actions.createConsultaSuccess,
+    (state): ConsultasState => ({
+      ...state,
+      create: {
+        status: successStatus(),
+      },
+    }),
+  ),
+
+  on(
+    actions.createConsultaFailure,
+    (state): ConsultasState => ({
+      ...state,
+      create: {
         status: errorStatus(),
       },
     }),

@@ -6,6 +6,8 @@ import { ConsultaCardItem } from '../models/ConsultaCardItem.model';
 import { PacientesService } from '../../pacientes/services/pacientes.service';
 import { ProfissionaisService } from '../../profissionais/services/profissionais.service';
 import { UnidadesService } from '../../unidades/services/unidades.service';
+import { EspecialidadesService } from '../../especialidades/services/especialidades.service';
+import { CreateConsultaDTO } from '../dto/CreateConsulta.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +19,7 @@ export class ConsultasService {
   private pacientesService = inject(PacientesService);
   private profissionaisService = inject(ProfissionaisService);
   private unidadesService = inject(UnidadesService);
+  private especialidadesService = inject(EspecialidadesService);
 
   private getStoredConsultas(): Consulta[] {
     return this.storage.get<Consulta[]>(this.STORAGE_KEY) ?? [];
@@ -30,29 +33,75 @@ export class ConsultasService {
         return of([]);
       }
 
-      return forkJoin(
-        consultas.map((consulta) =>
-          forkJoin({
-            paciente: this.pacientesService.getPacienteById(
-              consulta.idPaciente,
-            ),
-            profissional: this.profissionaisService.getProfissionalById(
-              consulta.idProfissional,
-            ),
-            unidade: this.unidadesService.getUnidadeById(consulta.unidadeId),
-          }).pipe(
-            map(({ paciente, profissional, unidade }) => ({
-              consultaId: consulta.id,
-              unidadeId: consulta.unidadeId,
-              unidadeNome: unidade.nome,
-              nomePaciente: paciente.nome,
-              nomeProfissional: profissional.nome,
-              especialidade: consulta.especialidade,
-              dataHoraConsulta: consulta.dataHoraConsulta,
-            })),
-          ),
-        ),
-      );
+      return forkJoin(consultas.map((c) => this.buildConsultaCard(c)));
     });
+  }
+
+  addConsulta(dto: CreateConsultaDTO): Observable<void> {
+    return defer(() => {
+      this.storage.add<CreateConsultaDTO>(this.STORAGE_KEY, {
+        ...dto,
+      });
+
+      return of(void 0);
+    });
+  }
+
+  private getConsultaRequests(consulta: Consulta) {
+    const baseRequests = {
+      paciente: this.pacientesService.getPacienteById(consulta.pacienteId),
+      profissional: this.profissionaisService.getProfissionalById(
+        consulta.profissionalId,
+      ),
+      especialidade: this.especialidadesService.getEspecialidadeById(
+        consulta.especialidadeId,
+      ),
+    };
+
+    if (consulta.tipo === 'PRESENCIAL') {
+      return {
+        ...baseRequests,
+        unidade: this.unidadesService.getUnidadeById(consulta.unidadeId!),
+      };
+    }
+
+    return baseRequests;
+  }
+
+  private buildConsultaCard(consulta: Consulta): Observable<ConsultaCardItem> {
+    return forkJoin(this.getConsultaRequests(consulta)).pipe(
+      map((response) => this.mapToConsultaCardItem(consulta, response)),
+    );
+  }
+
+  private mapToConsultaCardItem(
+    consulta: Consulta,
+    response: any,
+  ): ConsultaCardItem {
+    const { paciente, profissional, especialidade } = response;
+
+    if (consulta.tipo === 'PRESENCIAL') {
+      const { unidade } = response;
+
+      return {
+        consultaId: consulta.id,
+        tipo: consulta.tipo,
+        unidadeId: unidade.id,
+        unidadeNome: unidade.nome,
+        paciente: paciente.nome,
+        profissional: profissional.nome,
+        especialidade: especialidade.nome,
+        dataHoraConsulta: consulta.dataHoraConsulta,
+      };
+    }
+
+    return {
+      consultaId: consulta.id,
+      tipo: consulta.tipo,
+      paciente: paciente.nome,
+      profissional: profissional.nome,
+      especialidade: especialidade.nome,
+      dataHoraConsulta: consulta.dataHoraConsulta,
+    };
   }
 }

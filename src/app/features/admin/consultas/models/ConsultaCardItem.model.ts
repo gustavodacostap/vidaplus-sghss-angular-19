@@ -1,9 +1,12 @@
+import { TipoConsulta } from './Consulta.model';
+
 export interface ConsultaCardItem {
   consultaId: number;
-  unidadeId: number;
-  unidadeNome: string;
-  nomeProfissional: string;
-  nomePaciente: string;
+  tipo: TipoConsulta;
+  unidadeId?: number;
+  unidadeNome?: string;
+  profissional: string;
+  paciente: string;
   especialidade: string;
   dataHoraConsulta: string;
 }

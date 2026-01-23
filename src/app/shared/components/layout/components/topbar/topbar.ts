@@ -5,8 +5,8 @@ import {
   Output,
   signal,
   OnInit,
-  OnDestroy,
   computed,
+  DestroyRef,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -15,9 +15,10 @@ import { ProfileMenuComponent } from '../profile-menu/profile-menu';
 import { LogoComponent } from '../../../logo/logo';
 import { TopbarService } from '../../../../../core/ui/services/topbar.service';
 import { MatButtonModule } from '@angular/material/button';
-import { map, Subject, takeUntil } from 'rxjs';
+import { map } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-topbar',
@@ -32,10 +33,10 @@ import { Router } from '@angular/router';
   templateUrl: './topbar.html',
   styleUrl: './topbar.scss',
 })
-export class TopbarComponent implements OnInit, OnDestroy {
+export class TopbarComponent implements OnInit {
   config = inject(TopbarService).getConfig();
 
-  private destroyed$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
   private breakpointObserver = inject(BreakpointObserver);
   private router = inject(Router);
 
@@ -64,7 +65,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
       .observe([Breakpoints.XSmall])
       .pipe(
         map((result) => result.matches),
-        takeUntil(this.destroyed$),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((isMobile) => {
         this.isMobile.set(isMobile);
@@ -79,10 +80,5 @@ export class TopbarComponent implements OnInit, OnDestroy {
     } else {
       console.error('returnLink não informado no objeto data da rota');
     }
-  }
-
-  ngOnDestroy() {
-    this.destroyed$.next();
-    this.destroyed$.complete();
   }
 }

@@ -25,12 +25,12 @@ export class AuthService {
   private readonly ESPECIALIDADES_KEY = 'especialidades';
 
   constructor() {
-    // this.createMockProfissionais();
-    // this.createMockUsers();
-    // this.createMockUnidades();
-    // this.createMockPacientes();
-    // this.createMockConsultas();
-    // this.createMockEspecialidades();
+    this.createMockProfissionais();
+    this.createMockUsers();
+    this.createMockUnidades();
+    this.createMockPacientes();
+    this.createMockConsultas();
+    this.createMockEspecialidades();
   }
 
   login(email: string, password: string): Observable<User> {
@@ -233,35 +233,47 @@ export class AuthService {
     const mockConsultas: Consulta[] = [
       {
         id: 1,
-        idPaciente: 1, // João da Silva
-        idProfissional: 1, // João Silva (Cardiologia)
-        especialidade: 'Cardiologia',
+        tipo: 'PRESENCIAL',
+        pacienteId: 1, // João da Silva
+        profissionalId: 1, // João Silva (Cardiologia)
+        especialidadeId: 1,
         unidadeId: 1, // Unidade Central
         dataHoraConsulta: '2026-03-20T09:00:00',
       },
       {
         id: 2,
-        idPaciente: 2, // Maria Oliveira
-        idProfissional: 2, // Maria Oliveira (Pediatria)
-        especialidade: 'Pediatria',
+        tipo: 'PRESENCIAL',
+        pacienteId: 2, // Maria Oliveira
+        profissionalId: 2, // Maria Oliveira (Pediatria)
+        especialidadeId: 2,
         unidadeId: 1,
         dataHoraConsulta: '2026-03-21T14:30:00',
       },
       {
         id: 3,
-        idPaciente: 3, // Carlos Pereira
-        idProfissional: 3, // Carlos Santos (Ortopedia)
-        especialidade: 'Ortopedia',
+        tipo: 'PRESENCIAL',
+        pacienteId: 3, // Carlos Pereira
+        profissionalId: 3, // Carlos Santos (Ortopedia)
+        especialidadeId: 2,
         unidadeId: 2, // Unidade Zona Norte
         dataHoraConsulta: '2026-03-22T16:00:00',
       },
       {
         id: 4,
-        idPaciente: 1,
-        idProfissional: 3,
-        especialidade: 'Ortopedia',
-        unidadeId: 2,
+        tipo: 'TELEMEDICINA',
+        pacienteId: 1,
+        profissionalId: 3,
+        especialidadeId: 3,
         dataHoraConsulta: '2026-03-25T10:15:00',
+      },
+
+      {
+        id: 5,
+        tipo: 'TELEMEDICINA',
+        pacienteId: 2,
+        profissionalId: 3,
+        especialidadeId: 3,
+        dataHoraConsulta: '2026-03-20T10:50:00',
       },
     ];
 

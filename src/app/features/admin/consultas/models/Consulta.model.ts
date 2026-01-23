@@ -1,8 +1,11 @@
+export type TipoConsulta = 'PRESENCIAL' | 'TELEMEDICINA';
+
 export interface Consulta {
   id: number;
-  idPaciente: number;
-  idProfissional: number;
-  especialidade: string;
-  unidadeId: number;
+  tipo: TipoConsulta;
+  pacienteId: number;
+  profissionalId: number;
+  especialidadeId: number;
+  unidadeId?: number;
   dataHoraConsulta: string;
 }

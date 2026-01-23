@@ -8,7 +8,7 @@ export interface ConsultasState {
     consultas: ConsultaCardItem[];
     status: AsyncStatus;
   };
-  criar: {
+  create: {
     status: AsyncStatus;
   };
   reagendar: {
@@ -22,7 +22,7 @@ export const initialConsultasState: ConsultasState = {
     consultas: [],
     status: successStatus(),
   },
-  criar: {
+  create: {
     status: successStatus(),
   },
   reagendar: {

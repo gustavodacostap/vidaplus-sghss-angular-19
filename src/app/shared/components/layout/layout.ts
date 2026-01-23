@@ -3,8 +3,8 @@ import {
   computed,
   inject,
   OnInit,
-  OnDestroy,
   signal,
+  DestroyRef,
 } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {
@@ -20,11 +20,12 @@ import { SessionService } from '../../../core/auth/services/session.service';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { filter, Subject, takeUntil } from 'rxjs';
+import { filter } from 'rxjs';
 import { TopbarService } from '../../../core/ui/services/topbar.service';
 import { Session } from '../../../core/auth/models/Session.model';
 import { ContentPadding, NAV_ITEMS } from './layout.config';
 import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-layout',
@@ -43,13 +44,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './layout.html',
   styleUrl: './layout.scss',
 })
-export class LayoutComponent implements OnInit, OnDestroy {
+export class LayoutComponent implements OnInit {
   private session = inject(SessionService);
   topbarService = inject(TopbarService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  private destroyed$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
 
   isSidenavOpen = computed(() => this.topbarService.isOpen('sidenav'));
 
@@ -60,7 +61,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         const route = this.getDeepestRoute(this.route);
 
@@ -96,10 +97,5 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   onNavItemClick() {
     this.topbarService.close('sidenav');
-  }
-
-  ngOnDestroy() {
-    this.destroyed$.next();
-    this.destroyed$.complete();
   }
 }

@@ -5,6 +5,7 @@ import {
   inject,
   OnInit,
   OnDestroy,
+  DestroyRef,
 } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,14 +13,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
-import {
-  combineLatest,
-  map,
-  Observable,
-  startWith,
-  Subject,
-  takeUntil,
-} from 'rxjs';
+import { combineLatest, map, Observable, startWith } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
@@ -47,6 +41,7 @@ import { SelectOption } from '../../../../../shared/interfaces/SelectOption.mode
 import { EditEspecialidadeDialogComponent } from '../../dialogs/edit-especialidade-dialog/edit-especialidade-dialog.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { NewEspecialidadeDialogComponent } from '../../dialogs/new-especialidade-dialog/new-especialidade-dialog.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 type ProfissionalColumn = 'nome' | 'crm' | 'especialidade' | 'unidadeNome';
 type EspecialidadeColumn = 'nome' | 'ativa';
@@ -70,11 +65,9 @@ type EspecialidadeColumn = 'nome' | 'ativa';
   templateUrl: './profissionais.html',
   styleUrl: './profissionais.scss',
 })
-export class ProfissionaisComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+export class ProfissionaisComponent implements OnInit, AfterViewInit {
   private store = inject(Store);
-  private destroyed$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
   private dialog = inject(MatDialog);
   private router = inject(Router);
 
@@ -146,7 +139,7 @@ export class ProfissionaisComponent
 
     this.store
       .select(selectProfissionaisComUnidade)
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((profissionais) => {
         this.profissionaisDataSource.data = profissionais;
       });
@@ -174,7 +167,7 @@ export class ProfissionaisComponent
       this.nomeCtrl.valueChanges.pipe(startWith('')),
       this.unidadeCtrl.valueChanges.pipe(startWith('')),
     ])
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(([nome, unidadeNome]) => {
         this.profissionaisDataSource.filter = JSON.stringify({
           nome: nome ?? '',
@@ -187,7 +180,7 @@ export class ProfissionaisComponent
     // Especialidades
     this.store
       .select(selectEspecialidades)
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((especialidades) => {
         this.especialidadesDataSource.data = especialidades;
       });
@@ -198,7 +191,7 @@ export class ProfissionaisComponent
     ) => data.nome.toLowerCase().includes(filter.toLowerCase());
 
     this.nomeEspCtrl.valueChanges
-      .pipe(startWith(''), takeUntil(this.destroyed$))
+      .pipe(startWith(''), takeUntilDestroyed(this.destroyRef))
       .subscribe((nome) => {
         this.especialidadesDataSource.filter = nome ?? '';
         this.especialidadesDataSource.paginator?.firstPage();
@@ -249,10 +242,5 @@ export class ProfissionaisComponent
     const value = row[column];
 
     return formatter ? formatter(value, row) : String(value ?? '');
-  }
-
-  ngOnDestroy() {
-    this.destroyed$.next();
-    this.destroyed$.complete();
   }
 }

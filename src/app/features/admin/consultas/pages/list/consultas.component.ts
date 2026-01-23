@@ -23,6 +23,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SelectOption } from '../../../../../shared/interfaces/SelectOption.model';
+import { InfoChipComponent } from '../../../../../shared/components/info-chip/info-chip.component';
 
 @Component({
   selector: 'app-consultas',
@@ -38,6 +39,7 @@ import { SelectOption } from '../../../../../shared/interfaces/SelectOption.mode
     DataHoraPipe,
     MatDatepickerModule,
     MatProgressSpinnerModule,
+    InfoChipComponent,
   ],
   templateUrl: './consultas.component.html',
   styleUrl: './consultas.component.scss',
@@ -80,18 +82,18 @@ export class ConsultasComponent implements OnInit {
     const unidade = this.unidadeFilter();
     const data = this.dataFilter();
 
-    const unidadeId =
-      unidade && typeof unidade === 'object' ? unidade.id : null;
+    const unidadeSelecionada =
+      unidade && typeof unidade === 'object' ? unidade : null;
 
     return consultas.filter((c) => {
       const matchProfissional =
-        !profissional ||
-        c.nomeProfissional.toLowerCase().includes(profissional);
+        !profissional || c.profissional.toLowerCase().includes(profissional);
 
       const matchPaciente =
-        !paciente || c.nomePaciente.toLowerCase().includes(paciente);
+        !paciente || c.paciente.toLowerCase().includes(paciente);
 
-      const matchUnidade = !unidade || c.unidadeId === unidadeId;
+      const matchUnidade =
+        !unidadeSelecionada || c.unidadeId === unidadeSelecionada.id;
 
       const matchData =
         !data ||

@@ -1,4 +1,4 @@
-<div class="px-6 sm:flex sm:flex-row sm:items-center sm:gap-2 hidden">
+<div class="sm:flex sm:flex-row sm:items-center sm:gap-2 hidden">
   <button
     mat-icon-button
     aria-label="Botão voltar"
@@ -10,67 +10,71 @@
   <h1 class="text-2xl mb-2 sm:mb-0" id="page-title">Editar Paciente</h1>
 </div>
 
-<!-- <form [formGroup]=""> -->
-<div class="flex flex-col gap-1">
-  <label for="Tipo de Consulta" class="text-lg font-semibold"
-    >Selecione o tipo de consulta</label
-  >
-
-  <div>
-    <mat-button-toggle-group
-      name="Tipo de Consulta"
-      aria-label="Tipo de Consulta"
+<form [formGroup]="form">
+  <div class="flex flex-col gap-1">
+    <label for="Tipo de Consulta" class="text-lg font-semibold"
+      >Selecione o tipo de consulta</label
     >
-      <mat-button-toggle value="presencial">Presencial</mat-button-toggle>
-      <mat-button-toggle value="telemedicina">Telemedicina</mat-button-toggle>
-    </mat-button-toggle-group>
+
+    <div>
+      <mat-button-toggle-group
+        formControlName="tipo"
+        name="Tipo de Consulta"
+        aria-label="Tipo de Consulta"
+      >
+        <mat-button-toggle value="PRESENCIAL">Presencial</mat-button-toggle>
+        <mat-button-toggle value="TELEMEDICINA">Telemedicina</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
   </div>
-</div>
 
-<!-- <mat-form-field>
-        <mat-label>Paciente</mat-label>
-        <input matInput [formControl]="unidadeCtrl" [matAutocomplete]="auto" />
-        <mat-autocomplete
-          #auto="matAutocomplete"
-          [displayWith]="displayPaciente"
-        >
-          @for (option of filteredUnidades | async; track option) {
-            <mat-option [value]="option">{{ option.nome }}</mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field> -->
+  <mat-form-field>
+    <mat-label>Paciente</mat-label>
+    <input matInput formControlName="paciente" [matAutocomplete]="auto" />
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayPaciente">
+      @for (option of filteredUnidades | async; track option) {
+        <mat-option [value]="option">{{ option.nome }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
 
-<!-- <mat-form-field>
-        <mat-label>Unidade</mat-label>
-        <input matInput [formControl]="unidadeCtrl" [matAutocomplete]="auto" />
-        <mat-autocomplete
-          #auto="matAutocomplete"
-          [displayWith]="displayUnidade"
-        >
-          @for (option of filteredUnidades | async; track option) {
-            <mat-option [value]="option">{{ option.nome }}</mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field> -->
+  <mat-form-field>
+    <mat-label>Especialidade</mat-label>
+    <input matInput formControlName="especialidade" [matAutocomplete]="auto" />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      [displayWith]="displayEspecialidade"
+    >
+      @for (option of filteredEspecialidades | async; track option) {
+        <mat-option [value]="option">{{ option.nome }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
 
-<!-- <mat-form-field>
-        <mat-label>Especialidade</mat-label>
-        <input matInput [formControl]="unidadeCtrl" [matAutocomplete]="auto" />
-        <mat-autocomplete
-          #auto="matAutocomplete"
-          [displayWith]="displayEspecialidade"
-        >
-          @for (option of filteredEspecialidades | async; track option) {
-            <mat-option [value]="option">{{ option.nome }}</mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field> -->
+  <mat-form-field>
+    <mat-label>Unidade</mat-label>
+    <input matInput formControlName="unidade" [matAutocomplete]="auto" />
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayUnidade">
+      @for (option of filteredUnidades | async; track option) {
+        <mat-option [value]="option">{{ option.nome }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
 
-<!-- <mat-form-field>
-        <mat-label>Data</mat-label>
-        <input matInput [matDatepicker]="picker" [formControl]="dataCtrl" />
-        <mat-datepicker-toggle matIconSuffix [for]="picker" />
-        <mat-datepicker #picker [touchUi]="isMobile | async"></mat-datepicker>
-      </mat-form-field> -->
+  <mat-form-field>
+    <mat-label>Profissional</mat-label>
+    <input matInput formControlName="profissional" [matAutocomplete]="auto" />
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayUnidade">
+      @for (option of filteredUnidades | async; track option) {
+        <mat-option [value]="option">{{ option.nome }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
 
-<!-- </form> -->
+  <mat-form-field>
+    <mat-label>Data</mat-label>
+    <input matInput [matDatepicker]="picker" [formControl]="dataCtrl" />
+    <mat-datepicker-toggle matIconSuffix [for]="picker" />
+    <mat-datepicker #picker [touchUi]="isMobile | async"></mat-datepicker>
+  </mat-form-field>
+</form>
