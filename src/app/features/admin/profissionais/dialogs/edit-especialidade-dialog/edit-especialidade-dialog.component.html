@@ -1,14 +1,20 @@
 <h1 mat-dialog-title>Editar Especialidade</h1>
 <mat-dialog-content>
-  <form [formGroup]="form" class="pt-2 flex gap-4">
-    <mat-form-field appearance="outline">
-      <mat-label>Nome</mat-label>
-      <input matInput formControlName="nome" />
-    </mat-form-field>
+  <form [formGroup]="form">
+    <div class="flex flex-col mt-2 mb-1 gap-4">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome" />
 
-    <mat-checkbox formControlName="ativa">
-      {{ form.value.ativa ? "Ativa" : "Inativa" }}
-    </mat-checkbox>
+        <mat-error>
+          {{ errorMessage(form.get("nome")) }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="ativa">
+        {{ form.value.ativa ? "Ativa" : "Inativa" }}
+      </mat-checkbox>
+    </div>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>

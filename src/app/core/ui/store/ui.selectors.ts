@@ -2,7 +2,10 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { UIState } from './ui.state';
 import { selectEditPacienteLoading } from '../../../features/admin/pacientes/store/pacientes.selectors';
 import { selectEditProfissionalLoading } from '../../../features/admin/profissionais/store/profissionais.selectors';
-import { selectEditEspecialidadeLoading } from '../../../features/admin/especialidades/store/especialidades.selectors';
+import {
+  selectCreateEspecialidadeLoading,
+  selectEditEspecialidadeLoading,
+} from '../../../features/admin/especialidades/store/especialidades.selectors';
 
 export const selectUIState = createFeatureSelector<UIState>('ui');
 
@@ -27,6 +30,7 @@ export const selectGlobalLoading = createSelector(
     selectEditPacienteLoading,
     selectEditProfissionalLoading,
     selectEditEspecialidadeLoading,
+    selectCreateEspecialidadeLoading,
   ],
   (...loadings) => loadings.some(Boolean),
 );

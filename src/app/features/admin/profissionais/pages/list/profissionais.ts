@@ -113,9 +113,10 @@ export class ProfissionaisComponent
   filteredUnidades!: Observable<string[]>;
   unidades = this.store.select(selectNomeUnidades);
 
-  dataSource = new MatTableDataSource<ProfissionalListItem>();
+  profissionaisDataSource = new MatTableDataSource<ProfissionalListItem>();
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('profissionaisPaginator')
+  profissionaisPaginator!: MatPaginator;
 
   // Especialidade
 
@@ -137,6 +138,9 @@ export class ProfissionaisComponent
   errorEsp = this.store.selectSignal(selectEspecialidadesError);
   loadingEsp = this.store.selectSignal(selectEspecialidadesLoading);
 
+  @ViewChild('especialidadesPaginator')
+  especialidadesPaginator!: MatPaginator;
+
   ngOnInit() {
     this.store.dispatch(enterProfissionaisPage());
 
@@ -144,7 +148,7 @@ export class ProfissionaisComponent
       .select(selectProfissionaisComUnidade)
       .pipe(takeUntil(this.destroyed$))
       .subscribe((profissionais) => {
-        this.dataSource.data = profissionais;
+        this.profissionaisDataSource.data = profissionais;
       });
 
     this.filteredUnidades = combineLatest([
@@ -156,7 +160,7 @@ export class ProfissionaisComponent
       ),
     );
 
-    this.dataSource.filterPredicate = (data, filter) => {
+    this.profissionaisDataSource.filterPredicate = (data, filter) => {
       const { nome, unidadeNome } = JSON.parse(filter);
 
       return (
@@ -172,12 +176,12 @@ export class ProfissionaisComponent
     ])
       .pipe(takeUntil(this.destroyed$))
       .subscribe(([nome, unidadeNome]) => {
-        this.dataSource.filter = JSON.stringify({
+        this.profissionaisDataSource.filter = JSON.stringify({
           nome: nome ?? '',
           unidadeNome: unidadeNome ?? '',
         });
 
-        this.dataSource.paginator?.firstPage();
+        this.profissionaisDataSource.paginator?.firstPage();
       });
 
     // Especialidades
@@ -202,7 +206,8 @@ export class ProfissionaisComponent
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    this.profissionaisDataSource.paginator = this.profissionaisPaginator;
+    this.especialidadesDataSource.paginator = this.especialidadesPaginator;
   }
 
   viewProfissional(profissionalId: number): void {
@@ -224,14 +229,14 @@ export class ProfissionaisComponent
 
   editEspecialidade(especialidade: Especialidade) {
     this.dialog.open(EditEspecialidadeDialogComponent, {
-      width: '600px',
+      width: '400px',
       data: especialidade,
     });
   }
 
   newEspecialidade() {
     this.dialog.open(NewEspecialidadeDialogComponent, {
-      width: '600px',
+      width: '400px',
     });
   }
 

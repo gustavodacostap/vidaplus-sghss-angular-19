@@ -13,7 +13,7 @@ export class StorageService {
     localStorage.setItem(key, JSON.stringify(data));
   }
 
-  add<T extends { id?: number }>(key: string, item: T): T {
+  add<T>(key: string, item: T): T {
     const data: T[] = this.get<T[]>(key) || [];
 
     const newItem = {

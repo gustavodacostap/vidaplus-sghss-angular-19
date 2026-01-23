@@ -1,9 +1,13 @@
 <h1 mat-dialog-title>Nova Especialidade</h1>
 <mat-dialog-content>
   <form [formGroup]="form" class="pt-2 flex gap-4">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="w-full">
       <mat-label>Nome</mat-label>
       <input matInput formControlName="nome" />
+
+      <mat-error>
+        {{ errorMessage(form.get("nome")) }}
+      </mat-error>
     </mat-form-field>
   </form>
 </mat-dialog-content>
@@ -14,6 +18,6 @@
     [disabled]="form.invalid"
     (click)="createEspecialidade()"
   >
-    Salvar
+    Criar
   </button>
 </mat-dialog-actions>

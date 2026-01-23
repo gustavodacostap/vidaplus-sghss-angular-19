@@ -73,9 +73,15 @@ export class EspecialidadesEffects {
   createEspecialidade$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(createEspecialidade),
-      switchMap(() =>
-        this.service.addEspecialidade().pipe(
-          map(() => createEspecialidadeSuccess()),
+      switchMap(({ dto }) =>
+        this.service.addEspecialidade(dto).pipe(
+          switchMap(() => [
+            createEspecialidadeSuccess(),
+            loadEspecialidades(),
+            showSnackbar({
+              message: 'Especialidade criada com sucesso',
+            }),
+          ]),
           catchError((err) =>
             of(
               createEspecialidadeFailure(),

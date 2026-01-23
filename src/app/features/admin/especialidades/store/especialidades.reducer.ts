@@ -75,4 +75,24 @@ export const especialidadesReducer = createReducer(
       },
     }),
   ),
+
+  on(
+    actions.createEspecialidadeSuccess,
+    (state): EspecialidadesState => ({
+      ...state,
+      create: {
+        status: successStatus(),
+      },
+    }),
+  ),
+
+  on(
+    actions.createEspecialidadeFailure,
+    (state): EspecialidadesState => ({
+      ...state,
+      create: {
+        status: errorStatus(),
+      },
+    }),
+  ),
 );

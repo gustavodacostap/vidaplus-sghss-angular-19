@@ -42,3 +42,13 @@ export const selectEspecialidadesEntities = createSelector(
       {},
     ),
 );
+
+export const selectCreateEspecialidadeLoading = createSelector(
+  selectEspecialidadesState,
+  (s) => s.create.status.loading,
+);
+
+export const selectCreateEspecialidadeError = createSelector(
+  selectEspecialidadesState,
+  (s) => s.create.status.error,
+);

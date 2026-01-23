@@ -7,7 +7,7 @@ export interface EspecialidadesState {
     especialidades: Especialidade[];
     status: AsyncStatus;
   };
-  criar: {
+  create: {
     status: AsyncStatus;
   };
   update: {
@@ -20,7 +20,7 @@ export const initialEspecialidadesState: EspecialidadesState = {
     especialidades: [],
     status: successStatus(),
   },
-  criar: {
+  create: {
     status: successStatus(),
   },
   update: {

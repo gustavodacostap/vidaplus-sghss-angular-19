@@ -15,6 +15,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 import { updateEspecialidade } from '../../../especialidades/store/especialidades.actions';
+import { getFormErrorMessage } from '../../../../../shared/helpers/form-errors.helper';
 
 @Component({
   selector: 'app-edit-especialidade-dialog',
@@ -37,6 +38,8 @@ export class EditEspecialidadeDialogComponent implements OnInit {
   private store = inject(Store);
   private fb = inject(FormBuilder);
   readonly data = inject<Especialidade>(MAT_DIALOG_DATA);
+
+  errorMessage = getFormErrorMessage;
 
   form = this.fb.nonNullable.group({
     nome: ['', Validators.required],

@@ -44,7 +44,7 @@
     <div class="overflow-x-auto scrollbar-custom" role="region" tabindex="0">
       <table
         mat-table
-        [dataSource]="dataSource"
+        [dataSource]="profissionaisDataSource"
         aria-describedby="page-title"
         class="table"
       >
@@ -123,6 +123,7 @@
 
     <!-- PAGINAÇÃO -->
     <mat-paginator
+      #profissionaisPaginator
       [pageSizeOptions]="[5, 10, 20]"
       showFirstLastButtons
       class="mt-2"
@@ -242,5 +243,14 @@
         }
       </table>
     </div>
+
+    <!-- PAGINAÇÃO -->
+    <mat-paginator
+      #especialidadesPaginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      class="mt-2"
+      aria-label="Paginação da lista de especialidades"
+    />
   </section>
 </section>
