@@ -4,6 +4,7 @@ import { catchError, map, of, switchMap } from 'rxjs';
 import { loadUnidades } from '../../unidades/store/unidades.actions';
 import {
   createConsulta,
+  createConsultaFailure,
   createConsultaSuccess,
   enterConsultasPage,
   enterCreateConsultaPage,
@@ -74,7 +75,7 @@ export class ConsultasEffects {
           ]),
           catchError((err) =>
             of(
-              loadConsultasFailure(),
+              createConsultaFailure(),
               showSnackbar({
                 message: 'Erro ao agendar consulta',
                 logMessage: err.toString(),

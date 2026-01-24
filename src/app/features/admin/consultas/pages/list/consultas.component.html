@@ -49,7 +49,7 @@
         <mat-label>Data</mat-label>
         <input matInput [matDatepicker]="picker" [formControl]="dataCtrl" />
         <mat-datepicker-toggle matIconSuffix [for]="picker" />
-        <mat-datepicker #picker [touchUi]="isMobile | async"></mat-datepicker>
+        <mat-datepicker #picker [touchUi]="isMobile$ | async"></mat-datepicker>
       </mat-form-field>
     </form>
   </aside>

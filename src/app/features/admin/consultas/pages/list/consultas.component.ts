@@ -48,7 +48,9 @@ export class ConsultasComponent implements OnInit {
   private store = inject(Store);
   private router = inject(Router);
 
-  isMobile!: Observable<boolean>;
+  isMobile$ = inject(BreakpointObserver)
+    .observe([Breakpoints.XSmall])
+    .pipe(map((r) => r.matches));
 
   profissionalCtrl = new FormControl('');
   pacienteCtrl = new FormControl('');
@@ -111,14 +113,6 @@ export class ConsultasComponent implements OnInit {
 
   loading = this.store.selectSignal(selectConsultasLoading);
   error = this.store.selectSignal(selectConsultasError);
-
-  constructor() {
-    const breakpointObserver = inject(BreakpointObserver);
-
-    this.isMobile = breakpointObserver
-      .observe([Breakpoints.XSmall])
-      .pipe(map((result) => result.matches));
-  }
 
   ngOnInit() {
     this.store.dispatch(enterConsultasPage());

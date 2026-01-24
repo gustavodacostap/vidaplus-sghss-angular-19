@@ -13,13 +13,15 @@ export const loadConsultasSuccess = createAction(
 
 export const loadConsultasFailure = createAction('[Consultas] Load Failure');
 
-export const enterCreateConsultaPage = createAction('[Consultas Page] Enter');
+export const enterCreateConsultaPage = createAction(
+  '[Create Consulta Page] Enter',
+);
 
 export const createConsulta = createAction(
   '[Consulta] Create',
   props<{ dto: CreateConsultaDTO }>(),
 );
 
-export const createConsultaSuccess = createAction('[Consulta] Create Success');
+export const createConsultaSuccess = createAction('[Create Consulta] Success');
 
-export const createConsultaFailure = createAction('[Consulta] Create Failure');
+export const createConsultaFailure = createAction('[Create Consulta] Failure');

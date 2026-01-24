@@ -3,6 +3,7 @@ import { ProfissionaisState } from './profissionais.state';
 import { selectUnidadesEntities } from '../../unidades/store/unidades.selectors';
 import { selectEspecialidadesEntities } from '../../especialidades/store/especialidades.selectors';
 import { ProfissionalComNomes } from '../models/ProfissionalComNomes.model';
+import { ProfissionalListItem } from '../models/ProfissionalListItem.model';
 
 export const selectProfissionaisState =
   createFeatureSelector<ProfissionaisState>('profissionais');
@@ -76,4 +77,25 @@ export const selectProfissionalComNomes = createSelector(
       unidadeNome: unidade?.nome ?? '',
     };
   },
+);
+
+export const selectProfissionaisEntities = createSelector(
+  selectProfissionais,
+  (profissionais) =>
+    profissionais.reduce<Record<number, ProfissionalListItem>>(
+      (acc, paciente) => {
+        acc[paciente.id] = paciente;
+        return acc;
+      },
+      {},
+    ),
+);
+
+export const selectProfissionaisForOptions = createSelector(
+  selectProfissionais,
+  (profissionais) =>
+    profissionais.map((u) => ({
+      id: u.id,
+      nome: u.nome,
+    })),
 );

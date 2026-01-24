@@ -22,6 +22,15 @@ import { SelectOption } from '../../../../../shared/interfaces/SelectOption.mode
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest, map, Observable, startWith } from 'rxjs';
 import { CreateConsultaDTO } from '../../dto/CreateConsulta.dto';
+import { CommonModule } from '@angular/common';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { selectPacientesForOptions } from '../../../pacientes/store/pacientes.selectors';
+import { selectUnidadesForOptions } from '../../../unidades/store/unidades.selectors';
+import { selectProfissionaisForOptions } from '../../../profissionais/store/profissionais.selectors';
+import { selectEspecialidadesForOptions } from '../../../especialidades/store/especialidades.selectors';
+import { getFormErrorMessage } from '../../../../../shared/helpers/form-errors.helper';
+import { MatTimepickerModule } from '@angular/material/timepicker';
 
 @Component({
   selector: 'app-criar-consulta',
@@ -33,6 +42,9 @@ import { CreateConsultaDTO } from '../../dto/CreateConsulta.dto';
     MatButtonToggleModule,
     MatCardModule,
     ReactiveFormsModule,
+    CommonModule,
+    MatDatepickerModule,
+    MatTimepickerModule,
   ],
   templateUrl: './criar-consulta.component.html',
   styleUrl: './criar-consulta.component.scss',
@@ -60,13 +72,23 @@ export class CriarConsultaComponent implements OnInit {
       null,
       Validators.required,
     ),
-    unidade: this.fb.control<SelectOption | null>(null),
+    unidade: this.fb.control<SelectOption | null>(null, Validators.required),
     data: this.fb.nonNullable.control<Date | null>(null, Validators.required),
     horario: this.fb.nonNullable.control<string | null>(
       null,
       Validators.required,
     ),
   });
+
+  errorMessage = getFormErrorMessage;
+  isMobile$!: Observable<boolean>;
+
+  confirmacao$ = this.form.valueChanges.pipe(
+    map(() => {
+      if (this.form.invalid) return null;
+      return this.buildCreateConsultaDTO();
+    }),
+  );
 
   pacientes$ = this.store.select(selectPacientesForOptions);
   profissionais$ = this.store.select(selectProfissionaisForOptions);
@@ -77,6 +99,14 @@ export class CriarConsultaComponent implements OnInit {
   filteredProfissionais$!: Observable<SelectOption[]>;
   filteredEspecialidades$!: Observable<SelectOption[]>;
   filteredUnidades$!: Observable<SelectOption[]>;
+
+  constructor() {
+    const breakpointObserver = inject(BreakpointObserver);
+
+    this.isMobile$ = breakpointObserver
+      .observe([Breakpoints.XSmall])
+      .pipe(map((result) => result.matches));
+  }
 
   ngOnInit() {
     this.store.dispatch(enterCreateConsultaPage());
@@ -95,6 +125,8 @@ export class CriarConsultaComponent implements OnInit {
 
         unidadeCtrl.updateValueAndValidity();
       });
+
+    this.setupAutocompletes();
   }
 
   backToConsultas() {
@@ -122,6 +154,10 @@ export class CriarConsultaComponent implements OnInit {
       unidadeId: tipo === 'PRESENCIAL' ? unidade!.id : undefined,
       dataHoraConsulta,
     };
+  }
+
+  displayOption(option: SelectOption): string {
+    return option?.nome ?? '';
   }
 
   confirmarConsulta() {

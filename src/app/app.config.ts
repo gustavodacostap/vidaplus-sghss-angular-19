@@ -28,9 +28,13 @@ export const appConfig: ApplicationConfig = {
     provideMomentDateAdapter({
       parse: {
         dateInput: 'DD/MM/YYYY',
+        timeInput: 'HH:mm',
       },
       display: {
         dateInput: 'DD/MM/YYYY',
+        timeInput: 'HH:mm',
+        timeOptionLabel: 'HH:mm',
+
         monthYearLabel: 'MMMM YYYY',
         dateA11yLabel: 'DD/MM/YYYY',
         monthYearA11yLabel: 'MMMM YYYY',

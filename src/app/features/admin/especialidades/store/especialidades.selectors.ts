@@ -31,6 +31,16 @@ export const selectEditEspecialidadeError = createSelector(
   (s) => s.update.status.error,
 );
 
+export const selectCreateEspecialidadeLoading = createSelector(
+  selectEspecialidadesState,
+  (s) => s.create.status.loading,
+);
+
+export const selectCreateEspecialidadeError = createSelector(
+  selectEspecialidadesState,
+  (s) => s.create.status.error,
+);
+
 export const selectEspecialidadesEntities = createSelector(
   selectEspecialidades,
   (especialidades) =>
@@ -43,12 +53,11 @@ export const selectEspecialidadesEntities = createSelector(
     ),
 );
 
-export const selectCreateEspecialidadeLoading = createSelector(
-  selectEspecialidadesState,
-  (s) => s.create.status.loading,
-);
-
-export const selectCreateEspecialidadeError = createSelector(
-  selectEspecialidadesState,
-  (s) => s.create.status.error,
+export const selectEspecialidadesForOptions = createSelector(
+  selectEspecialidades,
+  (especialidades) =>
+    especialidades.map((u) => ({
+      id: u.id,
+      nome: u.nome,
+    })),
 );
