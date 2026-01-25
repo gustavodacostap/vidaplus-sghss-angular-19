@@ -5,6 +5,8 @@ import { loadUnidades } from '../../unidades/store/unidades.actions';
 import {
   createConsulta,
   createConsultaSuccess,
+  deleteConsulta,
+  deleteConsultaSuccess,
   enterConsultasPage,
   enterCreateConsultaPage,
   loadConsultas,
@@ -93,6 +95,18 @@ export class ConsultasEffects {
         createConsultaSuccess(),
         showSnackbar({
           message: 'Consulta agendada com sucesso',
+        }),
+      ]),
+    );
+  });
+
+  deleteConsulta$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(deleteConsulta),
+      switchMap(() => [
+        deleteConsultaSuccess(),
+        showSnackbar({
+          message: 'Consulta cancelada com sucesso',
         }),
       ]),
     );

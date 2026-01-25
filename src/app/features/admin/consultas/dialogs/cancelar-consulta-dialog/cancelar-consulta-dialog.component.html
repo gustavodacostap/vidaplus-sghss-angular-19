@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>Cancelar consulta</h1>
+<mat-dialog-content>
+  <p class="text-(--mat-sys-error) mb-2">Atenção! Dados Fictícios!!!</p>
+
+  <p class="mb-4">Tem certeza que deseja cancelar essa consulta?</p>
+
+  <div class="flex flex-col gap-4">
+    <app-info-chip>
+      {{ mockData.tipo }}
+    </app-info-chip>
+
+    <div class="flex items-center gap-2">
+      <mat-icon class="icon-primary">medical_services</mat-icon>
+      <p>
+        Dr(a). {{ mockData.profissional.nome }} -
+        {{ mockData.especialidade.nome }}
+      </p>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <mat-icon class="icon-primary">person</mat-icon>
+      <p>Paciente {{ mockData.paciente.nome }}</p>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <mat-icon class="icon-primary">schedule</mat-icon>
+      <p>
+        {{ mockData.data }} -
+        {{ mockData.horario }}
+      </p>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <mat-icon class="icon-primary">location_on</mat-icon>
+      <p>{{ mockData.unidade.nome }}</p>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="close()">Cancelar</button>
+  <button mat-button (click)="cancelarConsulta()">Confirmar</button>
+</mat-dialog-actions>

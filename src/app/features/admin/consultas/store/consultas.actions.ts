@@ -26,3 +26,9 @@ export const createConsulta = createAction('[Consulta] Create');
 export const createConsultaSuccess = createAction('[Create Consulta] Success');
 
 export const createConsultaFailure = createAction('[Create Consulta] Failure');
+
+export const deleteConsulta = createAction('[Consulta] Delete');
+
+export const deleteConsultaSuccess = createAction('[Delete Consulta] Success');
+
+export const deleteConsultaFailure = createAction('[Delete Consulta] Failure');

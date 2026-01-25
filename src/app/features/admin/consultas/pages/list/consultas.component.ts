@@ -6,7 +6,10 @@ import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngrx/store';
 import { selectUnidadesForOptions } from '../../../unidades/store/unidades.selectors';
 import { combineLatest, map, Observable, startWith, take } from 'rxjs';
-import { enterConsultasPage } from '../../store/consultas.actions';
+import {
+  deleteConsulta,
+  enterConsultasPage,
+} from '../../store/consultas.actions';
 import { CommonModule } from '@angular/common';
 import {
   selectConsultas,
@@ -24,6 +27,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SelectOption } from '../../../../../shared/interfaces/SelectOption.model';
 import { InfoChipComponent } from '../../../../../shared/components/info-chip/info-chip.component';
+import { CancelarConsultaDialogComponent } from '../../dialogs/cancelar-consulta-dialog/cancelar-consulta-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-consultas',
@@ -47,6 +52,7 @@ import { InfoChipComponent } from '../../../../../shared/components/info-chip/in
 export class ConsultasComponent implements OnInit {
   private store = inject(Store);
   private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   isMobile$ = inject(BreakpointObserver)
     .observe([Breakpoints.XSmall])
@@ -136,6 +142,12 @@ export class ConsultasComponent implements OnInit {
         );
       }),
     );
+  }
+
+  openCancelarDialog() {
+    this.dialog.open(CancelarConsultaDialogComponent, {
+      width: '400px',
+    });
   }
 
   displayUnidade(unidade: SelectOption): string {

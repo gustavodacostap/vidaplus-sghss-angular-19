@@ -123,7 +123,13 @@
             </mat-card-content>
 
             <mat-card-actions align="end" class="gap-4">
-              <button mat-stroked-button class="w-full">Cancelar</button>
+              <button
+                mat-stroked-button
+                (click)="openCancelarDialog()"
+                class="w-full"
+              >
+                Cancelar
+              </button>
               <button mat-flat-button class="w-full">Reagendar</button>
             </mat-card-actions>
           </mat-card>
