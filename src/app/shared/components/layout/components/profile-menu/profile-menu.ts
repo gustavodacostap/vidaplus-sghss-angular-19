@@ -5,8 +5,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { SessionService } from '../../../../../core/auth/services/session.service';
-import { Session } from '../../../../../core/auth/models/Sessionnnnnn.model';
-import { UserRole } from '../../../../../core/auth/models/Userrrrr.model';
+import { Session } from '../../../../../core/auth/models/Session.model';
+import { UserRole } from '../../../../../core/auth/models/User.model';
 import { Router } from '@angular/router';
 import { TopbarService } from '../../../../../core/ui/services/topbar.service';
 

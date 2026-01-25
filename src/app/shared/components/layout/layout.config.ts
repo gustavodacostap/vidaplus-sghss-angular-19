@@ -1,4 +1,4 @@
-import { UserRole } from '../../../core/auth/models/Userrrrr.model';
+import { UserRole } from '../../../core/auth/models/User.model';
 
 export type ContentPadding = 'default' | 'onlyY';
 
