@@ -31,6 +31,9 @@ import { selectProfissionaisForOptions } from '../../../profissionais/store/prof
 import { selectEspecialidadesForOptions } from '../../../especialidades/store/especialidades.selectors';
 import { getFormErrorMessage } from '../../../../../shared/helpers/form-errors.helper';
 import { MatTimepickerModule } from '@angular/material/timepicker';
+import { InfoChipComponent } from '../../../../../shared/components/info-chip/info-chip.component';
+import { HoraMinutoPipe } from '../../../../../shared/pipes/hora-minuto.pipe';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-criar-consulta',
@@ -41,10 +44,13 @@ import { MatTimepickerModule } from '@angular/material/timepicker';
     MatFormFieldModule,
     MatButtonToggleModule,
     MatCardModule,
+    MatButtonModule,
     ReactiveFormsModule,
     CommonModule,
     MatDatepickerModule,
     MatTimepickerModule,
+    InfoChipComponent,
+    HoraMinutoPipe,
   ],
   templateUrl: './criar-consulta.component.html',
   styleUrl: './criar-consulta.component.scss',
@@ -57,7 +63,7 @@ export class CriarConsultaComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   form = this.fb.nonNullable.group({
-    tipo: this.fb.nonNullable.control<TipoConsulta | null>(null, {
+    tipo: this.fb.nonNullable.control<TipoConsulta | null>('PRESENCIAL', {
       validators: Validators.required,
     }),
     paciente: this.fb.nonNullable.control<SelectOption | null>(
@@ -163,8 +169,10 @@ export class CriarConsultaComponent implements OnInit {
   confirmarConsulta() {
     if (this.form.invalid) return;
 
-    const dto = this.buildCreateConsultaDTO();
-    this.store.dispatch(createConsulta({ dto }));
+    // const dto = this.buildCreateConsultaDTO();
+    // this.store.dispatch(createConsulta({ dto }));
+    this.store.dispatch(createConsulta());
+    this.router.navigate(['admin/consultas']);
   }
 
   private combineDateAndTime(date: Date, time: string): string {

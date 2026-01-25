@@ -110,10 +110,16 @@
                 <p>{{ consulta.dataHoraConsulta | dataHora }}</p>
               </div>
 
-              <div class="flex items-center gap-2">
-                <mat-icon class="icon-primary">location_on</mat-icon>
-                <p>{{ consulta.unidadeNome }}</p>
-              </div>
+              @if (consulta.tipo === "PRESENCIAL") {
+                <div class="flex items-center gap-2">
+                  <mat-icon class="icon-primary">location_on</mat-icon>
+                  <p>{{ consulta.unidadeNome }}</p>
+                </div>
+              } @else {
+                <div class="flex items-center">
+                  <p></p>
+                </div>
+              }
             </mat-card-content>
 
             <mat-card-actions align="end" class="gap-4">

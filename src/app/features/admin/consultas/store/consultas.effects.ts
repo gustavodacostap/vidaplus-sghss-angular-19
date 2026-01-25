@@ -4,7 +4,6 @@ import { catchError, map, of, switchMap } from 'rxjs';
 import { loadUnidades } from '../../unidades/store/unidades.actions';
 import {
   createConsulta,
-  createConsultaFailure,
   createConsultaSuccess,
   enterConsultasPage,
   enterCreateConsultaPage,
@@ -62,28 +61,40 @@ export class ConsultasEffects {
     );
   });
 
+  // createConsulta$ = createEffect(() => {
+  //   return this.actions$.pipe(
+  //     ofType(createConsulta),
+  //     switchMap(({ dto }) =>
+  //       this.service.addConsulta(dto).pipe(
+  //         switchMap(() => [
+  //           createConsultaSuccess(),
+  //           showSnackbar({
+  //             message: 'Consulta agendada com sucesso',
+  //           }),
+  //         ]),
+  //         catchError((err) =>
+  //           of(
+  //             createConsultaFailure(),
+  //             showSnackbar({
+  //               message: 'Erro ao agendar consulta',
+  //               logMessage: err.toString(),
+  //             }),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // });
+
   createConsulta$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(createConsulta),
-      switchMap(({ dto }) =>
-        this.service.addConsulta(dto).pipe(
-          switchMap(() => [
-            createConsultaSuccess(),
-            showSnackbar({
-              message: 'Consulta agendada com sucesso',
-            }),
-          ]),
-          catchError((err) =>
-            of(
-              createConsultaFailure(),
-              showSnackbar({
-                message: 'Erro ao agendar consulta',
-                logMessage: err.toString(),
-              }),
-            ),
-          ),
-        ),
-      ),
+      switchMap(() => [
+        createConsultaSuccess(),
+        showSnackbar({
+          message: 'Consulta agendada com sucesso',
+        }),
+      ]),
     );
   });
 }

@@ -1,4 +1,4 @@
-<div class="sm:flex sm:flex-row sm:items-center sm:gap-2 hidden">
+<div class="sm:flex sm:flex-row sm:items-center sm:mb-6 sm:gap-2 hidden">
   <button
     mat-icon-button
     aria-label="Botão voltar"
@@ -7,184 +7,243 @@
   >
     <mat-icon>arrow_back</mat-icon>
   </button>
-  <h1 class="text-2xl mb-2 sm:mb-0" id="page-title">Editar Paciente</h1>
+  <h1 class="text-2xl" id="page-title">Editar Paciente</h1>
 </div>
 
-<form [formGroup]="form" class="flex flex-col gap-3">
-  <div class="flex flex-col gap-2">
-    <label for="tipo" class="text-[16px] font-semibold">Tipo de consulta</label>
-
-    <div>
-      <mat-button-toggle-group
-        id="tipo"
-        formControlName="tipo"
-        name="Tipo de Consulta"
-        aria-label="Tipo de Consulta"
+<form
+  [formGroup]="form"
+  class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-10"
+>
+  <div class="flex flex-col gap-3">
+    <div class="flex flex-col gap-2 sm:h-26">
+      <label for="tipo" class="text-[16px] font-semibold"
+        >Tipo de consulta</label
       >
-        <mat-button-toggle value="PRESENCIAL">Presencial</mat-button-toggle>
-        <mat-button-toggle value="TELEMEDICINA">Telemedicina</mat-button-toggle>
-      </mat-button-toggle-group>
+
+      <div>
+        <mat-button-toggle-group
+          id="tipo"
+          formControlName="tipo"
+          name="Tipo de Consulta"
+          aria-label="Tipo de Consulta"
+        >
+          <mat-button-toggle value="PRESENCIAL">Presencial</mat-button-toggle>
+          <mat-button-toggle value="TELEMEDICINA"
+            >Telemedicina</mat-button-toggle
+          >
+        </mat-button-toggle-group>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="paciente" class="text-[16px] font-semibold"> Paciente </label>
+      <mat-form-field>
+        <input
+          matInput
+          id="paciente"
+          formControlName="paciente"
+          placeholder="Selecione o paciente"
+          [matAutocomplete]="autoPaciente"
+        />
+        <mat-autocomplete
+          #autoPaciente="matAutocomplete"
+          [displayWith]="displayOption"
+        >
+          @for (option of filteredPacientes$ | async; track option) {
+            <mat-option [value]="option">{{ option.nome }}</mat-option>
+          }
+        </mat-autocomplete>
+
+        <mat-error>
+          {{ errorMessage(form.get("paciente")) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="especialidade" class="text-[16px] font-semibold">
+        Especialidade médica
+      </label>
+      <mat-form-field>
+        <input
+          matInput
+          id="especialidade"
+          placeholder="Selecione a especialidade"
+          formControlName="especialidade"
+          [matAutocomplete]="autoEspecialidade"
+        />
+        <mat-autocomplete
+          #autoEspecialidade="matAutocomplete"
+          [displayWith]="displayOption"
+        >
+          @for (option of filteredEspecialidades$ | async; track option) {
+            <mat-option [value]="option">{{ option.nome }}</mat-option>
+          }
+        </mat-autocomplete>
+
+        <mat-error>
+          {{ errorMessage(form.get("especialidade")) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="unidade" class="text-[16px] font-semibold"> Unidade </label>
+      <mat-form-field>
+        <input
+          matInput
+          id="unidade"
+          placeholder="Selecione a unidade"
+          formControlName="unidade"
+          [matAutocomplete]="autoUnidade"
+        />
+        <mat-autocomplete
+          #autoUnidade="matAutocomplete"
+          [displayWith]="displayOption"
+        >
+          @for (option of filteredUnidades$ | async; track option) {
+            <mat-option [value]="option">{{ option.nome }}</mat-option>
+          }
+        </mat-autocomplete>
+
+        <mat-error>
+          {{ errorMessage(form.get("unidade")) }}
+        </mat-error>
+      </mat-form-field>
     </div>
   </div>
 
-  <div class="flex flex-col gap-2">
-    <label for="paciente" class="text-[16px] font-semibold"> Paciente </label>
-    <mat-form-field>
-      <input
-        matInput
-        id="paciente"
-        formControlName="paciente"
-        placeholder="Selecione o paciente"
-        [matAutocomplete]="autoPaciente"
-      />
-      <mat-autocomplete
-        #autoPaciente="matAutocomplete"
-        [displayWith]="displayOption"
-      >
-        @for (option of filteredPacientes$ | async; track option) {
-          <mat-option [value]="option">{{ option.nome }}</mat-option>
+  <div class="flex flex-col gap-3">
+    <div class="flex flex-col gap-2">
+      <label for="profissional" class="text-[16px] font-semibold">
+        Profissional
+      </label>
+      <mat-form-field>
+        <input
+          matInput
+          id="profissional"
+          placeholder="Selecione o profissional"
+          formControlName="profissional"
+          [matAutocomplete]="autoProfissional"
+        />
+        <mat-autocomplete
+          #autoProfissional="matAutocomplete"
+          [displayWith]="displayOption"
+        >
+          @for (option of filteredProfissionais$ | async; track option) {
+            <mat-option [value]="option">{{ option.nome }}</mat-option>
+          }
+        </mat-autocomplete>
+
+        <mat-error>
+          {{ errorMessage(form.get("profissional")) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="data" class="text-[16px] font-semibold"> Data </label>
+      <mat-form-field>
+        <input
+          matInput
+          id="data"
+          placeholder="Selecione a data"
+          [matDatepicker]="picker"
+          formControlName="data"
+          (click)="picker.open()"
+        />
+        <mat-datepicker-toggle matIconSuffix [for]="picker" />
+        <mat-datepicker #picker [touchUi]="isMobile$ | async"></mat-datepicker>
+
+        <mat-error>
+          {{ errorMessage(form.get("data")) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="horario" class="text-[16px] font-semibold">
+        Horário do atendimento
+      </label>
+
+      <mat-form-field appearance="outline">
+        <input
+          id="horario"
+          matInput
+          [matTimepicker]="timePicker"
+          formControlName="horario"
+          placeholder="Selecione o horário"
+          matTimepickerMin="08:00"
+          matTimepickerMax="18:00"
+          aria-describedby="horario-error"
+        />
+
+        <mat-timepicker-toggle matIconSuffix [for]="timePicker" />
+        <mat-timepicker #timePicker></mat-timepicker>
+
+        @if (form.get("horario")?.errors?.["required"]) {
+          <mat-error>Campo obrigatório</mat-error>
         }
-      </mat-autocomplete>
 
-      <mat-error>
-        {{ errorMessage(form.get("paciente")) }}
-      </mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="flex flex-col gap-2">
-    <label for="especialidade" class="text-[16px] font-semibold">
-      Especialidade médica
-    </label>
-    <mat-form-field>
-      <input
-        matInput
-        id="especialidade"
-        placeholder="Selecione a especialidade"
-        formControlName="especialidade"
-        [matAutocomplete]="autoEspecialidade"
-      />
-      <mat-autocomplete
-        #autoEspecialidade="matAutocomplete"
-        [displayWith]="displayOption"
-      >
-        @for (option of filteredEspecialidades$ | async; track option) {
-          <mat-option [value]="option">{{ option.nome }}</mat-option>
+        @if (form.get("horario")?.errors?.["matTimepickerParse"]) {
+          <mat-error>Value isn't a valid time</mat-error>
         }
-      </mat-autocomplete>
 
-      <mat-error>
-        {{ errorMessage(form.get("especialidade")) }}
-      </mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="flex flex-col gap-2">
-    <label for="unidade" class="text-[16px] font-semibold"> Unidade </label>
-    <mat-form-field>
-      <input
-        matInput
-        id="unidade"
-        placeholder="Selecione a unidade"
-        formControlName="unidade"
-        [matAutocomplete]="autoUnidade"
-      />
-      <mat-autocomplete
-        #autoUnidade="matAutocomplete"
-        [displayWith]="displayOption"
-      >
-        @for (option of filteredUnidades$ | async; track option) {
-          <mat-option [value]="option">{{ option.nome }}</mat-option>
+        @if (form.get("horario")?.errors?.["matTimepickerMin"]) {
+          <mat-error>Value is too early</mat-error>
         }
-      </mat-autocomplete>
 
-      <mat-error>
-        {{ errorMessage(form.get("unidade")) }}
-      </mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="flex flex-col gap-2">
-    <label for="profissional" class="text-[16px] font-semibold">
-      Profissional
-    </label>
-    <mat-form-field>
-      <input
-        matInput
-        id="profissional"
-        placeholder="Selecione o profissional"
-        formControlName="profissional"
-        [matAutocomplete]="autoProfissional"
-      />
-      <mat-autocomplete
-        #autoProfissional="matAutocomplete"
-        [displayWith]="displayOption"
-      >
-        @for (option of filteredProfissionais$ | async; track option) {
-          <mat-option [value]="option">{{ option.nome }}</mat-option>
+        @if (form.get("horario")?.errors?.["matTimepickerMax"]) {
+          <mat-error>Value is too late</mat-error>
         }
-      </mat-autocomplete>
+      </mat-form-field>
+    </div>
 
-      <mat-error>
-        {{ errorMessage(form.get("profissional")) }}
-      </mat-error>
-    </mat-form-field>
-  </div>
+    @if (form.valid) {
+      <section>
+        <mat-card appearance="outlined" class="mt-3 mb-4 md:max-w-100">
+          <mat-card-header class="mb-4">
+            <mat-card-title>Confirmar consulta</mat-card-title>
+          </mat-card-header>
 
-  <div class="flex flex-col gap-2">
-    <label for="data" class="text-[16px] font-semibold"> Data </label>
-    <mat-form-field>
-      <input
-        matInput
-        id="data"
-        placeholder="Selecione a data"
-        [matDatepicker]="picker"
-        formControlName="data"
-      />
-      <mat-datepicker-toggle matIconSuffix [for]="picker" />
-      <mat-datepicker #picker [touchUi]="isMobile$ | async"></mat-datepicker>
+          <mat-card-content class="flex flex-col gap-4">
+            <app-info-chip>
+              {{ form.value.tipo }}
+            </app-info-chip>
 
-      <mat-error>
-        {{ errorMessage(form.get("data")) }}
-      </mat-error>
-    </mat-form-field>
-  </div>
+            <div class="flex items-center gap-2">
+              <mat-icon class="icon-primary">medical_services</mat-icon>
+              <p>
+                Dr(a). {{ form.value.profissional?.nome }} -
+                {{ form.value.especialidade?.nome }}
+              </p>
+            </div>
 
-  <div class="flex flex-col gap-2">
-    <label for="horario" class="text-[16px] font-semibold">
-      Horário do atendimento
-    </label>
+            <div class="flex items-center gap-2">
+              <mat-icon class="icon-primary">person</mat-icon>
+              <p>Paciente {{ form.value.paciente?.nome }}</p>
+            </div>
 
-    <mat-form-field appearance="outline">
-      <input
-        id="horario"
-        matInput
-        [matTimepicker]="timePicker"
-        formControlName="horario"
-        placeholder="Selecione o horário"
-        matTimepickerMin="08:00"
-        matTimepickerMax="18:00"
-        aria-describedby="horario-error"
-      />
+            <div class="flex items-center gap-2">
+              <mat-icon class="icon-primary">schedule</mat-icon>
+              <p>
+                {{ form.value.data | date: "dd/MM/yyyy" }} -
+                {{ form.value.horario | horaMinuto }}
+              </p>
+            </div>
 
-      <mat-timepicker-toggle matIconSuffix [for]="timePicker" />
-      <mat-timepicker #timePicker></mat-timepicker>
+            <div class="flex items-center gap-2">
+              <mat-icon class="icon-primary">location_on</mat-icon>
+              <p>{{ form.value.unidade?.nome }}</p>
+            </div>
 
-      @if (form.get("horario")?.errors?.["required"]) {
-        <mat-error>Campo obrigatório</mat-error>
-      }
-
-      @if (form.get("horario")?.errors?.["matTimepickerParse"]) {
-        <mat-error>Value isn't a valid time</mat-error>
-      }
-
-      @if (form.get("horario")?.errors?.["matTimepickerMin"]) {
-        <mat-error>Value is too early</mat-error>
-      }
-
-      @if (form.get("horario")?.errors?.["matTimepickerMax"]) {
-        <mat-error>Value is too late</mat-error>
-      }
-    </mat-form-field>
+            <button mat-flat-button (click)="confirmarConsulta()">
+              <mat-icon>check</mat-icon>
+              Confirmar
+            </button>
+          </mat-card-content>
+        </mat-card>
+      </section>
+    }
   </div>
 </form>
