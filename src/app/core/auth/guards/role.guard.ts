@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { UserRole } from '../models/User.model';
+import { UserRole } from '../models/Userrrrr.model';
 import { SessionService } from '../services/session.service';
 
 @Injectable({

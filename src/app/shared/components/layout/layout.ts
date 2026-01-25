@@ -22,7 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { filter } from 'rxjs';
 import { TopbarService } from '../../../core/ui/services/topbar.service';
-import { Session } from '../../../core/auth/models/Session.model';
+import { Session } from '../../../core/auth/models/Sessionnnnnn.model';
 import { ContentPadding, NAV_ITEMS } from './layout.config';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
