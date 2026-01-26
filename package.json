@@ -27,6 +27,7 @@
     "@ngrx/store-devtools": "^19.2.1",
     "crypto-js": "^4.2.0",
     "moment": "^2.30.1",
+    "ngrx-store-localstorage": "^19.0.2",
     "ngx-mask": "^19.0.7",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

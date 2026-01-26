@@ -16,6 +16,11 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 import { PaginatorPtBrIntl } from './shared/providers/paginator-ptbr-intl';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import {
+  provideClientHydration,
+  withEventReplay,
+} from '@angular/platform-browser';
+import { localStorageSyncReducer } from './core/store/localStorage.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -42,7 +47,11 @@ export const appConfig: ApplicationConfig = {
     }),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideStore(reducers),
+    provideClientHydration(withEventReplay()),
+
+    provideStore(reducers, {
+      metaReducers: [localStorageSyncReducer],
+    }),
     provideEffects(effects),
     provideStoreDevtools({
       maxAge: 25,

@@ -25,12 +25,7 @@ export class AuthService {
   private readonly ESPECIALIDADES_KEY = 'especialidades';
 
   constructor() {
-    this.createMockProfissionais();
-    this.createMockUsers();
-    this.createMockUnidades();
-    this.createMockPacientes();
-    this.createMockConsultas();
-    this.createMockEspecialidades();
+    this.verifyLocalStorage();
   }
 
   login(email: string, password: string): Observable<User> {
@@ -81,6 +76,17 @@ export class AuthService {
         iat: Date.now(),
       }),
     );
+  }
+
+  verifyLocalStorage() {
+    if (!this.storage.get(this.USERS_KEY)) {
+      this.createMockConsultas();
+      this.createMockEspecialidades();
+      this.createMockPacientes();
+      this.createMockProfissionais();
+      this.createMockUnidades();
+      this.createMockUsers();
+    }
   }
 
   private createMockUsers(): void {

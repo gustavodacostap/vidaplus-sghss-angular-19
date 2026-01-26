@@ -5,6 +5,13 @@ import { route } from './shared/helpers/route.helper';
 
 export const routes: Routes = [
   route({
+    path: '',
+    loadComponent: () =>
+      import('./shared/components/redirect-role/redirect-role.component').then(
+        (m) => m.RedirectRoleComponent,
+      ),
+  }),
+  route({
     path: 'auth/login',
     loadComponent: () =>
       import('./features/auth/login/login').then((m) => m.LoginComponent),
