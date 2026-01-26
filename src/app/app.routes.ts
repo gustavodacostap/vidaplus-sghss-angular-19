@@ -281,6 +281,13 @@ export const routes: Routes = [
       }),
     ],
   }),
+  route({
+    path: '**',
+    loadComponent: () =>
+      import('./shared/components/redirect-role/redirect-role.component').then(
+        (m) => m.RedirectRoleComponent,
+      ),
+  }),
 
   // {
   //   path: 'patient',
