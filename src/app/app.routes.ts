@@ -94,23 +94,6 @@ export const routes: Routes = [
                   ),
               }),
               route({
-                path: 'reagendar/:id',
-                loadComponent: () =>
-                  import('./features/admin/consultas/pages/reagendar/reagendar-consulta.component').then(
-                    (m) => m.ReagendarConsultaComponent,
-                  ),
-                data: {
-                  topbar: {
-                    dynamicMode: true,
-                    pageTitle: 'Reagendar Consulta',
-                    returnLink: 'admin/consultas',
-                  },
-                  layout: {
-                    contentPadding: 'onlyY',
-                  },
-                },
-              }),
-              route({
                 path: 'nova',
                 loadComponent: () =>
                   import('./features/admin/consultas/pages/criar/criar-consulta.component').then(

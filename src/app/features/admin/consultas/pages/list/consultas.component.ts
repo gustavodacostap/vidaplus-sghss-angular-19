@@ -5,11 +5,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngrx/store';
 import { selectUnidadesForOptions } from '../../../unidades/store/unidades.selectors';
-import { combineLatest, map, Observable, startWith, take } from 'rxjs';
-import {
-  deleteConsulta,
-  enterConsultasPage,
-} from '../../store/consultas.actions';
+import { combineLatest, map, Observable, startWith } from 'rxjs';
+import { enterConsultasPage } from '../../store/consultas.actions';
 import { CommonModule } from '@angular/common';
 import {
   selectConsultas,
@@ -29,6 +26,7 @@ import { SelectOption } from '../../../../../shared/interfaces/SelectOption.mode
 import { InfoChipComponent } from '../../../../../shared/components/info-chip/info-chip.component';
 import { CancelarConsultaDialogComponent } from '../../dialogs/cancelar-consulta-dialog/cancelar-consulta-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ReagendarConsultaDialogComponent } from '../../dialogs/reagendar-consulta-dialog/reagendar-consulta-dialog.component';
 
 @Component({
   selector: 'app-consultas',
@@ -123,12 +121,6 @@ export class ConsultasComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(enterConsultasPage());
 
-    this.unidades.pipe(take(1)).subscribe((unidades) => {
-      if (unidades.length > 0) {
-        this.unidadeCtrl.setValue(unidades[0]);
-      }
-    });
-
     this.filteredUnidades = combineLatest([
       this.unidadeCtrl.valueChanges.pipe(startWith('')),
       this.unidades,
@@ -146,6 +138,12 @@ export class ConsultasComponent implements OnInit {
 
   openCancelarDialog() {
     this.dialog.open(CancelarConsultaDialogComponent, {
+      width: '400px',
+    });
+  }
+
+  openReagendarDialog() {
+    this.dialog.open(ReagendarConsultaDialogComponent, {
       width: '400px',
     });
   }

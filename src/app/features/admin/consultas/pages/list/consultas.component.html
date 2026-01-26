@@ -130,7 +130,13 @@
               >
                 Cancelar
               </button>
-              <button mat-flat-button class="w-full">Reagendar</button>
+              <button
+                mat-flat-button
+                (click)="openReagendarDialog()"
+                class="w-full"
+              >
+                Reagendar
+              </button>
             </mat-card-actions>
           </mat-card>
         </article>

@@ -1,0 +1,61 @@
+<h1 mat-dialog-title>Reagendar consulta</h1>
+<mat-dialog-content>
+  <p class="text-(--mat-sys-error) mb-2">Atenção! Dados e ações fictícias!!!</p>
+
+  <form [formGroup]="form" class="flex flex-col gap-4 pt-2">
+    <mat-form-field>
+      <mat-label>Data</mat-label>
+      <input
+        matInput
+        id="data"
+        placeholder="Selecione a data"
+        [matDatepicker]="picker"
+        formControlName="data"
+        (click)="picker.open()"
+      />
+      <mat-datepicker-toggle matIconSuffix [for]="picker" />
+      <mat-datepicker #picker [touchUi]="isMobile$ | async"></mat-datepicker>
+
+      <mat-error>
+        {{ errorMessage(form.get("data")) }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Horário</mat-label>
+      <input
+        id="horario"
+        matInput
+        [matTimepicker]="timePicker"
+        formControlName="horario"
+        placeholder="Selecione o horário"
+        matTimepickerMin="08:00"
+        matTimepickerMax="18:00"
+        aria-describedby="horario-error"
+      />
+
+      <mat-timepicker-toggle matIconSuffix [for]="timePicker" />
+      <mat-timepicker #timePicker></mat-timepicker>
+
+      @if (form.get("horario")?.errors?.["required"]) {
+        <mat-error>Campo obrigatório</mat-error>
+      }
+
+      @if (form.get("horario")?.errors?.["matTimepickerParse"]) {
+        <mat-error>Value isn't a valid time</mat-error>
+      }
+
+      @if (form.get("horario")?.errors?.["matTimepickerMin"]) {
+        <mat-error>Value is too early</mat-error>
+      }
+
+      @if (form.get("horario")?.errors?.["matTimepickerMax"]) {
+        <mat-error>Value is too late</mat-error>
+      }
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="close()">Cancelar</button>
+  <button mat-button (click)="reagendarConsulta()">Confirmar</button>
+</mat-dialog-actions>

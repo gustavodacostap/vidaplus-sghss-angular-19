@@ -12,6 +12,8 @@ import {
   loadConsultas,
   loadConsultasFailure,
   loadConsultasSuccess,
+  updateConsulta,
+  updateConsultaSuccess,
 } from './consultas.actions';
 import { showSnackbar } from '../../../../core/ui/store/ui.actions';
 import { ConsultasService } from '../services/consultas.service';
@@ -107,6 +109,18 @@ export class ConsultasEffects {
         deleteConsultaSuccess(),
         showSnackbar({
           message: 'Consulta cancelada com sucesso',
+        }),
+      ]),
+    );
+  });
+
+  updateConsulta$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(updateConsulta),
+      switchMap(() => [
+        updateConsultaSuccess(),
+        showSnackbar({
+          message: 'Consulta reagendada com sucesso',
         }),
       ]),
     );

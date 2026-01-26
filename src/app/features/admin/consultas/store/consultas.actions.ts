@@ -32,3 +32,9 @@ export const deleteConsulta = createAction('[Consulta] Delete');
 export const deleteConsultaSuccess = createAction('[Delete Consulta] Success');
 
 export const deleteConsultaFailure = createAction('[Delete Consulta] Failure');
+
+export const updateConsulta = createAction('[Consulta] Update');
+
+export const updateConsultaSuccess = createAction('[Update Consulta] Success');
+
+export const updateConsultaFailure = createAction('[Update Consulta] Failure');
