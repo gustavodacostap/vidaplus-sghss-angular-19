@@ -101,7 +101,7 @@ export class AuthService {
       {
         id: 'u2',
         email: 'profissional@vidaplus.com',
-        passwordHash: this.hashPassword('prof123'),
+        passwordHash: this.hashPassword('profi123'),
         role: 'PROFESSIONAL',
         name: 'Dr. João Silva',
       },

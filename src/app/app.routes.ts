@@ -179,16 +179,108 @@ export const routes: Routes = [
         ],
         data: { roles: ['ADMIN'] },
       }),
+      route({
+        path: 'profissional',
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
+        children: [
+          route({
+            path: 'agenda',
+            children: [
+              route({
+                path: '',
+                loadComponent: () =>
+                  import('./features/profissional/agenda/pages/agenda.component').then(
+                    (m) => m.AgendaComponent,
+                  ),
+              }),
+            ],
+          }),
+          route({
+            path: 'pacientes',
+            children: [
+              route({
+                path: '',
+                loadComponent: () =>
+                  import('./features/profissional/pacientes/pages/pacientes-prof.component').then(
+                    (m) => m.PacientesProfComponent,
+                  ),
+              }),
+            ],
+          }),
+          route({
+            path: 'meu-perfil',
+            children: [
+              route({
+                path: '',
+                loadComponent: () =>
+                  import('./features/profissional/meu-perfil/pages/meu-perfil-prof.component').then(
+                    (m) => m.MeuPerfilProfComponent,
+                  ),
+              }),
+            ],
+          }),
+        ],
+        data: { roles: ['PROFESSIONAL'] },
+      }),
+      route({
+        path: 'paciente',
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
+        children: [
+          route({
+            path: 'consultas',
+            children: [
+              route({
+                path: '',
+                loadComponent: () =>
+                  import('./features/paciente/consultas/pages/consultas-paciente.component').then(
+                    (m) => m.ConsultasPacienteComponent,
+                  ),
+              }),
+            ],
+          }),
+          route({
+            path: 'exames',
+            children: [
+              route({
+                path: '',
+                loadComponent: () =>
+                  import('./features/paciente/exames/pages/exames.component').then(
+                    (m) => m.ExamesComponent,
+                  ),
+              }),
+            ],
+          }),
+          route({
+            path: 'historico-clinico',
+            children: [
+              route({
+                path: '',
+                loadComponent: () =>
+                  import('./features/paciente/historico-clinico/pages/historico-clinico.component').then(
+                    (m) => m.HistoricoClinicoComponent,
+                  ),
+              }),
+            ],
+          }),
+          route({
+            path: 'meu-perfil',
+            children: [
+              route({
+                path: '',
+                loadComponent: () =>
+                  import('./features/paciente/meu-perfil/pages/meu-perfil-paciente.component').then(
+                    (m) => m.MeuPerfilPacienteComponent,
+                  ),
+              }),
+            ],
+          }),
+        ],
+        data: { roles: ['PATIENT'] },
+      }),
     ],
   }),
-
-  // {
-  //   path: 'professional',
-  //   canActivate: [RoleGuard],
-  //   data: { roles: ['PROFESSIONAL'] },
-  //   loadChildren: () =>
-  //     import('./features/professional/professional.routes').then((m) => m.PROFESSIONAL_ROUTES),
-  // },
 
   // {
   //   path: 'patient',

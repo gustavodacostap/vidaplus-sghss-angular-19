@@ -54,7 +54,7 @@ export class ProfileMenuComponent {
     };
 
     if (userRole) {
-      this.route.navigate([`/${roleMap[userRole]}/profile`]);
+      this.route.navigate([`/${roleMap[userRole]}/meu-perfil`]);
     }
     this.close();
   }

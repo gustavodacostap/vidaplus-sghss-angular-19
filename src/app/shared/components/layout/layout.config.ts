@@ -39,7 +39,26 @@ export const NAV_ITEMS: Record<UserRole, NavItem[]> = {
     },
   ],
   PROFESSIONAL: [
-    { label: 'Agenda', icon: 'calendar_today', route: '/professional/agenda' },
+    { label: 'Agenda', icon: 'event', route: '/profissional/agenda' },
+    {
+      label: 'Pacientes',
+      icon: 'groups',
+      route: '/profissional/pacientes',
+    },
+    { label: 'Meu Perfil', icon: 'person', route: '/profissional/meu-perfil' },
   ],
-  PATIENT: [{ label: 'Consultas', icon: 'event', route: '/patient/consultas' }],
+  PATIENT: [
+    {
+      label: 'Consultas',
+      icon: 'medical_information',
+      route: '/paciente/consultas',
+    },
+    { label: 'Exames', icon: 'biotech', route: '/paciente/exames' },
+    {
+      label: 'Histórico Clínico',
+      icon: 'description',
+      route: '/paciente/historico-clinico',
+    },
+    { label: 'Meu Perfil', icon: 'person', route: '/paciente/meu-perfil' },
+  ],
 };
