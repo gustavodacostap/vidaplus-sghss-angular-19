@@ -32,6 +32,11 @@ export const NAV_ITEMS: Record<UserRole, NavItem[]> = {
       icon: 'manage_accounts',
       route: '/admin/gestao-usuarios',
     },
+    {
+      label: 'Meu Perfil',
+      icon: 'person',
+      route: '/admin/meu-perfil',
+    },
   ],
   PROFESSIONAL: [
     { label: 'Agenda', icon: 'calendar_today', route: '/professional/agenda' },

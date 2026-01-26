@@ -109,6 +109,66 @@ export const routes: Routes = [
               }),
             ],
           }),
+          route({
+            path: 'leitos',
+            children: [
+              route({
+                path: '',
+                loadComponent: () =>
+                  import('./features/admin/leitos/pages/list/leitos.component').then(
+                    (m) => m.LeitosComponent,
+                  ),
+              }),
+            ],
+          }),
+          route({
+            path: 'leitos',
+            children: [
+              route({
+                path: '',
+                loadComponent: () =>
+                  import('./features/admin/leitos/pages/list/leitos.component').then(
+                    (m) => m.LeitosComponent,
+                  ),
+              }),
+            ],
+          }),
+          route({
+            path: 'relatorios',
+            children: [
+              route({
+                path: '',
+                loadComponent: () =>
+                  import('./features/admin/relatorios/pages/relatorios.component').then(
+                    (m) => m.RelatoriosComponent,
+                  ),
+              }),
+            ],
+          }),
+          route({
+            path: 'gestao-usuarios',
+            children: [
+              route({
+                path: '',
+                loadComponent: () =>
+                  import('./features/admin/usuarios/pages/usuarios.component').then(
+                    (m) => m.UsuariosComponent,
+                  ),
+              }),
+            ],
+          }),
+          route({
+            path: 'meu-perfil',
+            children: [
+              route({
+                path: '',
+                loadComponent: () =>
+                  import('./features/admin/meu-perfil/pages/meu-perfil-admin.component').then(
+                    (m) => m.MeuPerfilAdminComponent,
+                  ),
+              }),
+            ],
+          }),
         ],
         data: { roles: ['ADMIN'] },
       }),
