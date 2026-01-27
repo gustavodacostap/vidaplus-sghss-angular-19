@@ -20,6 +20,7 @@ import { ConsultasEffects } from '../../features/admin/consultas/store/consultas
 import { EspecialidadesState } from '../../features/admin/especialidades/store/especialidades.state';
 import { especialidadesReducer } from '../../features/admin/especialidades/store/especialidades.reducer';
 import { EspecialidadesEffects } from '../../features/admin/especialidades/store/especialidades.effects';
+import { LeitosEffects } from '../../features/admin/leitos/store/leitos.effects';
 
 export interface AppState {
   auth: AuthState;
@@ -49,4 +50,5 @@ export const effects = [
   UnidadesEffects,
   ConsultasEffects,
   EspecialidadesEffects,
+  LeitosEffects,
 ];

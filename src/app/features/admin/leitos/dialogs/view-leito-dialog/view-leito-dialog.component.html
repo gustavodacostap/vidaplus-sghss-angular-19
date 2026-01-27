@@ -1,0 +1,64 @@
+<div class="flex flex-row justify-between items-center pr-6">
+  <h1 mat-dialog-title>Detalhes</h1>
+  <button mat-flat-button (click)="openEditDialog()">
+    <mat-icon>edit</mat-icon>
+    Editar
+  </button>
+</div>
+
+<mat-dialog-content>
+  <h2 id="dados-leito" class="text-lg mb-2">Dados do Leito</h2>
+
+  <section
+    aria-labelledby="dados-leito"
+    class="grid grid-cols-1 sm:grid-cols-2 mb-4 gap-4"
+  >
+    <div class="flex flex-col gap-1">
+      <span class="font-semibold">Código</span>
+      <p>{{ data.codigoSala }}</p>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <span class="font-semibold">Status</span>
+      <p>{{ data.livre ? "Livre" : "Ocupado" }}</p>
+    </div>
+  </section>
+
+  @if (data.nomePaciente) {
+    <mat-divider></mat-divider>
+
+    <h2 id="dados-paciente" class="text-lg mt-4 mb-2">Dados do Paciente</h2>
+
+    <section
+      aria-labelledby="dados-paciente"
+      class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3"
+    >
+      <div class="flex flex-col gap-1">
+        <span class="font-semibold">Nome</span>
+        <p>{{ data.nomePaciente }}</p>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <span class="font-semibold">CPF</span>
+        <p>{{ data.cpfPaciente }}</p>
+      </div>
+
+      <div class="flex flex-col gap-1 sm:col-span-2">
+        <span class="font-semibold">Data de Nascimento</span>
+        <p>
+          {{ data.dataNascimentoPaciente }}
+        </p>
+      </div>
+    </section>
+    <div class="pb-1">
+      <button mat-flat-button class="mat-tonal-button" (click)="darAlta()">
+        <mat-icon>check</mat-icon>
+        Dar alta
+      </button>
+    </div>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="close()">Fechar</button>
+</mat-dialog-actions>

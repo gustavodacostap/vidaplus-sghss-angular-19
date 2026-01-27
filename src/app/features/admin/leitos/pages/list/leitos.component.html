@@ -1,3 +1,145 @@
-<h1 class="text-2xl">Leitos</h1>
+<section aria-labelledby="page-title" class="mb-5">
+  <div class="flex flex-col lg:flex-row lg:justify-between">
+    <h1 class="text-2xl mb-2 lg:mb-0" id="page-title">Leitos</h1>
 
-<p class="text-(--mat-sys-error)">Em desenvolvimento...</p>
+    <!-- FILTROS -->
+    <section aria-label="Filtros de leitos" class="mb-2">
+      <form
+        role="search"
+        class="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4"
+      >
+        <mat-form-field class="w-full">
+          <mat-label>Filtrar por código</mat-label>
+          <input
+            matInput
+            type="search"
+            [formControl]="codigoCtrl"
+            placeholder="Digite o código"
+            aria-label="Filtrar por código"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Filtrar por paciente</mat-label>
+          <input
+            type="search"
+            placeholder="Digite o paciente"
+            aria-label="Filtrar por paciente"
+            matInput
+            [formControl]="pacienteCtrl"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            @for (option of filteredPacientes; track option) {
+              <mat-option [value]="option">{{ option }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Filtrar por unidade</mat-label>
+          <mat-select [formControl]="unidadeCtrl">
+            @for (option of unidades; track option) {
+              <mat-option [value]="option">{{ option }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </section>
+  </div>
+  <!-- TABELA -->
+  <section aria-label="Lista de leitos">
+    <div class="overflow-x-auto scrollbar-custom" role="region" tabindex="0">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        aria-describedby="page-title"
+        class="table"
+      >
+        <!-- COLUNAS SIMPLES -->
+        @for (column of displayedColumns; track column) {
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef scope="col">
+              {{ columnLabels[column] }}
+            </th>
+
+            <td mat-cell *matCellDef="let leito">
+              {{ formatCell(column, leito) }}
+            </td>
+          </ng-container>
+        }
+
+        <!-- COLUNA AÇÕES -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef scope="col">Ações</th>
+
+          <td mat-cell *matCellDef="let leito">
+            <div class="actions" role="group" aria-label="Ações do leito">
+              <button
+                mat-icon-button
+                matTooltip="Visualizar"
+                aria-label="Visualizar leito"
+                (click)="viewLeito(leito)"
+                class="icon"
+              >
+                <mat-icon class="action-icons">visibility</mat-icon>
+              </button>
+
+              <button
+                mat-icon-button
+                matTooltip="Editar"
+                aria-label="Editar leito"
+                (click)="editLeito(leito)"
+                class="icon"
+              >
+                <mat-icon class="action-icons">edit</mat-icon>
+              </button>
+
+              <button
+                mat-icon-button
+                matTooltip="Excluir"
+                aria-label="Excluir leito"
+                (click)="deleteLeito()"
+                class="icon"
+              >
+                <mat-icon class="action-icons">delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- HEADER E ROWS -->
+        <tr mat-header-row *matHeaderRowDef="allColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: allColumns"></tr>
+        <!-- 
+        @if (error()) {
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="5">
+              Não é possível visualizar os dados dos profissionais
+            </td>
+          </tr>
+        } @else if (loading()) {
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="5">
+              <mat-spinner diameter="40"></mat-spinner>
+            </td>
+          </tr>
+        } @else {
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="5">
+              Nenhum leito encontrado com esse filtro.
+            </td>
+          </tr>
+        } -->
+      </table>
+    </div>
+
+    <!-- PAGINAÇÃO -->
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      class="mt-2"
+      aria-label="Paginação da lista de leitos"
+    />
+  </section>
+</section>

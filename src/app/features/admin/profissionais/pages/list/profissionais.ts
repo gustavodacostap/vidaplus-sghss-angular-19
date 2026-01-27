@@ -205,7 +205,7 @@ export class ProfissionaisComponent implements OnInit, AfterViewInit {
 
   viewProfissional(profissionalId: number): void {
     this.dialog.open(ViewProfissionalDialog, {
-      width: '600px',
+      width: '500px',
       data: { profissionalId },
     });
   }
