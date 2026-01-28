@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { darAlta, darAltaSuccess } from './leitos.actions';
 import { switchMap } from 'rxjs';
 import { showSnackbar } from '../../../../core/ui/store/ui.actions';
+import { LeitosActions } from './leitos.actions';
 
 @Injectable()
 export class LeitosEffects {
@@ -10,11 +10,35 @@ export class LeitosEffects {
 
   darAlta$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(darAlta),
+      ofType(LeitosActions.darAltaPaciente),
       switchMap(() => [
-        darAltaSuccess(),
+        LeitosActions.darAltaPacienteSuccess(),
         showSnackbar({
           message: 'Paciente recebeu alta com sucesso',
+        }),
+      ]),
+    );
+  });
+
+  updateLeito$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LeitosActions.updateLeito),
+      switchMap(() => [
+        LeitosActions.updateLeitoSuccess(),
+        showSnackbar({
+          message: 'Leito atualizado com sucesso',
+        }),
+      ]),
+    );
+  });
+
+  deleteLeito$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LeitosActions.deleteLeito),
+      switchMap(() => [
+        LeitosActions.deleteLeitoSuccess(),
+        showSnackbar({
+          message: 'Leito excluído com sucesso',
         }),
       ]),
     );

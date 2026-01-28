@@ -21,6 +21,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewLeitoDialogComponent } from '../../dialogs/view-leito-dialog/view-leito-dialog.component';
+import { EditLeitoDialogComponent } from '../../dialogs/edit-leito-dialog/edit-leito-dialog.component';
+import { DeleteLeitoDialogComponent } from '../../dialogs/delete-leito-dialog/delete-leito-dialog.component';
 
 type LeitoColumn = 'codigoSala' | 'nomePaciente' | 'livre';
 
@@ -182,13 +184,16 @@ export class LeitosComponent implements OnInit {
   }
 
   editLeito(leito: LeitoListItem) {
-    this.dialog.open(ViewLeitoDialogComponent, {
+    this.dialog.open(EditLeitoDialogComponent, {
       width: '500px',
       data: leito,
     });
   }
 
-  deleteLeito() {
-    console.log('Implementar');
+  deleteLeito(leito: LeitoListItem) {
+    this.dialog.open(DeleteLeitoDialogComponent, {
+      width: '400px',
+      data: leito,
+    });
   }
 }

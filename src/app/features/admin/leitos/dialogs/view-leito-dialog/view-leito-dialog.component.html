@@ -1,55 +1,42 @@
-<div class="flex flex-row justify-between items-center pr-6">
-  <h1 mat-dialog-title>Detalhes</h1>
-  <button mat-flat-button (click)="openEditDialog()">
-    <mat-icon>edit</mat-icon>
-    Editar
-  </button>
-</div>
-
-<mat-dialog-content>
-  <h2 id="dados-leito" class="text-lg mb-2">Dados do Leito</h2>
-
-  <section
-    aria-labelledby="dados-leito"
-    class="grid grid-cols-1 sm:grid-cols-2 mb-4 gap-4"
+<app-dialog-layout
+  dialogTitle="Detalhes"
+  [onEdit]="openEditDialog"
+  containerClasses="gap-4"
+>
+  <app-dialog-info-section
+    sectionTitle="Dados do Leito"
+    sectionId="dados-leito"
   >
-    <div class="flex flex-col gap-1">
-      <span class="font-semibold">Código</span>
-      <p>{{ data.codigoSala }}</p>
-    </div>
+    <app-dialog-info-field label="Código">{{
+      data.codigoSala
+    }}</app-dialog-info-field>
 
     <div class="flex flex-col gap-1">
       <span class="font-semibold">Status</span>
       <p>{{ data.livre ? "Livre" : "Ocupado" }}</p>
     </div>
-  </section>
+  </app-dialog-info-section>
 
   @if (data.nomePaciente) {
     <mat-divider></mat-divider>
 
-    <h2 id="dados-paciente" class="text-lg mt-4 mb-2">Dados do Paciente</h2>
-
-    <section
-      aria-labelledby="dados-paciente"
-      class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3"
+    <app-dialog-info-section
+      sectionTitle="Dados do Paciente"
+      sectionId="dados-paciente"
     >
-      <div class="flex flex-col gap-1">
-        <span class="font-semibold">Nome</span>
-        <p>{{ data.nomePaciente }}</p>
-      </div>
+      <app-dialog-info-field label="Nome">
+        {{ data.nomePaciente }}
+      </app-dialog-info-field>
 
-      <div class="flex flex-col gap-1">
-        <span class="font-semibold">CPF</span>
-        <p>{{ data.cpfPaciente }}</p>
-      </div>
+      <app-dialog-info-field label="CPF">
+        {{ data.cpfPaciente }}
+      </app-dialog-info-field>
 
-      <div class="flex flex-col gap-1 sm:col-span-2">
-        <span class="font-semibold">Data de Nascimento</span>
-        <p>
-          {{ data.dataNascimentoPaciente }}
-        </p>
-      </div>
-    </section>
+      <app-dialog-info-field label="Data de Nascimento">
+        {{ data.dataNascimentoPaciente }}
+      </app-dialog-info-field>
+    </app-dialog-info-section>
+
     <div class="pb-1">
       <button mat-flat-button class="mat-tonal-button" (click)="darAlta()">
         <mat-icon>check</mat-icon>
@@ -57,8 +44,4 @@
       </button>
     </div>
   }
-</mat-dialog-content>
-
-<mat-dialog-actions>
-  <button mat-button (click)="close()">Fechar</button>
-</mat-dialog-actions>
+</app-dialog-layout>

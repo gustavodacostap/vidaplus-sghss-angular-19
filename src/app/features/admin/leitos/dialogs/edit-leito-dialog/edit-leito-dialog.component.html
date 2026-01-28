@@ -2,32 +2,32 @@
 <mat-dialog-content>
   <form [formGroup]="form" class="flex flex-col gap-4">
     <div class="flex flex-col gap-2">
-      <label for="paciente" class="text-[16px] font-semibold"> Código </label>
+      <label for="codigo" class="text-[16px] font-semibold"> Código </label>
       <mat-form-field>
-        <input matInput formControlName="codigo" />
+        <input id="codigo" matInput formControlName="codigoSala" />
         <mat-error>
-          {{ errorMessage(form.get("codigo")) }}
+          {{ errorMessage(form.get("codigoSala")) }}
         </mat-error>
       </mat-form-field>
     </div>
-
-    <mat-button-toggle-group
-      formControlName="status"
-      name="Status"
-      aria-label="Status do Leito"
-    >
-      <mat-button-toggle [value]="true">Livre</mat-button-toggle>
-      <mat-button-toggle [value]="false">Ocupado</mat-button-toggle>
-    </mat-button-toggle-group>
+    <div class="flex flex-col gap-2">
+      <label for="status" class="text-[16px] font-semibold"> Status </label>
+      <div>
+        <mat-button-toggle-group
+          id="status"
+          formControlName="livre"
+          aria-label="Status do Leito"
+        >
+          <mat-button-toggle [value]="true">Livre</mat-button-toggle>
+          <mat-button-toggle [value]="false">Ocupado</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="close()">Cancelar</button>
-  <button
-    mat-flat-button
-    [disabled]="form.invalid"
-    (click)="updateEspecialidade()"
-  >
+  <button mat-flat-button [disabled]="form.invalid" (click)="updateLeito()">
     Salvar
   </button>
 </mat-dialog-actions>

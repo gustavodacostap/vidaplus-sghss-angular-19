@@ -1,7 +1,18 @@
-import { createAction } from '@ngrx/store';
+import { createActionGroup, emptyProps } from '@ngrx/store';
 
-export const darAlta = createAction('[Paciente Leito] Alta');
+export const LeitosActions = createActionGroup({
+  source: 'Leitos',
+  events: {
+    'Dar Alta Paciente': emptyProps(),
+    'Dar Alta Paciente Success': emptyProps(),
+    'Dar Alta Paciente Failure': emptyProps(),
 
-export const darAltaSuccess = createAction('[Alta Paciente Leito] Success');
+    'Update Leito': emptyProps(),
+    'Update Leito Success': emptyProps(),
+    'Update Leito Failure': emptyProps(),
 
-export const darAltaFailure = createAction('[Alta Paciente Leito] Failure');
+    'Delete Leito': emptyProps(),
+    'Delete Leito Success': emptyProps(),
+    'Delete Leito Failure': emptyProps(),
+  },
+});

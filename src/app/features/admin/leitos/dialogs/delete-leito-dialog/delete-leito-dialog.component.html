@@ -1,0 +1,9 @@
+<app-dialog-layout
+  dialogTitle="Excluir Leito"
+  confirmLabel="Confirmar"
+  [onConfirm]="deleteLeito"
+>
+  <p class="mb-2">Tem certeza de que deseja excluir este leito?</p>
+
+  <app-icon-text icon="airline_seat_flat">{{ data.codigoSala }}</app-icon-text>
+</app-dialog-layout>
