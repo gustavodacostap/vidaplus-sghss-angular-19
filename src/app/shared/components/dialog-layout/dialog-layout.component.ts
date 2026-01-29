@@ -28,7 +28,7 @@ export class DialogLayoutComponent {
   @Input({ required: true }) dialogTitle!: string;
 
   /** Se existir, mostra botão de ação */
-  @Input() confirmLabel?: string;
+  @Input() confirmLabel?: 'Confirmar' | 'Salvar';
 
   /** Função executada ao confirmar */
   @Input() onConfirm?: () => void;

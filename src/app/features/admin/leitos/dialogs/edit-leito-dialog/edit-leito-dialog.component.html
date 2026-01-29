@@ -1,17 +1,20 @@
-<h1 mat-dialog-title>Editar Leito</h1>
-<mat-dialog-content>
+<app-dialog-layout
+  dialogTitle="Editar Leito"
+  confirmLabel="Salvar"
+  [onConfirm]="updateLeito"
+  [confirmDisabled]="form.invalid"
+>
   <form [formGroup]="form" class="flex flex-col gap-4">
-    <div class="flex flex-col gap-2">
-      <label for="codigo" class="text-[16px] font-semibold"> Código </label>
+    <app-custom-label label="Código" for="codigo">
       <mat-form-field>
         <input id="codigo" matInput formControlName="codigoSala" />
         <mat-error>
           {{ errorMessage(form.get("codigoSala")) }}
         </mat-error>
       </mat-form-field>
-    </div>
-    <div class="flex flex-col gap-2">
-      <label for="status" class="text-[16px] font-semibold"> Status </label>
+    </app-custom-label>
+
+    <app-custom-label label="Status" for="status">
       <div>
         <mat-button-toggle-group
           id="status"
@@ -22,12 +25,6 @@
           <mat-button-toggle [value]="false">Ocupado</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
-    </div>
+    </app-custom-label>
   </form>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button (click)="close()">Cancelar</button>
-  <button mat-flat-button [disabled]="form.invalid" (click)="updateLeito()">
-    Salvar
-  </button>
-</mat-dialog-actions>
+</app-dialog-layout>

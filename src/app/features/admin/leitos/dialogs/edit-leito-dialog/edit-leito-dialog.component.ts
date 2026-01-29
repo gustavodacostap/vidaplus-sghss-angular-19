@@ -1,11 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import {
-  MatDialogRef,
-  MatDialogContent,
-  MatDialogActions,
-  MatDialogTitle,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LeitoListItem } from '../../models/LeitoListItem.model';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
@@ -17,13 +11,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { getFormErrorMessage } from '../../../../../shared/helpers/form-errors.helper';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatInputModule } from '@angular/material/input';
+import { CustomLabelComponent } from '../../../../../shared/components/custom-label/custom-label.component';
+import { DialogLayoutComponent } from '../../../../../shared/components/dialog-layout/dialog-layout.component';
 
 @Component({
   selector: 'app-edit-leito-dialog',
   imports: [
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogTitle,
     MatIconModule,
     MatDividerModule,
     MatInputModule,
@@ -31,12 +24,13 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatButtonToggleModule,
+    CustomLabelComponent,
+    DialogLayoutComponent,
   ],
   templateUrl: './edit-leito-dialog.component.html',
   styleUrl: './edit-leito-dialog.component.scss',
 })
 export class EditLeitoDialogComponent implements OnInit {
-  private dialogRef = inject(MatDialogRef<EditLeitoDialogComponent>);
   private fb = inject(FormBuilder);
   private store = inject(Store);
   readonly data = inject<LeitoListItem>(MAT_DIALOG_DATA);
@@ -55,12 +49,7 @@ export class EditLeitoDialogComponent implements OnInit {
     });
   }
 
-  updateLeito() {
+  updateLeito = () => {
     this.store.dispatch(LeitosActions.updateLeito());
-    this.close();
-  }
-
-  close(): void {
-    this.dialogRef.close();
-  }
+  };
 }
