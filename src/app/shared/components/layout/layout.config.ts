@@ -26,6 +26,7 @@ export const NAV_ITEMS: Record<UserRole, NavItem[]> = {
       route: '/admin/consultas',
     },
     { label: 'Leitos', icon: 'airline_seat_flat', route: '/admin/leitos' },
+    { label: 'Unidades', icon: 'local_hospital', route: '/admin/unidades' },
     { label: 'Relatórios', icon: 'analytics', route: '/admin/relatorios' },
     {
       label: 'Gestão de Usuários',

@@ -14,5 +14,9 @@ export const LeitosActions = createActionGroup({
     'Delete Leito': emptyProps(),
     'Delete Leito Success': emptyProps(),
     'Delete Leito Failure': emptyProps(),
+
+    'Create Leito': emptyProps(),
+    'Create Leito Success': emptyProps(),
+    'Create Leito Failure': emptyProps(),
   },
 });

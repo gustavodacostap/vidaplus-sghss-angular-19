@@ -141,6 +141,18 @@ export const routes: Routes = [
             ],
           }),
           route({
+            path: 'unidades',
+            children: [
+              route({
+                path: '',
+                loadComponent: () =>
+                  import('./features/admin/unidades/pages/list/unidades.component').then(
+                    (m) => m.UnidadesComponent,
+                  ),
+              }),
+            ],
+          }),
+          route({
             path: 'relatorios',
             children: [
               route({

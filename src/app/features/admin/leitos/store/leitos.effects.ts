@@ -43,4 +43,16 @@ export class LeitosEffects {
       ]),
     );
   });
+
+  createLeito$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LeitosActions.createLeito),
+      switchMap(() => [
+        LeitosActions.createLeitoSuccess(),
+        showSnackbar({
+          message: 'Leito criado com sucesso',
+        }),
+      ]),
+    );
+  });
 }

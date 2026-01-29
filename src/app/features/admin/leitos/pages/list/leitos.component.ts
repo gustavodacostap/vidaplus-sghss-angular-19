@@ -18,6 +18,7 @@ import { ViewLeitoDialogComponent } from '../../dialogs/view-leito-dialog/view-l
 import { EditLeitoDialogComponent } from '../../dialogs/edit-leito-dialog/edit-leito-dialog.component';
 import { DeleteLeitoDialogComponent } from '../../dialogs/delete-leito-dialog/delete-leito-dialog.component';
 import { DataTableComponent } from '../../../../../shared/components/data-table/data-table.component';
+import { CreateLeitoDialogComponent } from '../../dialogs/create-leito-dialog/create-leito-dialog.component';
 
 type LeitoColumn = 'codigoSala' | 'nomePaciente' | 'livre';
 
@@ -161,24 +162,30 @@ export class LeitosComponent implements OnInit {
     this.unidadeCtrl.setValue('Unidade Central');
   }
 
-  viewLeito = (leito: LeitoListItem) => {
+  openViewDialog = (leito: LeitoListItem) => {
     this.dialog.open(ViewLeitoDialogComponent, {
       width: '500px',
       data: leito,
     });
   };
 
-  editLeito = (leito: LeitoListItem) => {
+  openEditDialog = (leito: LeitoListItem) => {
     this.dialog.open(EditLeitoDialogComponent, {
       width: '500px',
       data: leito,
     });
   };
 
-  deleteLeito = (leito: LeitoListItem) => {
+  openDeleteDialog = (leito: LeitoListItem) => {
     this.dialog.open(DeleteLeitoDialogComponent, {
       width: '400px',
       data: leito,
+    });
+  };
+
+  openCreateDialog = () => {
+    this.dialog.open(CreateLeitoDialogComponent, {
+      width: '400px',
     });
   };
 }

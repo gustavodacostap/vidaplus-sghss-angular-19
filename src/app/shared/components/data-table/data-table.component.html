@@ -59,6 +59,11 @@
 
     <tr mat-header-row *matHeaderRowDef="allColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: allColumns"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="5">
+        Nenhum registro encontrado com esse filtro.
+      </td>
+    </tr>
   </table>
 </div>
 
