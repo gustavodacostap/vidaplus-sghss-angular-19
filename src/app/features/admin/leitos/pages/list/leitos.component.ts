@@ -1,17 +1,11 @@
-import {
-  Component,
-  DestroyRef,
-  inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LeitoListItem } from '../../models/LeitoListItem.model';
@@ -23,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ViewLeitoDialogComponent } from '../../dialogs/view-leito-dialog/view-leito-dialog.component';
 import { EditLeitoDialogComponent } from '../../dialogs/edit-leito-dialog/edit-leito-dialog.component';
 import { DeleteLeitoDialogComponent } from '../../dialogs/delete-leito-dialog/delete-leito-dialog.component';
+import { DataTableComponent } from '../../../../../shared/components/data-table/data-table.component';
 
 type LeitoColumn = 'codigoSala' | 'nomePaciente' | 'livre';
 
@@ -39,6 +34,7 @@ type LeitoColumn = 'codigoSala' | 'nomePaciente' | 'livre';
     MatTooltipModule,
     ReactiveFormsModule,
     MatSelectModule,
+    DataTableComponent,
   ],
   templateUrl: './leitos.component.html',
   styleUrl: './leitos.component.scss',
@@ -66,11 +62,8 @@ export class LeitosComponent implements OnInit {
     'Maria Oliveira',
     'Carlos Pereira',
   ];
-  // pacientes = this.store.select(selectNomePacientes);
 
-  // Tabela
   displayedColumns: LeitoColumn[] = ['codigoSala', 'livre', 'nomePaciente'];
-  allColumns = [...this.displayedColumns, 'actions'];
   columnLabels: Record<string, string> = {
     codigoSala: 'Código',
     nomePaciente: 'Paciente',
@@ -84,7 +77,6 @@ export class LeitosComponent implements OnInit {
   };
 
   dataSource = new MatTableDataSource<LeitoListItem>();
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit() {
     this.dataSource.data = [
@@ -169,31 +161,24 @@ export class LeitosComponent implements OnInit {
     this.unidadeCtrl.setValue('Unidade Central');
   }
 
-  formatCell(column: LeitoColumn, row: LeitoListItem): string {
-    const formatter = this.formatters[column];
-    const value = row[column];
-
-    return formatter ? formatter(value, row) : String(value ?? '');
-  }
-
-  viewLeito(leito: LeitoListItem) {
+  viewLeito = (leito: LeitoListItem) => {
     this.dialog.open(ViewLeitoDialogComponent, {
       width: '500px',
       data: leito,
     });
-  }
+  };
 
-  editLeito(leito: LeitoListItem) {
+  editLeito = (leito: LeitoListItem) => {
     this.dialog.open(EditLeitoDialogComponent, {
       width: '500px',
       data: leito,
     });
-  }
+  };
 
-  deleteLeito(leito: LeitoListItem) {
+  deleteLeito = (leito: LeitoListItem) => {
     this.dialog.open(DeleteLeitoDialogComponent, {
       width: '400px',
       data: leito,
     });
-  }
+  };
 }
