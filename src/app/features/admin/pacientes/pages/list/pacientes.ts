@@ -133,7 +133,7 @@ export class PacientesComponent implements AfterViewInit, OnInit {
 
   viewPaciente(pacienteId: number): void {
     this.dialog.open(ViewPacienteDialog, {
-      width: '600px',
+      width: '500px',
       data: { pacienteId },
     });
   }

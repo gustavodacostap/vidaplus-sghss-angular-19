@@ -75,6 +75,16 @@ body {
     )
   );
 
+  .mat-tonal-button {
+    @include mat.button-overrides(
+      (
+        filled-label-text-color: var(--mat-sys-on-secondary-container),
+        filled-container-color: var(--mat-sys-secondary-container),
+        filled-state-layer-color: var(--mat-sys-on-background),
+      )
+    );
+  }
+
   .action-icons {
     @include mat.icon-overrides(
       (

@@ -1,0 +1,31 @@
+@if (onEdit) {
+  <div class="flex flex-row justify-between items-center pr-6">
+    <h1 mat-dialog-title>{{ dialogTitle }}</h1>
+
+    <button mat-flat-button (click)="edit()">
+      <mat-icon>edit</mat-icon>
+      Editar
+    </button>
+  </div>
+} @else {
+  <h1 mat-dialog-title>{{ dialogTitle }}</h1>
+}
+<mat-dialog-content>
+  <div class="flex flex-col" [ngClass]="containerClasses">
+    <ng-content></ng-content>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <!-- Sempre existe -->
+  <button mat-button (click)="close()">
+    {{ hasConfirmButton ? "Cancelar" : "Fechar" }}
+  </button>
+
+  <!-- Só aparece se for dialog de ação -->
+  @if (hasConfirmButton) {
+    <button mat-button [disabled]="confirmDisabled" (click)="confirm()">
+      {{ confirmLabel }}
+    </button>
+  }
+</mat-dialog-actions>

@@ -1,0 +1,30 @@
+<app-dialog-layout
+  dialogTitle="Editar Leito"
+  confirmLabel="Salvar"
+  [onConfirm]="updateLeito"
+  [confirmDisabled]="form.invalid"
+>
+  <form [formGroup]="form" class="flex flex-col gap-4">
+    <app-custom-label label="Código" for="codigo">
+      <mat-form-field>
+        <input id="codigo" matInput formControlName="codigoSala" />
+        <mat-error>
+          {{ errorMessage(form.get("codigoSala")) }}
+        </mat-error>
+      </mat-form-field>
+    </app-custom-label>
+
+    <app-custom-label label="Status" for="status">
+      <div>
+        <mat-button-toggle-group
+          id="status"
+          formControlName="livre"
+          aria-label="Status do Leito"
+        >
+          <mat-button-toggle [value]="true">Livre</mat-button-toggle>
+          <mat-button-toggle [value]="false">Ocupado</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </app-custom-label>
+  </form>
+</app-dialog-layout>

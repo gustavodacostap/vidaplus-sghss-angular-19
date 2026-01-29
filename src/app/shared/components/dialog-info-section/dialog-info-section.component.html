@@ -1,0 +1,10 @@
+<h2 [id]="sectionId" class="text-lg mb-4">
+  {{ sectionTitle }}
+</h2>
+
+<section
+  [attr.aria-labelledby]="sectionId"
+  class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+>
+  <ng-content></ng-content>
+</section>

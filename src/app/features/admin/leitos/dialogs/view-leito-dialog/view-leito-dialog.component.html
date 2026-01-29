@@ -1,0 +1,47 @@
+<app-dialog-layout
+  dialogTitle="Detalhes"
+  [onEdit]="openEditDialog"
+  containerClasses="gap-4"
+>
+  <app-dialog-info-section
+    sectionTitle="Dados do Leito"
+    sectionId="dados-leito"
+  >
+    <app-dialog-info-field label="Código">{{
+      data.codigoSala
+    }}</app-dialog-info-field>
+
+    <div class="flex flex-col gap-1">
+      <span class="font-semibold">Status</span>
+      <p>{{ data.livre ? "Livre" : "Ocupado" }}</p>
+    </div>
+  </app-dialog-info-section>
+
+  @if (data.nomePaciente) {
+    <mat-divider></mat-divider>
+
+    <app-dialog-info-section
+      sectionTitle="Dados do Paciente"
+      sectionId="dados-paciente"
+    >
+      <app-dialog-info-field label="Nome">
+        {{ data.nomePaciente }}
+      </app-dialog-info-field>
+
+      <app-dialog-info-field label="CPF">
+        {{ data.cpfPaciente }}
+      </app-dialog-info-field>
+
+      <app-dialog-info-field label="Data de Nascimento">
+        {{ data.dataNascimentoPaciente }}
+      </app-dialog-info-field>
+    </app-dialog-info-section>
+
+    <div class="pb-1">
+      <button mat-flat-button class="mat-tonal-button" (click)="darAlta()">
+        <mat-icon>check</mat-icon>
+        Dar alta
+      </button>
+    </div>
+  }
+</app-dialog-layout>
