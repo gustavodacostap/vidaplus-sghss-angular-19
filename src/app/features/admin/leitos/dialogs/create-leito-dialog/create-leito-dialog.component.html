@@ -26,5 +26,29 @@
         </mat-button-toggle-group>
       </div>
     </app-custom-label>
+
+    @if (form.get("livre")?.value === false) {
+      <mat-form-field>
+        <input
+          matInput
+          id="paciente"
+          formControlName="paciente"
+          placeholder="Selecione o paciente"
+          [matAutocomplete]="autoPaciente"
+        />
+        <mat-autocomplete
+          #autoPaciente="matAutocomplete"
+          [displayWith]="displayOption"
+        >
+          @for (option of filteredPacientes$ | async; track option) {
+            <mat-option [value]="option">{{ option.nome }}</mat-option>
+          }
+        </mat-autocomplete>
+
+        <mat-error>
+          {{ errorMessage(form.get("paciente")) }}
+        </mat-error>
+      </mat-form-field>
+    }
   </form>
 </app-dialog-layout>

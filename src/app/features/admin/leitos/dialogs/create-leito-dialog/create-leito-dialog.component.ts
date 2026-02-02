@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { getFormErrorMessage } from '../../../../../shared/helpers/form-errors.helper';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-create-leito-dialog',
@@ -18,6 +19,7 @@ import { getFormErrorMessage } from '../../../../../shared/helpers/form-errors.h
     MatInputModule,
     ReactiveFormsModule,
     MatButtonToggleModule,
+    MatAutocompleteModule,
   ],
   templateUrl: './create-leito-dialog.component.html',
   styleUrl: './create-leito-dialog.component.scss',
